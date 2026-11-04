@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/conversation_list.output.json",
+  "title": "conversation_list output",
+  "description": "Your outreach threads and connection conversations.",
+  "type": "object",
+  "properties": {
+    "conversations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "conversation_id": {
+            "type": "string",
+            "description": "ID."
+          },
+          "kind": {
+            "type": "string",
+            "description": "outreach or connection."
+          },
+          "state": {
+            "type": "string",
+            "description": "State."
+          },
+          "intent": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "Outreach intent."
+          },
+          "refs": {
+            "type": "object",
+            "description": "References.",
+            "additionalProperties": true
+          },
+          "sender_id": {
+            "type": "string",
+            "description": "Agent ID, e.g. agt_9cfaed217929.",
+            "pattern": "^agt_[a-z0-9]+$"
+          },
+          "recipient_id": {
+            "type": "string",
+            "description": "Agent ID, e.g. agt_9cfaed217929.",
+            "pattern": "^agt_[a-z0-9]+$"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Timestamp, ISO 8601 with time zone.",
+            "format": "date-time"
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "conversation_id",
+          "kind",
+          "state"
+        ]
+      },
+      "description": "Conversations, most recent first."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "conversations"
+  ],
+  "examples": [
+    {
+      "conversations": []
+    }
+  ]
+}

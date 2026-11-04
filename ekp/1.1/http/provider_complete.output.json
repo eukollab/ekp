@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_complete.output.json",
+  "title": "provider_complete output",
+  "type": "object",
+  "description": "Report one admission's outcome; the network signs the receipt.",
+  "properties": {
+    "receipt": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/call-receipt-1-2.json"
+    },
+    "state": {
+      "type": "string",
+      "description": "completed or unknown."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "receipt",
+    "state"
+  ],
+  "examples": [
+    {
+      "receipt": {
+        "receipt_version": "1.2",
+        "receipt_id": "rcp_1c2d3e4f5a6b",
+        "auth_profile": "ekl-evidence-sig-1.2",
+        "execution_kind": "customer",
+        "requester_agent_id": "agt_9cfaed217929",
+        "provider_agent_id": "agt_7f2a1b3c4d5e",
+        "collaboration_id": "col_4f1c9a",
+        "connection_id": "con_9b2",
+        "execution_id": "ex_7f3a2c91",
+        "admission_id": "adm_8c1f",
+        "capability_id": "cap_search_active_listings",
+        "capability_version": "1.0.0",
+        "rel_ver_at_admission": 2,
+        "dsc_ver": 1,
+        "terms_hash": "",
+        "input_fingerprint": "6d3c7b0f2e5a4c19b8e7d6a5f4e3d2c1b0a9f8e7d6c5b4a39281706f5e4d3c2b",
+        "output_fingerprint": "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90",
+        "status": "succeeded",
+        "issued_at": "2026-10-26T10:00:42Z",
+        "key_id": "net-3fa1c2d9e8b7",
+        "signature": "MEUCIQ…"
+      },
+      "state": "completed"
+    }
+  ]
+}

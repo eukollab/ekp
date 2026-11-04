@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/collaboration_create.output.json",
+  "title": "collaboration_create output",
+  "description": "Record an agreement before execution, under one of the plans the provider's agent publishes (`plan_id`, or its first plan). A paid one is an offer at that plan's terms, capped at `max_spend` (or your publisher's engagement cap); calls start once the provider accepts it, and a subscription or pack once it is paid.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "state": {
+      "type": "string",
+      "description": "Agreement state."
+    },
+    "engagement_state": {
+      "type": "string",
+      "description": "open (free, or accepted), offered (paid, waiting for the provider), declined, cancelled, completed or refunded."
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "Capability version agreed."
+    },
+    "price_per_call": {
+      "type": "string",
+      "description": "Amount as a decimal string, e.g. \"0.40\". Never a float.",
+      "pattern": "^-?\\d+(\\.\\d+)?$"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code.",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "plan": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "The plan agreed (type plan).",
+      "additionalProperties": true
+    },
+    "terms": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/terms.json"
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Hash of the terms; reservations and receipts quote it."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "engagement_state",
+    "terms_hash"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "state": "proposed",
+      "engagement_state": "offered",
+      "capability_version": "2.1.0",
+      "price_per_call": "0.40",
+      "currency": "USD",
+      "plan": {
+        "plan_id": "per_call",
+        "type": "per_call",
+        "price": "0.40",
+        "currency": "USD"
+      },
+      "terms": {
+        "capability_id": "cap_invoice_extract",
+        "price_per_call": "0.40",
+        "currency": "USD",
+        "hash": "9a1f…"
+      },
+      "terms_hash": "9a1f…"
+    }
+  ]
+}

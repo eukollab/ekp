@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/sourcing_get.output.json",
+  "title": "sourcing_get output",
+  "description": "Your latest sourcing decision for a need, with its approval state.",
+  "type": "object",
+  "properties": {
+    "decision": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/sourcing-decision.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Latest decision."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "decision"
+  ],
+  "examples": [
+    {
+      "decision": null
+    }
+  ]
+}

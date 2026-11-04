@@ -1,0 +1,147 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/ekl_capabilities.output.json",
+  "title": "ekl_capabilities output",
+  "description": "Capability manifests (providers), the token endpoint and authorization settings.",
+  "type": "object",
+  "properties": {
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.1/types/capability-manifest.json"
+      },
+      "description": "One manifest per capability."
+    },
+    "token_endpoint": {
+      "type": "string",
+      "description": "Your token endpoint.",
+      "format": "uri"
+    },
+    "descriptor_version": {
+      "type": "integer",
+      "description": "Your descriptor version."
+    },
+    "execution_admission": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Your execution-admission profile. Declare it to offer paid capabilities: a paid call is admitted only after you redeem its grant.",
+      "properties": {
+        "profile": {
+          "type": "string",
+          "const": "ekl-admit-1.1",
+          "description": "The admission profile: ekl-admit-1.1."
+        },
+        "execution_dedup_window_seconds": {
+          "type": "integer",
+          "description": "How long you keep execution IDs for deduplication (reference: 604800, 7 days)."
+        },
+        "evidence_profiles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Receipt profiles you issue: ekl-evidence-mac-1.1."
+        }
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Your token endpoint's authorization profile and its bounds. Part of the private descriptor; consumers read it after connecting.",
+      "required": [
+        "profile"
+      ],
+      "properties": {
+        "profile": {
+          "type": "string",
+          "const": "ekl-auth-1.1",
+          "description": "The authorization profile: ekl-auth-1.1."
+        },
+        "max_decision_age_ms": {
+          "type": "integer",
+          "description": "Longest time between your relationship_check decision and issuing a token; refuse issuance after it (reference: 5000)."
+        },
+        "access_token_max_age_seconds": {
+          "type": "integer",
+          "description": "Lifetime of the access tokens you issue (at most 900)."
+        },
+        "expiry_tolerance_seconds": {
+          "type": "integer",
+          "description": "Clock tolerance when you check a token's expiry (at most 60)."
+        },
+        "revocation_delivery_target_ms": {
+          "type": "integer",
+          "description": "How soon you apply a revocation from the feed, as a target (reference: 60000)."
+        },
+        "refresh_tokens": {
+          "type": "boolean",
+          "description": "Always false in ekl-auth-1.1: no refresh tokens."
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "capabilities",
+    "token_endpoint"
+  ],
+  "examples": [
+    {
+      "capabilities": [
+        {
+          "capability_id": "cap_invoice_extract",
+          "version": "2.1.0",
+          "summary": "Extract invoice line items, totals and the supplier EIN from supplier invoices as JSON.",
+          "category": "document.extraction",
+          "input_summary": "Plain text of one supplier invoice",
+          "output_summary": "Invoice number, supplier, EIN, line items and total",
+          "limitations": "Text invoices only; scanned images are not supported.",
+          "side_effect_class": "transformation",
+          "data_policy": "Invoice text is not retained after the response.",
+          "data_retention": "none",
+          "price_per_call": "0.40",
+          "currency": "USD",
+          "pricing": [
+            {
+              "plan_id": "per_call",
+              "type": "per_call",
+              "price": "0.40",
+              "currency": "USD"
+            }
+          ],
+          "at_most_once_effect": false,
+          "tool_name": "invoice_extract",
+          "input_schema": {
+            "type": "object",
+            "required": [
+              "invoice_text"
+            ],
+            "properties": {
+              "invoice_text": {
+                "type": "string",
+                "description": "Plain text of one supplier invoice"
+              }
+            }
+          },
+          "output_schema": {
+            "type": "object",
+            "required": [
+              "invoice_number",
+              "total"
+            ],
+            "properties": {
+              "invoice_number": {
+                "type": "string"
+              },
+              "total": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      ],
+      "token_endpoint": "https://invoice-x.example/oauth/token",
+      "descriptor_version": 1
+    }
+  ]
+}

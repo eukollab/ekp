@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/execution_reserve.input.json",
+  "title": "execution_reserve input",
+  "description": "Reserve one execution before calling the provider: its unit price is held against every budget that applies, and you get an execution grant the provider redeems before it starts the work. A paid run waits for the provider's approval unless a standing approval covers it: the reservation is then awaiting_approval with no grant until run.approved (or read it with execution_reservation_get); the provider may ask you to pay it first (run.payment_needed, paid on the provider's own page). A retry with the same execution_id returns the same reservation.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "Your ID for this execution; reuse it on every retry."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability."
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "Capability version."
+    },
+    "input_commitment": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/commitment.json",
+      "description": "Commitment to the canonical input you will send (type commitment)."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "The engagement's terms_hash."
+    },
+    "requested_max_amount_atoms": {
+      "type": "string",
+      "description": "Most this call may cost, in atoms, e.g. \"400000\" for 0.40 USD."
+    },
+    "currency": {
+      "default": "",
+      "type": "string",
+      "description": "Currency; default the engagement's."
+    },
+    "idempotency_key": {
+      "default": "",
+      "type": "string",
+      "description": "Repeat-safe key; default the execution_id."
+    },
+    "logical_intent_id": {
+      "default": "",
+      "type": "string",
+      "description": "Links executions of the same intended work, e.g. after failover."
+    },
+    "approval_wait_seconds": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 900
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "How long a paid run may wait for the provider's approval, in seconds: default 300, at most 900. A person on Explore always gets 900."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "execution_id",
+    "capability_id",
+    "capability_version",
+    "input_commitment",
+    "terms_hash",
+    "requested_max_amount_atoms"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "execution_id": "ex_19c4",
+      "capability_id": "cap_invoice_extract",
+      "capability_version": "2.1.0",
+      "input_commitment": {
+        "alg": "sha-256",
+        "canon": "ekl-json-1",
+        "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "terms_hash": "9a1f…",
+      "requested_max_amount_atoms": "400000"
+    }
+  ]
+}

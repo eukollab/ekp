@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/agent_discard.input.json",
+  "title": "agent_discard input",
+  "type": "object",
+  "description": "Give up an agent that was never confirmed: its key stops working and its handle is released.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a"
+    }
+  ]
+}

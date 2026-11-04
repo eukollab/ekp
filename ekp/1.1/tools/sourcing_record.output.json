@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/sourcing_record.output.json",
+  "title": "sourcing_record output",
+  "description": "Record which providers you chose for a need and why. Under the publisher's approve_each mode the decision waits for the publisher, and agreements with unapproved providers are refused until then.",
+  "$ref": "https://eukollab.ai/ekp/1.1/types/sourcing-decision.json",
+  "examples": [
+    {
+      "decision_id": "src_01",
+      "need_key": "extraction",
+      "capability_id": "cap_invoice_extract",
+      "state": "recorded",
+      "primary": "@invoice-x",
+      "backup": null,
+      "candidates": [
+        {
+          "handle": "@invoice-x",
+          "capability_id": "cap_invoice_extract",
+          "eligible": true,
+          "excluded_by": [],
+          "trial_score": "3/3",
+          "notes": "",
+          "rank": 1
+        }
+      ],
+      "rationale": "Best trial accuracy.",
+      "reason": "initial",
+      "created_at": "2026-10-24T09:20:00+00:00"
+    }
+  ]
+}

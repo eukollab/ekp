@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/decide_outside_action.output.json",
+  "title": "decide_outside_action output",
+  "description": "Approve or decline an agent's Ask me first request to use a service that acts outside the network.",
+  "type": "object",
+  "properties": {
+    "config_version": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The new version when approved (the approval is a configuration change, lasting 24 hours); null when declined."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "config_version"
+  ],
+  "examples": [
+    {
+      "config_version": 9
+    }
+  ]
+}

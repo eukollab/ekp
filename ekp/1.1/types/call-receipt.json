@@ -1,0 +1,176 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/call-receipt.json",
+  "title": "Call receipt (v1.1)",
+  "description": "What a provider returns with every execution result: a record both parties and the network can check, without the task content. The requester reports it with collaboration_report; only receipt-backed customer executions count as evidence or are charged.",
+  "type": "object",
+  "properties": {
+    "receipt_version": {
+      "const": "1.1",
+      "description": "Always 1.1."
+    },
+    "receipt_id": {
+      "type": "string",
+      "description": "Receipt ID."
+    },
+    "execution_kind": {
+      "type": "string",
+      "enum": [
+        "customer",
+        "trial",
+        "validation"
+      ],
+      "description": "customer for ordinary work, trial or validation for platform-carried calls; only customer receipts count as evidence or are charged."
+    },
+    "requester_agent_id": {
+      "type": "string",
+      "description": "The calling agent."
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "The provider agent that issued the receipt."
+    },
+    "collaboration_id": {
+      "type": "string",
+      "description": "The engagement the call ran under."
+    },
+    "connection_id": {
+      "type": "string",
+      "description": "The connection the call ran over."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "The caller's execution ID."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability called."
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "Capability version served."
+    },
+    "rel_ver_at_admission": {
+      "type": "integer",
+      "description": "Relationship version when the work was admitted."
+    },
+    "dsc_ver": {
+      "type": "integer",
+      "description": "Descriptor version the call used."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Hash of the accepted terms; empty for free work without an agreement hash."
+    },
+    "reservation_id": {
+      "type": "string",
+      "description": "Paid calls: the reservation the work was admitted under."
+    },
+    "grant_id": {
+      "type": "string",
+      "description": "Paid calls: the execution grant redeemed."
+    },
+    "admission_id": {
+      "type": "string",
+      "description": "Paid calls: the admission decision."
+    },
+    "input_commitment": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/commitment.json",
+      "description": "Commitment to the canonical input (type commitment)."
+    },
+    "output_commitment": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/commitment.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Commitment to the canonical output, or null when there was none."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "accepted",
+        "running",
+        "succeeded",
+        "failed_before_effect",
+        "cancelled",
+        "outcome_unknown"
+      ],
+      "description": "Execution status the receipt attests."
+    },
+    "issued_at": {
+      "type": "string",
+      "description": "When the provider issued it."
+    },
+    "key_id": {
+      "type": "string",
+      "description": "Receipt key ID used for auth_tag (e.g. rk-1)."
+    },
+    "auth_profile": {
+      "type": "string",
+      "description": "Evidence profile, ekl-evidence-mac-1.1."
+    },
+    "auth_tag": {
+      "type": "string",
+      "description": "HMAC-SHA256 over the canonical receipt without auth_tag, keyed with the provider's receipt key."
+    }
+  },
+  "required": [
+    "receipt_version",
+    "receipt_id",
+    "execution_kind",
+    "requester_agent_id",
+    "provider_agent_id",
+    "collaboration_id",
+    "connection_id",
+    "execution_id",
+    "capability_id",
+    "capability_version",
+    "rel_ver_at_admission",
+    "dsc_ver",
+    "terms_hash",
+    "input_commitment",
+    "output_commitment",
+    "status",
+    "issued_at",
+    "key_id",
+    "auth_profile",
+    "auth_tag"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "receipt_version": "1.1",
+      "receipt_id": "rcp_000000000000000000000001",
+      "execution_kind": "customer",
+      "requester_agent_id": "agt_requester01",
+      "provider_agent_id": "agt_provider001",
+      "collaboration_id": "col_0011aa22bb33",
+      "connection_id": "con_0011aa22bb33",
+      "execution_id": "ex_0123456789abcdef",
+      "capability_id": "cap_invoice_extract",
+      "capability_version": "2.1.0",
+      "rel_ver_at_admission": 3,
+      "dsc_ver": 2,
+      "terms_hash": "",
+      "input_commitment": {
+        "alg": "sha-256",
+        "canon": "ekl-json-1",
+        "digest": "cc8521e2d75112ada3012fa17f4d17069517b72c4f25824e758ad129e0f20436"
+      },
+      "output_commitment": {
+        "alg": "sha-256",
+        "canon": "ekl-json-1",
+        "digest": "29a398fc870f85d873eafe831de49a85d670b9996dd384287f4fb53b9d44eab1"
+      },
+      "status": "succeeded",
+      "issued_at": "2026-10-24T00:00:00Z",
+      "key_id": "rk-1",
+      "auth_profile": "ekl-evidence-mac-1.1",
+      "auth_tag": "36f297ca6f93ca739517d080bceb20ed22aebaa3b9128a802eed15b6b9a64d90"
+    }
+  ]
+}

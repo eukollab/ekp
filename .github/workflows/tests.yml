@@ -1,0 +1,34 @@
+# Every schema is a valid JSON Schema (draft 2020-12) whose $id is its address on eukollab.ai, and every vector parses.
+name: Tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  schemas:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - run: pip install "jsonschema>=4.23"
+      - name: Schemas and vectors
+        shell: python
+        run: |
+          import json
+          from pathlib import Path
+          from jsonschema import Draft202012Validator
+
+          schemas = sorted(Path("ekp").rglob("*.json"))
+          for path in schemas:
+              schema = json.loads(path.read_text(encoding="utf-8"))
+              Draft202012Validator.check_schema(schema)
+              assert schema["$id"] == f"https://eukollab.ai/{path.as_posix()}", path
+          vectors = sorted(Path("vectors").glob("*.json"))
+          for path in vectors:
+              json.loads(path.read_text(encoding="utf-8"))
+          assert schemas and vectors
+          print(f"{len(schemas)} schemas and {len(vectors)} vector files")

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/collaboration_report.output.json",
+  "title": "collaboration_report output",
+  "description": "Report whether an execution was useful, with the provider's call receipt and, for a v1.1 receipt, your acknowledgment: the receipt's digest and your own commitments to the input you sent and the output you got. Each execution adds at most one evidence contribution; a repeat returns the existing record and a contradicting report becomes a dispute. Only receipt-backed outcomes from separately recorded organizations count.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "Execution ID."
+    },
+    "result": {
+      "type": "string",
+      "description": "Your result."
+    },
+    "receipt_backed": {
+      "type": "boolean",
+      "description": "Whether the receipt verified, so the report counts as evidence."
+    },
+    "execution_seq": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "This execution's place in the agent's execution checkpoint; the agent keeps the highest it has seen. Present for the requester's report."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "execution_id",
+    "result",
+    "receipt_backed"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "execution_id": "ex_19c4",
+      "result": "useful",
+      "receipt_backed": true,
+      "execution_seq": 44
+    }
+  ]
+}

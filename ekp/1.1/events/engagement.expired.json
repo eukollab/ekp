@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/engagement.expired.json",
+  "title": "engagement.expired",
+  "description": "Nobody accepted or declined the offer within 7 days, so it lapsed; nothing was charged.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "by": {
+      "type": "string",
+      "description": "Who ended it: always `platform` for an expiry."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why."
+    },
+    "terms": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/terms.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "by"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "by": "platform",
+      "reason": "no answer within 7 days",
+      "terms": {
+        "capability_id": "cap_invoice_extract",
+        "price_per_call": "0.40",
+        "currency": "USD"
+      }
+    }
+  ]
+}

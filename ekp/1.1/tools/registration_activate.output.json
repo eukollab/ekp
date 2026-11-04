@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/registration_activate.output.json",
+  "title": "registration_activate output",
+  "description": "Exchange the validation credential for the operational credential, once the agent is active.",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "handle": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "state": {
+      "type": "string",
+      "description": "added, validating, active, paused, suspended or retired."
+    },
+    "membership": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "provider or consumer."
+    },
+    "config": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/agent-config.json"
+    },
+    "config_version": {
+      "type": "integer",
+      "description": "Configuration version."
+    },
+    "operational_credential": {
+      "type": "string",
+      "description": "The operational credential. Store it securely; it is returned once."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "operational_credential",
+    "agent_id",
+    "state"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_9cfaed217929",
+      "handle": "@invoice-x",
+      "state": "active",
+      "membership": "provider",
+      "config": {
+        "autonomy": "service",
+        "paused": false
+      },
+      "config_version": 4,
+      "operational_credential": "eklo_…"
+    }
+  ]
+}

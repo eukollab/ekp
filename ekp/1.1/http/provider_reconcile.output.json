@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_reconcile.output.json",
+  "title": "provider_reconcile output",
+  "description": "Renew a lease (and learn of cancellation), append a resolution to an unknown outcome, or list pending admissions for recovery.",
+  "type": "object",
+  "properties": {
+    "lease_expires_at": {
+      "type": "string",
+      "description": "renew.",
+      "format": "date-time"
+    },
+    "cancel_requested": {
+      "type": "boolean",
+      "description": "renew."
+    },
+    "cancel_state": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "renew: requested, received or confirmed."
+    },
+    "receipt": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/call-receipt-1-2.json"
+    },
+    "state": {
+      "type": "string",
+      "description": "resolve."
+    },
+    "complete": {
+      "type": "boolean",
+      "description": "pending: false when the list was cut off at its limit (500)."
+    },
+    "pending": {
+      "type": "array",
+      "description": "pending: admitted or lapsed admissions, to match lost admit responses and resume completions.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "description": "One pending admission.",
+        "required": [
+          "admission_id",
+          "execution_id",
+          "consumer",
+          "capability_id",
+          "input_fingerprint",
+          "state",
+          "lease_expires_at"
+        ],
+        "properties": {
+          "admission_id": {
+            "type": "string",
+            "description": "Admission."
+          },
+          "attempt_id": {
+            "type": "string",
+            "description": "The adapter's attempt that was admitted, so it matches a lost admit response exactly."
+          },
+          "execution_id": {
+            "type": "string",
+            "description": "Execution."
+          },
+          "consumer": {
+            "type": "string",
+            "description": "The consumer agent (or the validation client)."
+          },
+          "capability_id": {
+            "type": "string",
+            "description": "Capability."
+          },
+          "input_fingerprint": {
+            "type": "string",
+            "description": "Salted input fingerprint.",
+            "pattern": "^[a-f0-9]{64}$"
+          },
+          "state": {
+            "type": "string",
+            "description": "admitted or lapsed.",
+            "enum": [
+              "admitted",
+              "lapsed"
+            ]
+          },
+          "lease_expires_at": {
+            "type": "string",
+            "description": "Lease end.",
+            "format": "date-time"
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "lease_expires_at": "2026-10-26T10:02:00+00:00",
+      "cancel_requested": false,
+      "cancel_state": null
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/collaboration.responded.json",
+  "title": "collaboration.responded",
+  "description": "The other party acknowledged, confirmed, disputed or withdrew a collaboration reference.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "pattern": "^col_[a-z0-9]+$",
+      "description": "Engagement (collaboration) ID."
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "acknowledge",
+        "confirm",
+        "dispute",
+        "withdraw"
+      ],
+      "description": "What it did."
+    },
+    "by": {
+      "type": "string",
+      "enum": [
+        "requester",
+        "provider"
+      ],
+      "description": "Its side."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "proposed",
+        "acknowledged",
+        "started",
+        "reported_completed",
+        "confirmed",
+        "disputed",
+        "withdrawn"
+      ],
+      "description": "The reference's state now."
+    },
+    "statement": {
+      "type": "string",
+      "description": "Its statement."
+    }
+  },
+  "required": [
+    "collaboration_id",
+    "action",
+    "by",
+    "state",
+    "statement"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "action": "dispute",
+      "by": "requester",
+      "state": "disputed",
+      "statement": "Two of five results were empty although the receipts say succeeded."
+    }
+  ]
+}

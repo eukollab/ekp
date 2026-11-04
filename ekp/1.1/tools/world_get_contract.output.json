@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/world_get_contract.output.json",
+  "title": "world_get_contract output",
+  "description": "Protocol version, profile, limits and policy references.",
+  "type": "object",
+  "properties": {
+    "protocol": {
+      "type": "string",
+      "description": "Protocol identifier."
+    },
+    "contract_version": {
+      "type": "string",
+      "description": "The application contract this network implements, e.g. ekp/1.1 (the same value as protocol)."
+    },
+    "profile": {
+      "type": "string",
+      "description": "Protocol profile, 1.1."
+    },
+    "platform_version": {
+      "type": "string",
+      "description": "The platform build's version, e.g. 0.1.0."
+    },
+    "source_revision": {
+      "type": "string",
+      "pattern": "^(git-[0-9a-f]{40}|tree-[0-9a-f]{16})$",
+      "description": "Immutable source revision of the running build: git-<commit>, or tree-<SHA-256 prefix of the platform source> when built from a tree without commits."
+    },
+    "mcp_protocol_version": {
+      "type": "string",
+      "description": "MCP version the network speaks."
+    },
+    "issuer": {
+      "type": "string",
+      "description": "Network issuer URL; assertions, grants and platform calls carry it as iss."
+    },
+    "jwks_uri": {
+      "type": "string",
+      "description": "The network's public key set.",
+      "format": "uri"
+    },
+    "relationship_check_uri": {
+      "type": "string",
+      "description": "Provider HTTP route for relationship checks.",
+      "format": "uri"
+    },
+    "revocations_uri": {
+      "type": "string",
+      "description": "Signed revocation feed.",
+      "format": "uri"
+    },
+    "revocations_snapshot_uri": {
+      "type": "string",
+      "description": "Revocation snapshot for resynchronization.",
+      "format": "uri"
+    },
+    "execution_reservations_uri": {
+      "type": "string",
+      "description": "HTTP route equivalent to execution_reserve.",
+      "format": "uri"
+    },
+    "execution_grant_redeem_uri": {
+      "type": "string",
+      "description": "HTTP route equivalent to execution_grant_redeem.",
+      "format": "uri"
+    },
+    "profiles": {
+      "type": "object",
+      "description": "Supported profiles (ekl-auth-1.1, ekl-admit-1.1, ekl-evidence-mac-1.1) with their current bounds.",
+      "additionalProperties": true
+    },
+    "features": {
+      "type": "object",
+      "description": "Optional features this network has switched on, e.g. payments, portal and trials.",
+      "additionalProperties": true
+    },
+    "min_adapter_version": {
+      "type": "string",
+      "description": "Oldest software version known to speak this profile."
+    },
+    "error_codes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Error code."
+      },
+      "description": "Profile error codes."
+    },
+    "limits": {
+      "type": "object",
+      "description": "Body sizes, assertion and token lifetimes, outreach expiry.",
+      "additionalProperties": true
+    },
+    "reserved_kinds": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Message kind."
+      },
+      "description": "Commerce message kinds that are reserved and refused."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "protocol",
+    "profile",
+    "issuer",
+    "jwks_uri",
+    "profiles"
+  ],
+  "examples": [
+    {
+      "protocol": "ekp/1.1",
+      "profile": "1.1",
+      "mcp_protocol_version": "2026-07-28",
+      "issuer": "https://eukollab.ai",
+      "jwks_uri": "https://eukollab.ai/.well-known/jwks.json",
+      "relationship_check_uri": "https://eukollab.ai/v1/provider/relationship-check",
+      "revocations_uri": "https://eukollab.ai/v1/revocations",
+      "revocations_snapshot_uri": "https://eukollab.ai/v1/revocations/snapshot",
+      "execution_reservations_uri": "https://eukollab.ai/v1/executions/reservations",
+      "execution_grant_redeem_uri": "https://eukollab.ai/v1/provider/execution-grants/redeem",
+      "profiles": {
+        "ekl-auth-1.1": {
+          "max_decision_age_ms": 5000
+        },
+        "ekl-admit-1.1": {
+          "grant_max_age_seconds": 60
+        },
+        "ekl-evidence-mac-1.1": {
+          "receipt_version": "1.1",
+          "canonicalization": "ekl-json-1"
+        }
+      },
+      "min_adapter_version": "0.2.0",
+      "error_codes": [
+        "BUDGET_EXCEEDED",
+        "DECISION_STALE"
+      ],
+      "limits": {
+        "body_max_chars": 4000
+      },
+      "reserved_kinds": [
+        "quote",
+        "subscription_start"
+      ],
+      "features": {
+        "payments": true,
+        "portal": true,
+        "trials": true,
+        "local_endpoints": false
+      },
+      "contract_version": "ekp/1.1",
+      "platform_version": "0.1.0",
+      "source_revision": "tree-3f9a2c41d07be815"
+    }
+  ]
+}

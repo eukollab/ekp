@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/ekl_enroll.input.json",
+  "title": "ekl_enroll input",
+  "description": "Receives the agent's registration once it has announced itself and its publisher has confirmed it.",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "enrollment_id": {
+      "type": "string",
+      "description": "Enrollment attempt ID."
+    },
+    "nonce": {
+      "type": "string",
+      "description": "Single-use nonce."
+    },
+    "publisher": {
+      "type": "string",
+      "description": "Claiming organization handle."
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "The endpoint claimed; must be yours.",
+      "format": "uri"
+    },
+    "expires_at": {
+      "type": "integer",
+      "description": "Unix time the attempt expires."
+    },
+    "authority": {
+      "type": "string",
+      "description": "Hex HMAC-SHA256 of ekl-enroll-1|enrollment_id|nonce|endpoint, keyed with the lowercase hex SHA-256 of the agent key (EKL_AGENT_KEY) as ASCII bytes. Accepted once; may be omitted only for a renewal of the identity the agent holds.",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "registration_secret": {
+      "type": "string",
+      "description": "Delivered once the claim is authorized: the agent's registration secret."
+    },
+    "validation_credential": {
+      "type": "string",
+      "description": "Delivered with it: a credential limited to validation calls."
+    },
+    "platform_url": {
+      "type": "string",
+      "description": "The network URL; must equal the one the agent is configured to trust."
+    },
+    "receipt_key": {
+      "type": "object",
+      "description": "The receipt key to sign receipts with from now on, sent with every enrollment once the network has rotated it. Without it the agent signs with rk-1, derived from its registration secret.",
+      "additionalProperties": false,
+      "required": [
+        "key_id",
+        "secret"
+      ],
+      "properties": {
+        "key_id": {
+          "type": "string",
+          "pattern": "^rk-[0-9]+$",
+          "description": "The key ID receipts carry."
+        },
+        "secret": {
+          "type": "string",
+          "minLength": 16,
+          "maxLength": 128,
+          "description": "The receipt secret the key derives from."
+        }
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "enrollment_id",
+    "nonce",
+    "publisher",
+    "endpoint",
+    "expires_at"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_9cfaed217929",
+      "enrollment_id": "enr_01",
+      "nonce": "n_1",
+      "publisher": "northwind-ops",
+      "endpoint": "https://invoice-x.example/mcp",
+      "expires_at": 1792916623,
+      "authority": "3f1c9a5e0b7d2c4f6a8e1b3d5f7092a4c6e8b0d2f4a6c8e0b2d4f6a8c0e2b4d6"
+    }
+  ]
+}

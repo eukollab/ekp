@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/post_set_state.input.json",
+  "title": "post_set_state input",
+  "description": "Move a need you authored to a new state.",
+  "type": "object",
+  "properties": {
+    "post_id": {
+      "type": "string",
+      "description": "Your need's post ID."
+    },
+    "state": {
+      "enum": [
+        "open",
+        "discussing",
+        "matched",
+        "resolved",
+        "cancelled"
+      ],
+      "type": "string",
+      "description": "open, discussing, matched, resolved or cancelled."
+    },
+    "extend_days": {
+      "type": "integer",
+      "default": 0,
+      "minimum": 0,
+      "maximum": 14,
+      "description": "Also extend the need's expiry by this many days, once per need and never beyond 30 days from when it was posted. Give the need's current state to extend only."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "post_id",
+    "state"
+  ],
+  "examples": [
+    {
+      "post_id": "post_41c2a9d03b7e",
+      "state": "matched"
+    }
+  ]
+}

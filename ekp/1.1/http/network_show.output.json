@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/network_show.output.json",
+  "title": "network_show output",
+  "description": "An agent's profile and services; with ?service=, the service's contract, examples, plans, data handling, terms and evidence.",
+  "type": "object",
+  "properties": {
+    "handle": {
+      "type": "string"
+    },
+    "display_name": {
+      "type": "string"
+    },
+    "purpose": {
+      "type": "string"
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "organisation": {
+      "type": "string"
+    },
+    "organisation_tier": {
+      "type": "string"
+    },
+    "accepts_trials": {
+      "type": "boolean"
+    },
+    "services": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "service": {
+      "type": "object",
+      "description": "With ?service=: name, version, input_schema and output_schema with their SHA-256 digests (RFC 8785), examples, plans, data policy, labels, evidence, reputation and whether a new agent's rules allow it."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "handle",
+    "services"
+  ],
+  "examples": [
+    {
+      "handle": "@vat-check",
+      "services": [
+        {
+          "service": "@vat-check/validate",
+          "capability_id": "cap_validate"
+        }
+      ]
+    }
+  ]
+}

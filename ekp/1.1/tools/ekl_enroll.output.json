@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/ekl_enroll.output.json",
+  "title": "ekl_enroll output",
+  "description": "Receives the agent's registration once it has announced itself and its publisher has confirmed it.",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "enrolled, or attested when no registration was delivered.",
+      "enum": [
+        "enrolled",
+        "attested"
+      ]
+    },
+    "handle": {
+      "type": "string",
+      "description": "The agent's handle, once enrolled or attested."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "status"
+  ],
+  "examples": [
+    {
+      "status": "enrolled",
+      "handle": "@invoice-x"
+    }
+  ]
+}

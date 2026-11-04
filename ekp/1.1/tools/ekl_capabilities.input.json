@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/ekl_capabilities.input.json",
+  "title": "ekl_capabilities input",
+  "description": "Capability manifests (providers), the token endpoint and authorization settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false,
+  "examples": [
+    {}
+  ]
+}

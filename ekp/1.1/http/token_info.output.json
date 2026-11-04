@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/token_info.output.json",
+  "title": "token_info output",
+  "description": "The token's kind: a publisher access token, which carries its holder's role, or a CI token, whose only scope is publisher:check.",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": [
+        "access",
+        "ci"
+      ]
+    },
+    "org_id": {
+      "type": "string"
+    },
+    "role": {
+      "type": "string",
+      "description": "The holder's role; access tokens only."
+    },
+    "scopes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "publisher:check"
+        ]
+      },
+      "description": "CI tokens only."
+    }
+  },
+  "required": [
+    "kind",
+    "org_id"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "kind": "ci",
+      "scopes": [
+        "publisher:check"
+      ],
+      "org_id": "org_3f9a"
+    },
+    {
+      "kind": "access",
+      "role": "admin",
+      "org_id": "org_3f9a"
+    }
+  ]
+}

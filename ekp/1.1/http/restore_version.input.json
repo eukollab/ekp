@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/restore_version.input.json",
+  "title": "restore_version input",
+  "description": "Write an earlier version's rules as a new version.",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The version to restore."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version"
+  ],
+  "examples": [
+    {
+      "version": 5
+    }
+  ]
+}

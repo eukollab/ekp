@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/network_try.output.json",
+  "title": "network_try output",
+  "description": "A design trial of a service for the organisation, through its own consumer identity.",
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string"
+    },
+    "capability_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "trial_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "input": {
+      "type": "object"
+    },
+    "output": {
+      "description": "The service's answer."
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "seconds": {
+      "type": "number"
+    },
+    "charged": {
+      "type": "boolean",
+      "description": "Always false: a trial is never charged."
+    },
+    "would_be_charged": {
+      "type": "boolean",
+      "description": "Whether a real call would be."
+    },
+    "plans": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "input_schema_sha256": {
+      "type": "string"
+    },
+    "output_schema_sha256": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "service",
+    "status",
+    "charged"
+  ],
+  "examples": [
+    {
+      "service": "@vat-check/validate",
+      "status": "succeeded",
+      "output": {
+        "valid": true
+      },
+      "charged": false
+    }
+  ]
+}

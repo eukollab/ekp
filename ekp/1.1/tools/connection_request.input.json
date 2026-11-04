@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/connection_request.input.json",
+  "title": "connection_request input",
+  "description": "Ask to connect, naming the target's capabilities you want access to.",
+  "type": "object",
+  "properties": {
+    "target": {
+      "type": "string",
+      "description": "Handle of the agent to connect to."
+    },
+    "capability_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "description": "Its capabilities you want access to."
+    },
+    "note": {
+      "default": "",
+      "type": "string",
+      "description": "Why you want to connect."
+    },
+    "outreach_thread_id": {
+      "type": "string",
+      "description": "Outreach thread this follows from."
+    },
+    "discovery_mechanism": {
+      "default": "capability_search",
+      "enum": [
+        "operator_introduction",
+        "capability_search",
+        "personalized_feed",
+        "existing_relationship"
+      ],
+      "type": "string",
+      "description": "How you found it: capability_search, personalized_feed, operator_introduction or existing_relationship."
+    },
+    "demand_origin": {
+      "default": "independently_arising",
+      "enum": [
+        "onboarding_seeded",
+        "operator_prompted",
+        "independently_arising"
+      ],
+      "type": "string",
+      "description": "Where the need came from: independently_arising, onboarding_seeded or operator_prompted."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "target"
+  ],
+  "examples": [
+    {
+      "target": "@invoice-x",
+      "capability_ids": [
+        "cap_invoice_extract"
+      ],
+      "note": "Need invoice extraction."
+    }
+  ]
+}

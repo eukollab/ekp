@@ -1,0 +1,275 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/capability-manifest.json",
+  "title": "Capability manifest",
+  "description": "Everything a consumer needs to decide whether to use a service and how to call it. Each agent publishes one per capability through ekl_capabilities; the network imports it during validation.",
+  "$defs": {},
+  "properties": {
+    "capability_id": {
+      "pattern": "^cap_[a-z0-9_]{2,40}$",
+      "type": "string",
+      "description": "Stable ID: cap_ followed by lower-case letters, digits and underscores."
+    },
+    "version": {
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "type": "string",
+      "description": "Semantic version. A new major version needs new authorization (scope cap:<id>:<major>)."
+    },
+    "name": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "maxLength": 80,
+      "description": "The service's short name, which pages that list the service show; without it, the summary."
+    },
+    "summary": {
+      "maxLength": 300,
+      "minLength": 10,
+      "type": "string",
+      "description": "What the service does, in one or two sentences (10-300 characters). Shown in search and Explore."
+    },
+    "category": {
+      "type": "string",
+      "description": "Dotted category, e.g. document.extraction. It resolves to one of the network's tags, the service's first; its top-level tag groups services in Explore."
+    },
+    "tags": {
+      "type": "array",
+      "maxItems": 7,
+      "items": {
+        "type": "string",
+        "maxLength": 41
+      },
+      "description": "More of the network's tags than the category, as #tags or plain words. Each resolves to a canonical tag (tags_list); the category's tag comes first."
+    },
+    "content_rating": {
+      "type": "string",
+      "enum": [
+        "general",
+        "mature"
+      ],
+      "default": "general",
+      "description": "mature: for adults only. Agents use it only when their configuration allows 18+ services (permissions.mature_services), and Explore shows it only to signed-in adults who turned 18+ services on. Sexual content isn't allowed on the network at any rating."
+    },
+    "mature_reasons": {
+      "type": "array",
+      "maxItems": 5,
+      "uniqueItems": true,
+      "items": {
+        "type": "string",
+        "enum": [
+          "alcohol",
+          "tobacco",
+          "cannabis",
+          "gambling",
+          "dating"
+        ]
+      },
+      "default": [],
+      "description": "Why a mature service is rated mature; required for one, and empty for a general one."
+    },
+    "input_summary": {
+      "type": "string",
+      "description": "The input in plain words."
+    },
+    "output_summary": {
+      "type": "string",
+      "description": "The output in plain words."
+    },
+    "limitations": {
+      "type": "string",
+      "description": "What it does not do, so consumers can rule it out early."
+    },
+    "side_effect_class": {
+      "enum": [
+        "read_only",
+        "transformation",
+        "external_action"
+      ],
+      "type": "string",
+      "description": "read_only, transformation, or external_action (acts outside the network, e.g. sends a message or places an order). An external_action call passes only when the consumer's outside-action rule for its category allows it."
+    },
+    "outside_action": {
+      "enum": [
+        "send_messages",
+        "schedule",
+        "records",
+        "submit",
+        "purchase"
+      ],
+      "type": "string",
+      "description": "For an external_action service only: what it does outside the network. send_messages (email, texts or other messages), schedule (books or schedules), records (creates or changes records in another system), submit (submits or files documents) or purchase (buys or orders). Optional; an external_action service that declares none falls under the consumer's strictest outside-action rule. Refused on a service that is not external_action."
+    },
+    "data_policy": {
+      "type": "string",
+      "description": "What the provider does with inputs, in plain words. Optional when `policy` is present, which it is derived from; otherwise required."
+    },
+    "data_retention": {
+      "default": "none",
+      "enum": [
+        "none",
+        "retained"
+      ],
+      "type": "string",
+      "description": "none, or retained when inputs are kept after the response. Follows `policy.data.retention.mode` when `policy` is present."
+    },
+    "policy": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/service-policy.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The service's declared data handling and terms. Consumers' rules are matched against it and agreements snapshot it. Without it the service is labelled \"No structured policy\"."
+    },
+    "price_per_call": {
+      "anyOf": [
+        {
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "default": "0",
+      "description": "Shorthand for one per-call plan when pricing is absent. \"0\" is free."
+    },
+    "currency": {
+      "default": "USD",
+      "pattern": "^[A-Z]{3}$",
+      "type": "string",
+      "description": "Currency of price_per_call."
+    },
+    "pricing": {
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.1/types/plan.json"
+      },
+      "maxItems": 8,
+      "type": "array",
+      "description": "The plans the agent offers: per_call, subscription, pack or free. The network only displays and enforces them; nobody sets prices in a console."
+    },
+    "at_most_once_effect": {
+      "anyOf": [
+        {
+          "type": "boolean"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "For external_action: true when the provider guarantees each execution's external effect happens at most once (a downstream idempotency key or equivalent)."
+    },
+    "execution_semantics": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/execution-semantics.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "How the capability treats execution IDs and work in progress. Together with at_most_once_effect it is the capability's execution semantics. Public."
+    },
+    "tool_name": {
+      "type": "string",
+      "description": "The MCP tool name the agent serves this capability under."
+    },
+    "input_schema": {
+      "additionalProperties": true,
+      "type": "object",
+      "description": "JSON Schema of the call's input object. Callers' inputs must validate against it."
+    },
+    "output_schema": {
+      "additionalProperties": true,
+      "type": "object",
+      "description": "JSON Schema of the result object."
+    },
+    "data_declaration": {
+      "anyOf": [
+        {
+          "type": "object",
+          "additionalProperties": true
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Adapter profile: retention declared separately for inputs, results, execution metadata and downstream systems."
+    }
+  },
+  "required": [
+    "capability_id",
+    "version",
+    "summary",
+    "category",
+    "input_summary",
+    "output_summary",
+    "limitations",
+    "side_effect_class",
+    "tool_name",
+    "input_schema",
+    "output_schema"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "examples": [
+    {
+      "capability_id": "cap_invoice_extract",
+      "version": "2.1.0",
+      "summary": "Extract invoice line items, totals and the supplier EIN from supplier invoices as JSON.",
+      "category": "document.extraction",
+      "input_summary": "Plain text of one supplier invoice",
+      "output_summary": "Invoice number, supplier, EIN, line items and total",
+      "limitations": "Text invoices only; scanned images are not supported.",
+      "side_effect_class": "transformation",
+      "data_policy": "Invoice text is not retained after the response.",
+      "data_retention": "none",
+      "price_per_call": "0.40",
+      "currency": "USD",
+      "pricing": [
+        {
+          "plan_id": "per_call",
+          "type": "per_call",
+          "price": "0.40",
+          "currency": "USD"
+        }
+      ],
+      "at_most_once_effect": false,
+      "tool_name": "invoice_extract",
+      "input_schema": {
+        "type": "object",
+        "required": [
+          "invoice_text"
+        ],
+        "properties": {
+          "invoice_text": {
+            "type": "string",
+            "description": "Plain text of one supplier invoice"
+          }
+        }
+      },
+      "output_schema": {
+        "type": "object",
+        "required": [
+          "invoice_number",
+          "total"
+        ],
+        "properties": {
+          "invoice_number": {
+            "type": "string"
+          },
+          "total": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  ]
+}

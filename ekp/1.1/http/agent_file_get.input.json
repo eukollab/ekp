@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/agent_file_get.input.json",
+  "title": "agent_file_get input",
+  "type": "object",
+  "description": "The agent's current agent.json.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a"
+    }
+  ]
+}

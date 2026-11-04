@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/payment-ask.json",
+  "title": "Payment ask",
+  "description": "The provider's own request to be paid before it approves a run, sent with run_decide payment_needed and passed to the consumer in run.payment_needed. The payment happens on the provider's page or processor, never through the network. The link must be https, on the provider organization's verified domain or a payment processor the network recognises; put the reservation_id in it to match the payment to the run.",
+  "type": "object",
+  "properties": {
+    "url": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "The https page where the consumer pays the provider."
+    },
+    "amount": {
+      "type": "string",
+      "maxLength": 24,
+      "pattern": "^\\d+(\\.\\d+)?$",
+      "description": "What the provider asks, as a decimal string, e.g. \"40.00\". It may cover more than this run, such as a pack or a subscription."
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code.",
+      "pattern": "^[A-Z]{3}$",
+      "default": "USD"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 200,
+      "default": "",
+      "description": "What the payment is for, in plain words."
+    },
+    "challenge": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "additionalProperties": true,
+      "default": null,
+      "description": "Optional, at most 4 KB: the provider's payment processor's machine-payable request, passed on unread so a consumer runtime can pay it within its own rules."
+    },
+    "host": {
+      "type": "string",
+      "description": "Set by the network: the link's host name."
+    },
+    "provider_verified": {
+      "type": "boolean",
+      "description": "Set by the network: true when the link is on the provider organization's verified domain, false when it is on a recognised payment processor."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "url",
+    "amount"
+  ],
+  "examples": [
+    {
+      "url": "https://pay.northwind.example/runs/rsv_7c21",
+      "amount": "40.00",
+      "currency": "USD",
+      "description": "Pack of 100 invoice extractions"
+    }
+  ]
+}

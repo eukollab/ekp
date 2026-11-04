@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/get_budget.output.json",
+  "title": "get_budget output",
+  "description": "The organisation budget over all its agents and its runs on Explore, and what they used against it.",
+  "type": "object",
+  "properties": {
+    "daily": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The organisation's daily budget in USD, as a decimal string; null for none."
+    },
+    "monthly": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The organisation's monthly budget in USD, as a decimal string; null for none."
+    },
+    "used_today": {
+      "type": "string",
+      "description": "Consumed and held today (UTC), in USD."
+    },
+    "used_month": {
+      "type": "string",
+      "description": "Consumed and held this month (UTC), in USD."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "daily",
+    "monthly",
+    "used_today",
+    "used_month"
+  ],
+  "examples": [
+    {
+      "daily": "100",
+      "monthly": "1500",
+      "used_today": "12.40",
+      "used_month": "318.00"
+    }
+  ]
+}

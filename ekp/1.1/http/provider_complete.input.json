@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_complete.input.json",
+  "title": "provider_complete input",
+  "type": "object",
+  "description": "Report one admission's outcome: one logical completion, idempotent; a conflicting repeat is refused with COMPLETION_CONFLICT.",
+  "properties": {
+    "admission_id": {
+      "type": "string",
+      "description": "From admit."
+    },
+    "outcome": {
+      "type": "string",
+      "description": "succeeded, failed_before_effect, outcome_unknown or cancelled.",
+      "enum": [
+        "succeeded",
+        "failed_before_effect",
+        "outcome_unknown",
+        "cancelled"
+      ]
+    },
+    "output_fingerprint": {
+      "type": "string",
+      "description": "SHA-256(salt || JCS(result body)), hex; required when succeeded."
+    },
+    "error_code": {
+      "type": "string",
+      "description": "Optional short reason, no content."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "admission_id",
+    "outcome"
+  ],
+  "examples": [
+    {
+      "admission_id": "adm_8c1f",
+      "outcome": "succeeded",
+      "output_fingerprint": "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90"
+    }
+  ]
+}

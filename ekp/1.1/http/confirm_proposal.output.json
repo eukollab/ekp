@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/confirm_proposal.output.json",
+  "title": "confirm_proposal output",
+  "description": "Apply a ready proposal.",
+  "type": "object",
+  "properties": {
+    "config_version": {
+      "type": "integer",
+      "description": "The new version."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "config_version"
+  ],
+  "examples": [
+    {
+      "config_version": 5
+    }
+  ]
+}

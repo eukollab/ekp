@@ -1,0 +1,164 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/plan.json",
+  "title": "Pricing plan",
+  "description": "One way a consumer can pay for a capability. Plans are published by the agent in its manifest; the consumer pays the provider directly, and the provider decides which runs have been paid for.",
+  "properties": {
+    "plan_id": {
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,39}$",
+      "type": "string",
+      "description": "Stable plan ID within the capability, e.g. per_call or monthly."
+    },
+    "type": {
+      "enum": [
+        "per_call",
+        "subscription",
+        "pack",
+        "free"
+      ],
+      "type": "string",
+      "description": "per_call, subscription, pack or free."
+    },
+    "currency": {
+      "default": "USD",
+      "pattern": "^[A-Z]{3}$",
+      "type": "string",
+      "description": "ISO 4217 currency code. A paid plan is priced in USD."
+    },
+    "price": {
+      "anyOf": [
+        {
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "default": "0",
+      "description": "Price as a decimal string: per call, per period or per pack. A run's unit price is this per call, this over included_calls for a subscription, or this over calls for a pack."
+    },
+    "period": {
+      "anyOf": [
+        {
+          "enum": [
+            "month",
+            "year"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "subscription: month or year."
+    },
+    "included_calls": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "subscription: calls included per period."
+    },
+    "overage": {
+      "default": "stop",
+      "enum": [
+        "stop",
+        "per_call"
+      ],
+      "type": "string",
+      "description": "subscription: what happens past the included calls: stop (refuse) or per_call (charge overage_price)."
+    },
+    "overage_price": {
+      "anyOf": [
+        {
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "subscription with overage per_call: price per extra call."
+    },
+    "calls": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "pack: calls in the pack."
+    },
+    "expiry_days": {
+      "anyOf": [
+        {
+          "maximum": 3650,
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "pack: days the pack stays valid after purchase; empty means no expiry."
+    },
+    "daily_limit": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "free: optional calls per day per consumer."
+    },
+    "description": {
+      "default": "",
+      "maxLength": 200,
+      "type": "string",
+      "description": "Optional short description shown with the plan."
+    }
+  },
+  "required": [
+    "plan_id",
+    "type"
+  ],
+  "type": "object",
+  "examples": [
+    {
+      "plan_id": "per_call",
+      "type": "per_call",
+      "price": "0.40",
+      "currency": "USD"
+    },
+    {
+      "plan_id": "monthly",
+      "type": "subscription",
+      "price": "9",
+      "currency": "USD",
+      "period": "month",
+      "included_calls": 500,
+      "overage": "stop"
+    }
+  ]
+}

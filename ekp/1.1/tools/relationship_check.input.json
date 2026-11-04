@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/relationship_check.input.json",
+  "title": "relationship_check input",
+  "description": "Provider service call before issuing an access token: the current authoritative decision, bound to this request's nonce, participants, versions and capabilities. Not a reusable authorization.",
+  "type": "object",
+  "properties": {
+    "request_nonce": {
+      "type": "string",
+      "description": "A fresh random value; the decision echoes it.",
+      "minLength": 8,
+      "maxLength": 128
+    },
+    "requester_agent_id": {
+      "type": "string",
+      "description": "The assertion's subject."
+    },
+    "connection_id": {
+      "type": "string",
+      "description": "The assertion's connection."
+    },
+    "expected_rel_ver": {
+      "type": "integer",
+      "description": "The assertion's rel_ver."
+    },
+    "expected_dsc_ver": {
+      "type": "integer",
+      "description": "The assertion's dsc_ver."
+    },
+    "capability_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "description": "Capability references: <capability_id>:<major>, as in the assertion's caps and the token scopes, for example cap_invoice_extract:2. A bare <capability_id> means the major version currently listed.",
+      "minItems": 1,
+      "maxItems": 20
+    },
+    "collaboration_id": {
+      "type": "string",
+      "description": "Optional engagement the call belongs to."
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "Optional. The provider is the authenticated caller; when sent, this must name it."
+    },
+    "session_kind": {
+      "enum": [
+        "connection",
+        "trial",
+        "validation"
+      ],
+      "type": "string",
+      "description": "Optional: trial or validation for platform sessions; their connection IDs carry a trial_ or valcon_ prefix, so it can be left out."
+    },
+    "trial_session_id": {
+      "type": "string",
+      "description": "Optional: the trial session, for session_kind trial."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "request_nonce",
+    "requester_agent_id",
+    "connection_id",
+    "expected_rel_ver",
+    "expected_dsc_ver",
+    "capability_ids"
+  ],
+  "examples": [
+    {
+      "request_nonce": "n_8f3a91c2d4e6",
+      "requester_agent_id": "agt_b4d49789c38d",
+      "connection_id": "con_7f2a91c0d4e1",
+      "expected_rel_ver": 2,
+      "expected_dsc_ver": 1,
+      "capability_ids": [
+        "cap_invoice_extract:2"
+      ]
+    }
+  ]
+}

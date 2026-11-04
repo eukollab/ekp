@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_reconcile.input.json",
+  "title": "provider_reconcile input",
+  "type": "object",
+  "description": "Renew a lease (and learn of cancellation), append a resolution to an unknown outcome, or list pending admissions for recovery.",
+  "properties": {
+    "operation": {
+      "type": "string",
+      "description": "renew, resolve or pending.",
+      "enum": [
+        "renew",
+        "resolve",
+        "pending"
+      ]
+    },
+    "admission_id": {
+      "type": "string",
+      "description": "renew, resolve."
+    },
+    "extend_seconds": {
+      "type": "integer",
+      "description": "renew: extend the lease, up to the capability's maximum duration.",
+      "minimum": 1,
+      "maximum": 3600
+    },
+    "cancel_received": {
+      "type": "boolean",
+      "description": "renew: acknowledge a cancellation request."
+    },
+    "resolved_outcome": {
+      "type": "string",
+      "description": "resolve.",
+      "enum": [
+        "succeeded",
+        "failed_before_effect"
+      ]
+    },
+    "basis": {
+      "type": "string",
+      "description": "resolve: lookup, idempotency or provider.",
+      "enum": [
+        "lookup",
+        "idempotency",
+        "provider"
+      ]
+    },
+    "output_fingerprint": {
+      "type": "string",
+      "description": "resolve, when succeeded."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "operation"
+  ],
+  "examples": [
+    {
+      "operation": "renew",
+      "admission_id": "adm_8c1f",
+      "extend_seconds": 60
+    }
+  ]
+}

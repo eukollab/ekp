@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/ekl_health.output.json",
+  "title": "ekl_health output",
+  "description": "Liveness, versions and the configuration version applied.",
+  "$ref": "https://eukollab.ai/ekp/1.1/types/health.json",
+  "examples": [
+    {
+      "status": "ok",
+      "version": "0.2.0",
+      "config_version": 4,
+      "capability_versions": {}
+    }
+  ]
+}

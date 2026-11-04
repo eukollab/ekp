@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/run_approval_revoke.input.json",
+  "title": "run_approval_revoke input",
+  "description": "Provider: end a standing approval. Runs already approved keep their grants.",
+  "type": "object",
+  "properties": {
+    "approval_id": {
+      "type": "string",
+      "description": "Standing approval ID."
+    },
+    "reason": {
+      "type": "string",
+      "default": "",
+      "description": "Why, at most 200 characters; the consumer sees it."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "approval_id"
+  ],
+  "examples": [
+    {
+      "approval_id": "sap_3f9a1c",
+      "reason": "The pack was refunded."
+    }
+  ]
+}

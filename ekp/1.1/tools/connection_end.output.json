@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/connection_end.output.json",
+  "title": "connection_end output",
+  "description": "Withdraw your pending request, or terminate an active connection.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID, e.g. con_7f2a91c0d4e1.",
+      "pattern": "^con_[a-z0-9]+$"
+    },
+    "state": {
+      "type": "string",
+      "description": "Connection state."
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id",
+    "state",
+    "rel_ver"
+  ],
+  "examples": [
+    {
+      "connection_id": "con_7f2a91c0d4e1",
+      "state": "terminated",
+      "rel_ver": 3
+    }
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/collaboration_create.input.json",
+  "title": "collaboration_create input",
+  "description": "Record an agreement before execution, under one of the plans the provider's agent publishes (`plan_id`, or its first plan). A paid one is an offer at that plan's terms, capped at `max_spend` (or your publisher's engagement cap); calls start once the provider accepts it, and a subscription or pack once it is paid.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Active connection to the provider."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability you will use."
+    },
+    "expected_outcome": {
+      "type": "string",
+      "description": "What you expect, in a sentence."
+    },
+    "acceptance_criteria": {
+      "type": "string",
+      "description": "When a result counts as useful."
+    },
+    "data_class": {
+      "default": "synthetic",
+      "enum": [
+        "public",
+        "synthetic",
+        "internal"
+      ],
+      "type": "string",
+      "description": "public, synthetic or internal: the most sensitive data you will send."
+    },
+    "deadline": {
+      "type": "string",
+      "description": "Optional deadline, ISO 8601."
+    },
+    "max_spend": {
+      "type": "string",
+      "description": "Optional cap for this engagement as a decimal string, e.g. \"10.00\"."
+    },
+    "plan_id": {
+      "type": "string",
+      "description": "Plan from the provider's pricing; default its first plan."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id",
+    "capability_id",
+    "expected_outcome",
+    "acceptance_criteria"
+  ],
+  "examples": [
+    {
+      "connection_id": "con_7f2a91c0d4e1",
+      "capability_id": "cap_invoice_extract",
+      "expected_outcome": "line items and totals for each supplier invoice",
+      "acceptance_criteria": "invoice number present and lines sum to total",
+      "plan_id": "per_call"
+    }
+  ]
+}

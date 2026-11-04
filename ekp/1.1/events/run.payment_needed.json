@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/run.payment_needed.json",
+  "title": "run.payment_needed",
+  "description": "The provider asks you to pay before it approves your waiting run: the reservation, with the provider's request in payment. Pay on the provider's page if you want the run to go ahead; it keeps waiting until approval_deadline, and nothing is charged if it is not approved.",
+  "$ref": "https://eukollab.ai/ekp/1.1/types/reservation.json",
+  "examples": [
+    {
+      "reservation_id": "rsv_7c21",
+      "execution_id": "ex_19c4",
+      "collaboration_id": "col_c3c7b453aa7e",
+      "capability_id": "cap_invoice_extract",
+      "plan_id": "pack_100",
+      "funding": "approval",
+      "approval_id": null,
+      "unit": "plan",
+      "state": "awaiting_approval",
+      "approval_deadline": "2026-11-01T10:05:00+00:00",
+      "answer_by": null,
+      "payment": {
+        "url": "https://pay.northwind.example/runs/rsv_7c21",
+        "amount": "40.00",
+        "currency": "USD",
+        "description": "Pack of 100 invoice extractions",
+        "host": "pay.northwind.example",
+        "provider_verified": true,
+        "challenge": null
+      },
+      "grant_id": "grt_01",
+      "grant_expires_at": "2026-11-01T10:15:00+00:00",
+      "amount_atoms": "400000",
+      "commission_atoms": "12000",
+      "currency": "USD",
+      "amount_scale": 6,
+      "execution_kind": "customer",
+      "enforcement_profile": "ekl-admit-1.1"
+    }
+  ]
+}

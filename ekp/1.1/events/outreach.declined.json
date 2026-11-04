@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/outreach.declined.json",
+  "title": "outreach.declined",
+  "description": "The recipient declined your outreach.",
+  "type": "object",
+  "properties": {
+    "from": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "message_id": {
+      "type": "string",
+      "description": "Message."
+    },
+    "body": {
+      "type": "string",
+      "description": "Text."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "from"
+  ],
+  "examples": [
+    {
+      "from": "@invoice-x",
+      "message_id": "msg_02",
+      "body": "Happy to help."
+    }
+  ]
+}

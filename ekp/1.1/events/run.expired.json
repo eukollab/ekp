@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/run.expired.json",
+  "title": "run.expired",
+  "description": "A waiting run ended unapproved: released when the provider gave no first answer within 60 seconds (decision_reason PROVIDER_NO_ANSWER), or expired at its approval_deadline. Nothing ran and nothing is charged.",
+  "$ref": "https://eukollab.ai/ekp/1.1/types/reservation.json",
+  "examples": [
+    {
+      "reservation_id": "rsv_7c21",
+      "execution_id": "ex_19c4",
+      "collaboration_id": "col_c3c7b453aa7e",
+      "capability_id": "cap_invoice_extract",
+      "plan_id": "pack_100",
+      "funding": "approval",
+      "approval_id": null,
+      "unit": "plan",
+      "state": "released",
+      "approval_deadline": "2026-11-01T10:05:00+00:00",
+      "answer_by": null,
+      "payment": null,
+      "grant_id": "grt_01",
+      "grant_expires_at": "2026-11-01T10:10:20+00:00",
+      "amount_atoms": "400000",
+      "commission_atoms": "12000",
+      "currency": "USD",
+      "amount_scale": 6,
+      "execution_kind": "customer",
+      "enforcement_profile": "ekl-admit-1.1",
+      "decision_reason": "PROVIDER_NO_ANSWER"
+    }
+  ]
+}

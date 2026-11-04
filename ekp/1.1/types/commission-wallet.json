@@ -1,0 +1,133 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/commission-wallet.json",
+  "title": "Commission wallet",
+  "description": "A provider organization's prepaid balance for the network's commission, one per currency. Reserving a paid run holds its commission here; a succeeded receipt captures it and a proven no-effect outcome releases it. It is funded only by the organization's publisher, and spent only on commission. When available cannot cover a run's commission, or the wallet is frozen, paid runs to the organization's agents are refused with PROVIDER_NOT_FUNDED before the provider is asked.",
+  "type": "object",
+  "properties": {
+    "wallet_id": {
+      "type": "string",
+      "pattern": "^wal_[a-z0-9]+$",
+      "description": "Wallet ID; absent while the organization has never funded one."
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code.",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "balance": {
+      "type": "string",
+      "description": "What the wallet holds, as a decimal string; negative only after a reversed top-up.",
+      "pattern": "^-?\\d+(\\.\\d+)?$"
+    },
+    "held": {
+      "type": "string",
+      "description": "Commission held for runs in progress, as a decimal string.",
+      "pattern": "^-?\\d+(\\.\\d+)?$"
+    },
+    "available": {
+      "type": "string",
+      "description": "balance less held, never below zero, as a decimal string.",
+      "pattern": "^-?\\d+(\\.\\d+)?$"
+    },
+    "frozen": {
+      "type": "boolean",
+      "description": "True while the wallet takes no holds, e.g. after a disputed top-up."
+    },
+    "card": {
+      "type": "string",
+      "description": "The payment method that tops the wallet up, as a label; empty when there is none."
+    },
+    "auto_topup": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Automatic top-up, when on: amount is added when available falls below threshold.",
+      "properties": {
+        "threshold": {
+          "type": "string",
+          "description": "Amount as a decimal string, e.g. \"0.40\". Never a float.",
+          "pattern": "^-?\\d+(\\.\\d+)?$"
+        },
+        "amount": {
+          "type": "string",
+          "description": "Amount as a decimal string, e.g. \"0.40\". Never a float.",
+          "pattern": "^-?\\d+(\\.\\d+)?$"
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "threshold",
+        "amount"
+      ]
+    },
+    "entries": {
+      "type": "array",
+      "description": "The latest movements, newest first (wallet_get returns up to 20).",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "enum": [
+              "topup",
+              "hold",
+              "capture",
+              "release",
+              "adjust",
+              "refund_return",
+              "refund_out",
+              "dispute_debit",
+              "adjustment"
+            ],
+            "description": "What moved: a top-up, a run's commission held, captured or released, an overage re-pricing, commission returned on a refund, balance refunded to the card, a lost chargeback, or a staff adjustment."
+          },
+          "amount": {
+            "type": "string",
+            "pattern": "^\\d+(\\.\\d+)?$",
+            "description": "The amount moved, as a decimal string."
+          },
+          "ref": {
+            "type": "string",
+            "description": "What it concerns: a reservation, top-up or refund ID."
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "kind",
+          "amount",
+          "ref",
+          "at"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "currency",
+    "balance",
+    "held",
+    "available",
+    "frozen"
+  ],
+  "examples": [
+    {
+      "wallet_id": "wal_0d4e7a",
+      "currency": "USD",
+      "balance": "25.00",
+      "held": "0.12",
+      "available": "24.88",
+      "frozen": false,
+      "card": "Visa ending 4242",
+      "auto_topup": {
+        "threshold": "5.00",
+        "amount": "25.00"
+      }
+    }
+  ]
+}

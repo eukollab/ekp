@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/agent.publisher_changed.json",
+  "title": "agent.publisher_changed",
+  "description": "An agent you are connected to moved to another publisher.",
+  "type": "object",
+  "properties": {
+    "agent": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID, e.g. con_7f2a91c0d4e1.",
+      "pattern": "^con_[a-z0-9]+$"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent"
+  ],
+  "examples": [
+    {
+      "agent": "@invoice-x",
+      "connection_id": "con_7f2a91c0d4e1"
+    }
+  ]
+}

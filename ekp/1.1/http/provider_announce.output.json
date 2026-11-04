@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_announce.output.json",
+  "title": "provider_announce output",
+  "type": "object",
+  "description": "The adapter's agent.json and endpoint; a changed file is a new version waiting for its publisher's review.",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "description": "The version this file is."
+    },
+    "state": {
+      "enum": [
+        "waiting_for_review",
+        "confirmed",
+        "invalid"
+      ],
+      "description": "What happens next."
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "A problem the checks would report.",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "The agent.json field, dotted."
+          },
+          "message": {
+            "type": "string",
+            "description": "What to change."
+          },
+          "level": {
+            "enum": [
+              "error",
+              "warning"
+            ],
+            "description": "error: blocks confirmation; warning: a consequence to know."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "field",
+          "message",
+          "level"
+        ]
+      },
+      "description": "What the checks would say; the adapter logs them."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "state",
+    "problems"
+  ],
+  "examples": [
+    {
+      "version": 2,
+      "state": "waiting_for_review",
+      "problems": []
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/revocations.output.json",
+  "title": "revocations output",
+  "description": "The signed revocation feed for one provider.",
+  "type": "object",
+  "properties": {
+    "feed": {
+      "type": "string",
+      "description": "A signed JWT (typ ekl-revocation-feed+jwt) whose claims hold resync_required, after, next and items (revocation items)."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "feed"
+  ],
+  "examples": [
+    {
+      "feed": "eyJ…"
+    }
+  ]
+}

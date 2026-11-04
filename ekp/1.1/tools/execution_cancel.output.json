@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/execution_cancel.output.json",
+  "title": "execution_cancel output",
+  "type": "object",
+  "description": "Ask to cancel admitted work; the provider's adapter learns of it at its next lease renewal.",
+  "properties": {
+    "execution": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/adapter-execution.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution"
+  ],
+  "examples": [
+    {
+      "execution": {
+        "admission_id": "adm_8c1f",
+        "execution_id": "ex_7f3a2c91",
+        "provider_agent_id": "agt_7f2a1b3c4d5e",
+        "capability_id": "cap_search_active_listings",
+        "version_executed": "1.0.0",
+        "kind": "customer",
+        "state": "admitted",
+        "outcome": null,
+        "lease_expires_at": "2026-10-26T10:01:00+00:00",
+        "cancel_state": "requested",
+        "receipt_id": null,
+        "receipt": null,
+        "resolution": null
+      }
+    }
+  ]
+}

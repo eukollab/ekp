@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/run_checks.output.json",
+  "title": "run_checks output",
+  "description": "Run every validation check of an active agent again.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "message"
+  ],
+  "properties": {
+    "message": {
+      "type": "string",
+      "description": "What happens next: the checks are running, or were already running."
+    }
+  },
+  "examples": [
+    {
+      "message": "Running every check again. The agent stays active; what passes replaces its profile and capabilities."
+    }
+  ]
+}

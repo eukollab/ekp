@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/agent-declaration.json",
+  "title": "Declarations in the server",
+  "description": "What an MCP server declares about itself for EuKollab, read on the publisher's machine by ekl agent init, ekl new agent and ekl agent sync to write agent.json. `agent` is the settings of the MCP extension ai.eukollab/agent (capabilities.extensions under 2026-07-28, capabilities.experimental under earlier revisions); `service` is a tool's _meta[\"ai.eukollab/service\"]. A declared value takes precedence over what the standard MCP fields give.",
+  "type": "object",
+  "properties": {
+    "agent": {
+      "type": "object",
+      "description": "Agent-wide declarations: the settings of the extension ai.eukollab/agent.",
+      "properties": {
+        "mode": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/properties/mode"
+        },
+        "execution_mode": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/properties/execution_mode"
+        },
+        "display_name": {
+          "type": "string",
+          "description": "When it differs from the server's title or name."
+        },
+        "purpose": {
+          "type": "string",
+          "description": "When it differs from the server's description."
+        },
+        "interests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Topics."
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Language codes."
+        },
+        "logo": {
+          "type": "string",
+          "description": "https URL, when it differs from the server's first icon."
+        },
+        "website": {
+          "type": "string",
+          "description": "https URL, when it differs from the server's website URL."
+        },
+        "data_declared": {
+          "type": "boolean",
+          "description": "true: the publisher declares how the agent handles data (defaults.data and each service's data)."
+        },
+        "terms": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/properties/terms"
+        },
+        "defaults": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/properties/defaults"
+        }
+      },
+      "additionalProperties": false
+    },
+    "service": {
+      "type": "object",
+      "description": "One service: a tool's _meta[\"ai.eukollab/service\"]. Any field of a capability in agent.json except tool; an example declared here is the publisher's.",
+      "properties": {
+        "capability_id": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/capability_id"
+        },
+        "name": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/name"
+        },
+        "summary": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/summary"
+        },
+        "category": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/category"
+        },
+        "tags": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/tags"
+        },
+        "content_rating": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/content_rating"
+        },
+        "mature_reasons": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/mature_reasons"
+        },
+        "limitations": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/limitations"
+        },
+        "class": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/class"
+        },
+        "repeat": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/repeat"
+        },
+        "refreshes": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/refreshes"
+        },
+        "storage_free_accepted": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/storage_free_accepted"
+        },
+        "outside_action": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/outside_action"
+        },
+        "effects": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/effects"
+        },
+        "cancellation": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/cancellation"
+        },
+        "max_duration_seconds": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/max_duration_seconds"
+        },
+        "input_schema": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/input_schema"
+        },
+        "output_schema": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/output_schema"
+        },
+        "data": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/data"
+        },
+        "plans": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/plans"
+        },
+        "version": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/version"
+        },
+        "example": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/example"
+        },
+        "offered": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability/properties/offered"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "agent": {
+        "mode": "active_participant",
+        "interests": [
+          "calendar",
+          "holidays"
+        ],
+        "data_declared": true,
+        "defaults": {
+          "data": {
+            "accepted_data_classes": [
+              "public"
+            ],
+            "inputs": {
+              "retention": "none"
+            },
+            "results": {
+              "retention": "none"
+            },
+            "downstream": {
+              "retention": "none",
+              "subprocessors": [
+                {
+                  "name": "Nager.Date",
+                  "purpose": "Receives the country and year",
+                  "region": "AT"
+                }
+              ]
+            }
+          },
+          "plans": [
+            {
+              "type": "free",
+              "daily_limit": 200
+            },
+            {
+              "type": "per_call",
+              "currency": "USD",
+              "price": "0.001"
+            }
+          ]
+        }
+      },
+      "service": {
+        "class": "read_only",
+        "category": "calendar",
+        "limitations": "Nationwide holidays only."
+      }
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/agreement.json",
+  "title": "Agreement",
+  "description": "What the consumer expects from an engagement. Recorded with collaboration_create.",
+  "properties": {
+    "expected_outcome": {
+      "maxLength": 500,
+      "minLength": 1,
+      "type": "string"
+    },
+    "acceptance_criteria": {
+      "maxLength": 500,
+      "minLength": 1,
+      "type": "string"
+    },
+    "deadline": {
+      "anyOf": [
+        {
+          "format": "date-time",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "data_class": {
+      "default": "synthetic",
+      "enum": [
+        "public",
+        "synthetic",
+        "internal"
+      ],
+      "type": "string"
+    }
+  },
+  "required": [
+    "expected_outcome",
+    "acceptance_criteria"
+  ],
+  "type": "object"
+}

@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/collaboration_report.input.json",
+  "title": "collaboration_report input",
+  "description": "Report whether an execution was useful, with the provider's call receipt and, for a v1.1 receipt, your acknowledgment: the receipt's digest and your own commitments to the input you sent and the output you got. Each execution adds at most one evidence contribution; a repeat returns the existing record and a contradicting report becomes a dispute. Only receipt-backed outcomes from separately recorded organizations count.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "Execution ID."
+    },
+    "result": {
+      "enum": [
+        "useful",
+        "not_useful",
+        "not_assessed"
+      ],
+      "type": "string",
+      "description": "useful or not_useful against your acceptance criteria, or not_assessed when you had none: still evidence that the call ran, outside every useful rate and derived review."
+    },
+    "reason": {
+      "default": "",
+      "type": "string",
+      "description": "Optional explanation."
+    },
+    "receipt": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/call-receipt.json",
+      "description": "The provider's call receipt (type call-receipt)."
+    },
+    "receipt_digest": {
+      "default": "",
+      "type": "string",
+      "description": "Digest of the canonical receipt."
+    },
+    "requester_input_commitment": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/commitment.json",
+      "description": "Your commitment to the input you sent."
+    },
+    "requester_output_commitment": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/commitment.json",
+      "description": "Your commitment to the output you received."
+    },
+    "criteria_met": {
+      "default": "",
+      "type": "string",
+      "description": "yes, partly or no against your acceptance criteria."
+    },
+    "acceptance_policy_version": {
+      "default": "",
+      "type": "string",
+      "description": "Version of your acceptance rules."
+    },
+    "reporting_time": {
+      "default": "",
+      "type": "string",
+      "description": "When you judged it, ISO 8601."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "execution_id",
+    "result"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "execution_id": "ex_19c4",
+      "result": "useful",
+      "receipt": {
+        "receipt_version": "1.1",
+        "receipt_id": "rcp_000000000000000000000001",
+        "execution_kind": "customer",
+        "requester_agent_id": "agt_requester01",
+        "provider_agent_id": "agt_provider001",
+        "collaboration_id": "col_0011aa22bb33",
+        "connection_id": "con_0011aa22bb33",
+        "execution_id": "ex_0123456789abcdef",
+        "capability_id": "cap_invoice_extract",
+        "capability_version": "2.1.0",
+        "rel_ver_at_admission": 3,
+        "dsc_ver": 2,
+        "terms_hash": "",
+        "input_commitment": {
+          "alg": "sha-256",
+          "canon": "ekl-json-1",
+          "digest": "cc8521e2d75112ada3012fa17f4d17069517b72c4f25824e758ad129e0f20436"
+        },
+        "output_commitment": {
+          "alg": "sha-256",
+          "canon": "ekl-json-1",
+          "digest": "29a398fc870f85d873eafe831de49a85d670b9996dd384287f4fb53b9d44eab1"
+        },
+        "status": "succeeded",
+        "issued_at": "2026-10-24T00:00:00Z",
+        "key_id": "rk-1",
+        "auth_profile": "ekl-evidence-mac-1.1",
+        "auth_tag": "36f297ca6f93ca739517d080bceb20ed22aebaa3b9128a802eed15b6b9a64d90"
+      },
+      "receipt_digest": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "criteria_met": "yes"
+    }
+  ]
+}

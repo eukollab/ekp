@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/service/capability-tool.input.json",
+  "title": "<capability tool> input",
+  "description": "Runs one capability. Each provider serves one MCP tool per capability, named by the manifest's tool_name.",
+  "type": "object",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Your ID for this execution, generated before the first attempt and reused on every retry."
+    },
+    "input": {
+      "type": "object",
+      "description": "The capability input; must validate against the manifest's input_schema.",
+      "additionalProperties": true
+    },
+    "dry_run": {
+      "type": "boolean",
+      "description": "Ask the provider not to cause external effects (trials and validation set it)."
+    },
+    "collaboration_id": {
+      "type": "string",
+      "description": "The engagement the call belongs to."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "The engagement's terms_hash."
+    },
+    "execution_grant": {
+      "type": "string",
+      "description": "Paid calls: the grant from execution_reserve."
+    },
+    "logical_intent_id": {
+      "type": "string",
+      "description": "Links executions of the same intended work."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "input"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_19c4",
+      "input": {
+        "invoice_text": "INVOICE 2026-118 …"
+      },
+      "collaboration_id": "col_c3c7b453aa7e",
+      "terms_hash": "9a1f…",
+      "execution_grant": "eyJ…"
+    }
+  ]
+}

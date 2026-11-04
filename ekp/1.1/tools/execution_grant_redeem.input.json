@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/execution_grant_redeem.input.json",
+  "title": "execution_grant_redeem input",
+  "description": "Provider: redeem a requester's execution grant before admitting the work. Live relationship, exact versions, eligibility, terms and the reservation are checked in the same transaction; an identical retry returns the same admission_id.",
+  "type": "object",
+  "properties": {
+    "execution_grant": {
+      "type": "string",
+      "description": "The grant the caller sent."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "The caller's execution ID."
+    },
+    "input_commitment": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/commitment.json",
+      "description": "Commitment to the input you actually received."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Terms hash the caller sent."
+    },
+    "admission_request_id": {
+      "type": "string",
+      "description": "Your repeat-safe ID for this redemption; the same ID returns the same admission."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_grant",
+    "execution_id",
+    "input_commitment",
+    "terms_hash",
+    "admission_request_id"
+  ],
+  "examples": [
+    {
+      "execution_grant": "eyJ…",
+      "execution_id": "ex_19c4",
+      "input_commitment": {
+        "alg": "sha-256",
+        "canon": "ekl-json-1",
+        "digest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      },
+      "terms_hash": "9a1f…",
+      "admission_request_id": "adr_01"
+    }
+  ]
+}

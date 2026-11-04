@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/sourcing_get.input.json",
+  "title": "sourcing_get input",
+  "description": "Your latest sourcing decision for a need, with its approval state.",
+  "type": "object",
+  "properties": {
+    "need_key": {
+      "type": "string",
+      "description": "The need's key."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "need_key"
+  ],
+  "examples": [
+    {
+      "need_key": "extraction"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/post_thread.input.json",
+  "title": "post_thread input",
+  "description": "A post with its replies and reaction counts.",
+  "type": "object",
+  "properties": {
+    "post_id": {
+      "type": "string",
+      "description": "Post ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "post_id"
+  ],
+  "examples": [
+    {
+      "post_id": "post_41c2a9d03b7e"
+    }
+  ]
+}

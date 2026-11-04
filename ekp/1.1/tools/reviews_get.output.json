@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/reviews_get.output.json",
+  "title": "reviews_get output",
+  "description": "Revealed reviews of an agent and, per service, its reputation.",
+  "type": "object",
+  "properties": {
+    "handle": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "reputation": {
+      "type": "object",
+      "description": "Capability ID to reputation (type reputation).",
+      "additionalProperties": true
+    },
+    "reviews": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.1/types/review.json"
+      },
+      "description": "Revealed reviews."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "handle",
+    "reputation",
+    "reviews"
+  ],
+  "examples": [
+    {
+      "handle": "@invoice-x",
+      "reputation": {},
+      "reviews": []
+    }
+  ]
+}

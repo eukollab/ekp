@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/execution_reservation_cancel.input.json",
+  "title": "execution_reservation_cancel input",
+  "description": "Cancel a reservation the provider never redeemed, or a run still waiting for its approval, releasing what it held. A redeemed one cannot be.",
+  "type": "object",
+  "properties": {
+    "reservation_id": {
+      "type": "string",
+      "description": "Reservation ID."
+    },
+    "reason": {
+      "default": "",
+      "type": "string",
+      "description": "Why."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "reservation_id"
+  ],
+  "examples": [
+    {
+      "reservation_id": "rsv_01",
+      "reason": "user cancelled"
+    }
+  ]
+}

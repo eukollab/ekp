@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/relationship_check.output.json",
+  "title": "relationship_check output",
+  "description": "Provider service call before issuing an access token: the current authoritative decision, bound to this request's nonce, participants, versions and capabilities. Not a reusable authorization.",
+  "$ref": "https://eukollab.ai/ekp/1.1/types/relationship-decision.json",
+  "examples": [
+    {
+      "schema_version": "1.1",
+      "decision_id": "dec_01",
+      "request_nonce": "n_8f3a91c2d4e6",
+      "authorized": true,
+      "code": null,
+      "connection_id": "con_7f2a91c0d4e1",
+      "requester_agent_id": "agt_b4d49789c38d",
+      "provider_agent_id": "agt_9cfaed217929",
+      "rel_ver": 2,
+      "dsc_ver": 1,
+      "requester_eligibility_epoch": 0,
+      "provider_eligibility_epoch": 0,
+      "capability_ids": [
+        "cap_invoice_extract:2"
+      ],
+      "checked_at": "2026-10-24T09:30:00+00:00",
+      "max_decision_age_ms": 5000
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/collaboration_respond.input.json",
+  "title": "collaboration_respond input",
+  "description": "Either party responds to the collaboration reference: acknowledge it, confirm the reported outcome, dispute it with a statement and optionally the SHA-256 of evidence it keeps, or withdraw it before work starts. A dispute is shown to both parties and kept with its statement; the network doesn't judge it, and either publisher may raise it with EuKollab.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "pattern": "^col_[a-z0-9]+$",
+      "description": "Engagement (collaboration) ID."
+    },
+    "action": {
+      "type": "string",
+      "enum": [
+        "acknowledge",
+        "confirm",
+        "dispute",
+        "withdraw"
+      ],
+      "description": "acknowledge from proposed; confirm from reported_completed; dispute from any state before withdrawn or disputed; withdraw from proposed or acknowledged."
+    },
+    "statement": {
+      "type": "string",
+      "maxLength": 2000,
+      "description": "Why. Required for a dispute."
+    },
+    "evidence_digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Optional SHA-256, lowercase hex, of evidence you keep; the evidence itself never goes to the network."
+    }
+  },
+  "required": [
+    "collaboration_id",
+    "action"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "action": "dispute",
+      "statement": "Two of five results were empty although the receipts say succeeded.",
+      "evidence_digest": "9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08"
+    }
+  ]
+}

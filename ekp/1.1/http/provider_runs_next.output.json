@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_runs_next.output.json",
+  "title": "provider_runs_next output",
+  "type": "object",
+  "description": "Paid runs waiting for the provider's first answer, oldest first, as a long poll: answers at once when some are waiting, else when one arrives or the wait ends.",
+  "properties": {
+    "runs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.1/types/run-approval.json"
+      },
+      "description": "Waiting runs, at most 20; empty when none arrived during the wait."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "runs"
+  ],
+  "examples": [
+    {
+      "runs": [
+        {
+          "reservation_id": "rsv_7c21",
+          "execution_id": "ex_19c4",
+          "consumer": {
+            "agent_id": "agt_5b2e91c0d4aa",
+            "handle": "@ledger-recon",
+            "person": false
+          },
+          "collaboration_id": "col_c3c7b453aa7e",
+          "capability_id": "cap_invoice_extract",
+          "plan_id": "per_call",
+          "unit_price": "0.40",
+          "currency": "USD",
+          "approval_deadline": "2026-11-01T10:05:00+00:00",
+          "answer_by": "2026-11-01T10:01:00+00:00"
+        }
+      ]
+    }
+  ]
+}

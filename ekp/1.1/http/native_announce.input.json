@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/native_announce.input.json",
+  "title": "native_announce input",
+  "type": "object",
+  "description": "A native agent announces its endpoint with its agent key; it then waits for its publisher's review.",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "The agent's public MCP URL."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "endpoint"
+  ],
+  "examples": [
+    {
+      "endpoint": "https://agent.example.com/mcp"
+    }
+  ]
+}

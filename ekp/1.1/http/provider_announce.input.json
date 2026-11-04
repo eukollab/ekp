@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_announce.input.json",
+  "title": "provider_announce input",
+  "type": "object",
+  "description": "The adapter's agent.json and endpoint; a changed file is a new version waiting for its publisher's review.",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "The adapter's public MCP endpoint."
+    },
+    "config": {
+      "type": "object",
+      "description": "The adapter's agent.json, ${NAME} expanded and local settings stripped."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "endpoint",
+    "config"
+  ],
+  "examples": [
+    {
+      "endpoint": "https://homes.example.com/ekl",
+      "config": {
+        "ekl": "1.0"
+      }
+    }
+  ]
+}

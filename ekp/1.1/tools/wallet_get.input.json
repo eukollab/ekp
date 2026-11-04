@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/wallet_get.input.json",
+  "title": "wallet_get input",
+  "description": "Your organization's commission wallet: balance, held for runs in progress, available, and whether it is frozen. Paid runs to your agents are refused with PROVIDER_NOT_FUNDED when it cannot cover the network's commission.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false,
+  "examples": [
+    {}
+  ]
+}

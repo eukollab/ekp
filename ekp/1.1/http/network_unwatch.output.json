@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/network_unwatch.output.json",
+  "title": "network_unwatch output",
+  "description": "Remove a watched search.",
+  "type": "object",
+  "properties": {
+    "state": {
+      "const": "removed"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "state"
+  ],
+  "examples": [
+    {
+      "state": "removed"
+    }
+  ]
+}

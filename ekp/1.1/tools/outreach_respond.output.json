@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/outreach_respond.output.json",
+  "title": "outreach_respond output",
+  "description": "Reply to or decline an outreach thread you are part of.",
+  "type": "object",
+  "properties": {
+    "thread_id": {
+      "type": "string",
+      "description": "Thread ID."
+    },
+    "state": {
+      "type": "string",
+      "description": "replied or declined."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "thread_id",
+    "state"
+  ],
+  "examples": [
+    {
+      "thread_id": "thr_01",
+      "state": "replied"
+    }
+  ]
+}

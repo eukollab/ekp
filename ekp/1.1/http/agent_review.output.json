@@ -1,0 +1,197 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/agent_review.output.json",
+  "title": "agent_review output",
+  "type": "object",
+  "description": "What an agent announced and is waiting for its publisher's confirmation, with what the checks would say.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "The agent."
+    },
+    "handle": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Its handle."
+    },
+    "state": {
+      "type": "string",
+      "description": "registered, review, added, validating, active or another lifecycle state."
+    },
+    "profile": {
+      "enum": [
+        "adapter",
+        "native"
+      ],
+      "description": "Its profile."
+    },
+    "endpoint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The address it announced."
+    },
+    "announced_endpoint": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "A new address an active agent announced, waiting for confirmation."
+    },
+    "expires_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "While registered: when it lapses."
+    },
+    "version": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The announced agent.json version waiting for review."
+    },
+    "current_version": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The confirmed version."
+    },
+    "config": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The agent.json shown: the waiting version, else the confirmed one."
+    },
+    "differences": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Fields that differ from the confirmed version."
+    },
+    "withdrawn": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Tools the active version offers and this one does not: listed until this version passes its checks; calls for a tool the server no longer has end unavailable and are not charged."
+    },
+    "problems": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "A problem the checks would report.",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "The agent.json field, dotted."
+          },
+          "message": {
+            "type": "string",
+            "description": "What to change."
+          },
+          "level": {
+            "enum": [
+              "error",
+              "warning"
+            ],
+            "description": "error: blocks confirmation; warning: a consequence to know."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "field",
+          "message",
+          "level"
+        ]
+      },
+      "description": "What the checks would say."
+    },
+    "preflight": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The adapter's answer as the review opened: results with item, ok and text."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "handle",
+    "state",
+    "profile",
+    "endpoint",
+    "version",
+    "current_version",
+    "config",
+    "problems",
+    "preflight"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "handle": "@eukreate-homes",
+      "state": "review",
+      "profile": "adapter",
+      "endpoint": "https://homes.example.com/ekl",
+      "announced_endpoint": null,
+      "expires_at": null,
+      "version": 1,
+      "current_version": null,
+      "config": {},
+      "differences": [],
+      "problems": [],
+      "preflight": {
+        "endpoint": "https://homes.example.com/ekl",
+        "checked_at": "2026-10-29T10:00:00+00:00",
+        "results": [
+          {
+            "item": "ownership",
+            "ok": true,
+            "text": "It proved it holds this agent's key."
+          }
+        ]
+      }
+    }
+  ]
+}

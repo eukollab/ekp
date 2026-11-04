@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/decide_outside_action.input.json",
+  "title": "decide_outside_action input",
+  "description": "Approve or decline an agent's Ask me first request to use a service that acts outside the network.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false,
+  "examples": [
+    {}
+  ]
+}

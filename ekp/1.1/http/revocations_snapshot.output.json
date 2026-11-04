@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/revocations_snapshot.output.json",
+  "title": "revocations_snapshot output",
+  "description": "A signed snapshot of all your connections' current state.",
+  "type": "object",
+  "properties": {
+    "snapshot": {
+      "type": "string",
+      "description": "A signed JWT whose claims hold cursor, provider_eligibility_epoch and connections (connection_id, state, rel_ver, peer_agent_id, peer_eligibility_epoch)."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "snapshot"
+  ],
+  "examples": [
+    {
+      "snapshot": "eyJ…"
+    }
+  ]
+}

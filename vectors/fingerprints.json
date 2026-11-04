@@ -1,0 +1,152 @@
+{
+  "description": "Salted fingerprints of the adapter profile (PROTOCOL.md §15.3): SHA-256(salt || JCS(value)), salt the 32 raw bytes of the hex salt, lowercase hex. The input fingerprint covers the arguments as the consumer sent them; the output fingerprint covers the tool result's structuredContent when present, otherwise its content array, never isError, _meta or anything the adapter adds. JCS is RFC 8785.",
+  "algorithm": "sha-256(bytes.fromhex(salt) + JCS(value))",
+  "cases": [
+    {
+      "name": "simple object",
+      "salt": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
+      "value": {
+        "area_ref": "loc:ca:dublin",
+        "min_beds": 3
+      },
+      "jcs": "{\"area_ref\":\"loc:ca:dublin\",\"min_beds\":3}",
+      "fingerprint": "46839dcf7511e1b9789e56ccbce9a4e7a562adc9aa9b1088337802fec1018a3c"
+    },
+    {
+      "name": "key order by UTF-16 code units, non-ASCII and a surrogate pair",
+      "salt": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
+      "value": {
+        "é": 1,
+        "z": 2,
+        "😀": 3,
+        "A": 4,
+        "€": 5,
+        "aa": 6,
+        "a": 7
+      },
+      "jcs": "{\"A\":4,\"a\":7,\"aa\":6,\"z\":2,\"é\":1,\"€\":5,\"😀\":3}",
+      "fingerprint": "ff74d9d98496e4f71a9f305b0ffd4e6c9aebc2f397f7a162d2248e7099876094"
+    },
+    {
+      "name": "numbers: integers, negative zero, exponents, edges",
+      "salt": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
+      "value": {
+        "int": 9007199254740991,
+        "neg": -1,
+        "zero": -0.0,
+        "small": 1e-07,
+        "big": 1e+21,
+        "frac": 0.1,
+        "exp": 1.23,
+        "f": 333333333.3333333
+      },
+      "jcs": "{\"big\":1e+21,\"exp\":1.23,\"f\":333333333.3333333,\"frac\":0.1,\"int\":9007199254740991,\"neg\":-1,\"small\":1e-7,\"zero\":0}",
+      "fingerprint": "4ad0134fceb1f18cf57cee8ff1ecd4572d6f85626f5d663eb9c3721cf190f774"
+    },
+    {
+      "name": "string escaping: control characters and characters left as they are",
+      "salt": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
+      "value": {
+        "s": "line\nbreak\ttab \u0001 \u001f quote\" backslash\\ slash/   é"
+      },
+      "jcs": "{\"s\":\"line\\nbreak\\ttab \\u0001 \\u001f quote\\\" backslash\\\\ slash/   é\"}",
+      "fingerprint": "335713a24cc174fd34ae2e955dbfea32770a8f22a2b065debffa31be601d0dd2"
+    },
+    {
+      "name": "empty and nested values with null",
+      "salt": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
+      "value": {
+        "a": [],
+        "b": {},
+        "c": [
+          null,
+          {
+            "d": [
+              1,
+              [
+                2,
+                {}
+              ]
+            ]
+          }
+        ],
+        "e": null
+      },
+      "jcs": "{\"a\":[],\"b\":{},\"c\":[null,{\"d\":[1,[2,{}]]}],\"e\":null}",
+      "fingerprint": "4e544932a43f0b0a3dbc940f7d111397cf334b7a22848d05949a3dffb4d68f4c"
+    },
+    {
+      "name": "same value, another salt",
+      "salt": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "value": {
+        "area_ref": "loc:ca:dublin",
+        "min_beds": 3
+      },
+      "jcs": "{\"area_ref\":\"loc:ca:dublin\",\"min_beds\":3}",
+      "fingerprint": "17dc5d80658c6bcac4a60afec7a13187b73d7de0fb0d765259eac4085b3fbe46"
+    },
+    {
+      "name": "result body: structuredContent",
+      "salt": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
+      "value": {
+        "listings": [
+          {
+            "address": "4252 Escudo Ct",
+            "price": "1349000.00"
+          }
+        ],
+        "next_cursor": null
+      },
+      "jcs": "{\"listings\":[{\"address\":\"4252 Escudo Ct\",\"price\":\"1349000.00\"}],\"next_cursor\":null}",
+      "fingerprint": "1a22bbbe0546873ae70004bfdd78ba62541b74cfe70744b98f5ce490dbad6858"
+    },
+    {
+      "name": "result body: content array when there is no structuredContent",
+      "salt": "00112233445566778899aabbccddeeff00112233445566778899aabbccddeeff",
+      "value": [
+        {
+          "type": "text",
+          "text": "No homes match."
+        }
+      ],
+      "jcs": "[{\"text\":\"No homes match.\",\"type\":\"text\"}]",
+      "fingerprint": "9e0ff412a7b964ff6f0208b744dc2428b7ef00daab4f83170f95c7b7f9fd09fe"
+    }
+  ],
+  "result_selection": {
+    "description": "Which body of an MCP tool result is fingerprinted.",
+    "result": {
+      "structuredContent": {
+        "listings": [
+          {
+            "address": "4252 Escudo Ct",
+            "price": "1349000.00"
+          }
+        ],
+        "next_cursor": null
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "{...}"
+        }
+      ],
+      "isError": false,
+      "_meta": {
+        "ekl": {
+          "outcome": "succeeded"
+        }
+      }
+    },
+    "fingerprinted": "structuredContent",
+    "fingerprint": "1a22bbbe0546873ae70004bfdd78ba62541b74cfe70744b98f5ce490dbad6858"
+  },
+  "challenge": {
+    "description": "The endpoint challenge's proof (PROTOCOL.md §15.2): HMAC-SHA256 keyed with the lowercase hex SHA-256 of the provider credential (as ASCII), over the challenge hex followed by the endpoint URL.",
+    "provider_credential": "eklp_example-credential-not-a-real-one",
+    "credential_sha256": "9658fb1a63b49233e0779f391763c30f4bc900a92615739fdad96bedcbf95504",
+    "challenge": "9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f",
+    "endpoint": "https://mcp.example.com/ekl",
+    "proof": "53d2cef6a77ddb2c0c41485276e84217bb9b878ce200fa1e64c321990d91dd8a"
+  }
+}

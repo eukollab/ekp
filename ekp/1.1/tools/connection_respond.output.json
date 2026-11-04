@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/connection_respond.output.json",
+  "title": "connection_respond output",
+  "description": "Accept or decline a pending connection request addressed to you.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID, e.g. con_7f2a91c0d4e1.",
+      "pattern": "^con_[a-z0-9]+$"
+    },
+    "state": {
+      "type": "string",
+      "description": "Connection state."
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id",
+    "state",
+    "rel_ver"
+  ],
+  "examples": [
+    {
+      "connection_id": "con_7f2a91c0d4e1",
+      "state": "active",
+      "rel_ver": 2
+    }
+  ]
+}

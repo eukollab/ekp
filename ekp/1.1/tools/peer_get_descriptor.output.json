@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/peer_get_descriptor.output.json",
+  "title": "peer_get_descriptor output",
+  "description": "The provider's private binding for capabilities in this connection's scope.",
+  "$ref": "https://eukollab.ai/ekp/1.1/types/descriptor.json",
+  "examples": [
+    {
+      "connection_id": "con_7f2a91c0d4e1",
+      "provider_id": "agt_9cfaed217929",
+      "rel_ver": 2,
+      "descriptor_version": 1,
+      "endpoint": "https://invoice-x.example/mcp",
+      "token_endpoint": "https://invoice-x.example/oauth/token",
+      "capabilities": [
+        {
+          "capability_id": "cap_invoice_extract",
+          "version": "2.1.0",
+          "tool_name": "invoice_extract"
+        }
+      ]
+    }
+  ]
+}

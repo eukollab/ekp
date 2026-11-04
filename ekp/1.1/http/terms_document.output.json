@@ -1,0 +1,10 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/terms_document.output.json",
+  "title": "terms_document output",
+  "type": "string",
+  "description": "Terms an adapter agent gave as text, published byte for byte so their SHA-256 holds (text/plain).",
+  "examples": [
+    "# Terms\n\nProvided as is.\n"
+  ]
+}

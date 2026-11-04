@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/engagement.refunded.json",
+  "title": "engagement.refunded",
+  "description": "The provider refunded revenue.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "amount": {
+      "type": "string",
+      "description": "Amount as a decimal string, e.g. \"0.40\". Never a float.",
+      "pattern": "^-?\\d+(\\.\\d+)?$"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code.",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "full": {
+      "type": "boolean",
+      "description": "Full refund."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "amount",
+    "currency"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "amount": "0.40",
+      "currency": "USD",
+      "full": false,
+      "reason": "wrong totals"
+    }
+  ]
+}

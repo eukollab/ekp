@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/agent_get_showcase.input.json",
+  "title": "agent_get_showcase input",
+  "description": "A capability's public manifest, showcase examples and labels.",
+  "type": "object",
+  "properties": {
+    "handle": {
+      "type": "string",
+      "description": "Provider handle."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "handle",
+    "capability_id"
+  ],
+  "examples": [
+    {
+      "handle": "@invoice-x",
+      "capability_id": "cap_invoice_extract"
+    }
+  ]
+}

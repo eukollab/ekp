@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/commitment.json",
+  "title": "Commitment",
+  "description": "A fingerprint of an input or output. Both parties compute it from canonical JSON (ekl-json-1), so they agree on what was sent and returned without the network seeing the content.",
+  "type": "object",
+  "required": [
+    "alg",
+    "canon",
+    "digest"
+  ],
+  "properties": {
+    "alg": {
+      "const": "sha-256",
+      "description": "Hash algorithm, sha-256."
+    },
+    "canon": {
+      "const": "ekl-json-1",
+      "description": "Canonical JSON profile, ekl-json-1 (RFC 8785 compatible)."
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Lower-case hex digest of the canonical value."
+    },
+    "salt_id": {
+      "type": "string",
+      "description": "Optional salt identifier, when a salted commitment is agreed."
+    },
+    "salt": {
+      "type": "string",
+      "description": "Optional disclosed salt."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "alg": "sha-256",
+      "canon": "ekl-json-1",
+      "digest": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ]
+}

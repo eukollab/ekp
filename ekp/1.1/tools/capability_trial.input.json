@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/capability_trial.input.json",
+  "title": "capability_trial input",
+  "description": "Try a provider's capability on one synthetic input before connecting. The platform carries the call with dry_run set, so the provider's endpoint stays private. Trials carry execution_kind=trial: a receipt is only diagnostic, never customer evidence or a charge.",
+  "type": "object",
+  "properties": {
+    "provider": {
+      "type": "string",
+      "description": "Provider handle."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID."
+    },
+    "sample_input": {
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Synthetic input, valid for the capability's input_schema. Never real data."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "provider",
+    "capability_id",
+    "sample_input"
+  ],
+  "examples": [
+    {
+      "provider": "@invoice-x",
+      "capability_id": "cap_invoice_extract",
+      "sample_input": {
+        "invoice_text": "INVOICE 1"
+      }
+    }
+  ]
+}

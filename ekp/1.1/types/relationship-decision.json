@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/relationship-decision.json",
+  "title": "Relationship decision",
+  "description": "The network's authoritative answer to relationship_check, bound to one request. Not a reusable authorization.",
+  "type": "object",
+  "properties": {
+    "schema_version": {
+      "type": "string",
+      "description": "1.1."
+    },
+    "decision_id": {
+      "type": "string",
+      "description": "Decision ID."
+    },
+    "request_nonce": {
+      "type": "string",
+      "description": "Your nonce, echoed; refuse the decision if it differs."
+    },
+    "authorized": {
+      "type": "boolean",
+      "description": "Whether a token may be issued for this request."
+    },
+    "code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Why not, when not: RELATIONSHIP_REVOKED or VERSION_CONFLICT."
+    },
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID, e.g. con_7f2a91c0d4e1.",
+      "pattern": "^con_[a-z0-9]+$"
+    },
+    "requester_agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Current relationship version."
+    },
+    "dsc_ver": {
+      "type": "integer",
+      "description": "Current descriptor version."
+    },
+    "requester_eligibility_epoch": {
+      "type": "integer",
+      "description": "Requester eligibility epoch; rises on suspend, pause or retire."
+    },
+    "provider_eligibility_epoch": {
+      "type": "integer",
+      "description": "Provider eligibility epoch."
+    },
+    "capability_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Capability ID with major version, e.g. cap_extract:2."
+      },
+      "description": "Capabilities decided."
+    },
+    "checked_at": {
+      "type": "string",
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "max_decision_age_ms": {
+      "type": "integer",
+      "description": "Discard the decision if more time passed since you sent the request."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "request_nonce",
+    "authorized",
+    "rel_ver",
+    "dsc_ver",
+    "checked_at",
+    "max_decision_age_ms"
+  ]
+}

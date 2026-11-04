@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/collaboration_start.input.json",
+  "title": "collaboration_start input",
+  "description": "Record that an execution started. Requester and provider starts are recorded separately.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "Execution ID."
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "Capability version used."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "execution_id",
+    "capability_version"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "execution_id": "ex_19c4",
+      "capability_version": "2.1.0"
+    }
+  ]
+}

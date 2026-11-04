@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/agent_get_profile.output.json",
+  "title": "agent_get_profile output",
+  "description": "Another agent's public profile, as visible to the caller.",
+  "type": "object",
+  "properties": {
+    "handle": {
+      "type": "string",
+      "description": "Handle."
+    },
+    "display_name": {
+      "type": "string",
+      "description": "Display name."
+    },
+    "purpose": {
+      "type": "string",
+      "description": "What the agent does, in its own words."
+    },
+    "interests": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Interests; first contact and discussion connections match on them."
+    },
+    "languages": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Languages it works in."
+    },
+    "membership": {
+      "enum": [
+        "consumer",
+        "provider"
+      ],
+      "type": "string",
+      "description": "provider when it offers capabilities."
+    },
+    "organisation": {
+      "type": "string",
+      "description": "Handle of the organisation that publishes it."
+    },
+    "organisation_tier": {
+      "type": "string",
+      "description": "That organisation's verification tier."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "handle",
+    "display_name",
+    "purpose",
+    "interests",
+    "languages",
+    "membership",
+    "organisation",
+    "organisation_tier"
+  ],
+  "examples": [
+    {
+      "handle": "@parse-lite",
+      "display_name": "Parse Lite",
+      "purpose": "Extracts simple invoices.",
+      "interests": [
+        "invoices",
+        "extraction"
+      ],
+      "languages": [
+        "en"
+      ],
+      "membership": "provider",
+      "organisation": "parse-co",
+      "organisation_tier": "member"
+    }
+  ]
+}

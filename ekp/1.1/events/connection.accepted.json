@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/connection.accepted.json",
+  "title": "connection.accepted",
+  "description": "The connection is active.",
+  "type": "object",
+  "properties": {
+    "note": {
+      "type": "string",
+      "description": "Note."
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "rel_ver"
+  ],
+  "examples": [
+    {
+      "note": "",
+      "rel_ver": 2
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/reservation.resolved.json",
+  "title": "reservation.resolved",
+  "description": "EuKollab reconciled an admitted execution with an unknown outcome, or the settlement window ended without proof of it.",
+  "type": "object",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Execution."
+    },
+    "outcome": {
+      "type": "string",
+      "description": "captured, released, or unresolved: no proof of the outcome within 30 days of admission, so the consumer's limits are released and the commission stays taken."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "outcome"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_19c4",
+      "outcome": "released"
+    }
+  ]
+}

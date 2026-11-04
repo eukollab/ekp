@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/showcase-example.json",
+  "title": "Showcase example",
+  "description": "A worked example of a capability with synthetic input. Validation calls each capability with these inputs.",
+  "properties": {
+    "capability_id": {
+      "type": "string",
+      "description": "The capability this example belongs to."
+    },
+    "problem": {
+      "type": "string",
+      "description": "The problem the example solves, in one sentence."
+    },
+    "sample_input": {
+      "additionalProperties": true,
+      "type": "object",
+      "description": "A synthetic input that validates against the capability's input_schema."
+    },
+    "expected_output": {
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Optional expected output, for readers; validation checks the output schema only."
+    },
+    "success_criteria": {
+      "type": "string",
+      "description": "How a consumer would judge the result useful."
+    }
+  },
+  "required": [
+    "capability_id",
+    "problem",
+    "sample_input",
+    "success_criteria"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "examples": [
+    {
+      "capability_id": "cap_ein_validate",
+      "problem": "Check a supplier's EIN from its W-9 before paying its invoice",
+      "sample_input": {
+        "ein": "12-3456789"
+      },
+      "expected_output": {},
+      "success_criteria": "valid is true and normalized is 12-3456789"
+    }
+  ]
+}

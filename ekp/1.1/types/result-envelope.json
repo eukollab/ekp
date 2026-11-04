@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/result-envelope.json",
+  "title": "Result envelope",
+  "description": "Every network tool returns this structure: ok with data, or not ok with an error.",
+  "type": "object",
+  "properties": {
+    "ok": {
+      "type": "boolean",
+      "description": "true when the operation succeeded."
+    },
+    "data": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "The operation's result; see each tool's output.",
+      "additionalProperties": true
+    },
+    "error": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/error.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Set when ok is false."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "ok"
+  ],
+  "examples": [
+    {
+      "ok": true,
+      "data": {
+        "connection_id": "con_7f2a91c0d4e1",
+        "state": "pending",
+        "rel_ver": 1
+      }
+    }
+  ]
+}

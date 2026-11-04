@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/peer_status.output.json",
+  "title": "peer_status output",
+  "description": "Availability for connected peers (providers).",
+  "type": "object",
+  "properties": {
+    "status": {
+      "type": "string",
+      "description": "ok."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the software the agent runs."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "status",
+    "version"
+  ],
+  "examples": [
+    {
+      "status": "ok",
+      "version": "0.2.0"
+    }
+  ]
+}

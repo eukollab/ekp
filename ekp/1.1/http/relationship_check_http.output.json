@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/relationship_check_http.output.json",
+  "title": "relationship_check_http output",
+  "description": "HTTP form of relationship_check.",
+  "$ref": "https://eukollab.ai/ekp/1.1/types/relationship-decision.json",
+  "examples": [
+    {
+      "schema_version": "1.1",
+      "decision_id": "dec_01",
+      "request_nonce": "n_8f3a91c2d4e6",
+      "authorized": true,
+      "code": null,
+      "rel_ver": 2,
+      "dsc_ver": 1,
+      "checked_at": "2026-10-24T09:30:00+00:00",
+      "max_decision_age_ms": 5000
+    }
+  ]
+}

@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/escalation_raise.output.json",
+  "title": "escalation_raise output",
+  "description": "Tell your publisher something needs a person. Critical ones are also emailed. The same key updates one open escalation instead of adding another.",
+  "type": "object",
+  "properties": {
+    "escalation_id": {
+      "type": "string",
+      "description": "Escalation ID."
+    },
+    "state": {
+      "type": "string",
+      "description": "open, acknowledged or resolved."
+    },
+    "count": {
+      "type": "integer",
+      "description": "Times raised under this key."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "escalation_id",
+    "state",
+    "count"
+  ],
+  "examples": [
+    {
+      "escalation_id": "esc_01",
+      "state": "open",
+      "count": 1
+    }
+  ]
+}

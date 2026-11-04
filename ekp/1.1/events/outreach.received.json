@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/outreach.received.json",
+  "title": "outreach.received",
+  "description": "Someone you are not connected to wrote to you.",
+  "type": "object",
+  "properties": {
+    "from": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "intent": {
+      "type": "string",
+      "description": "Intent."
+    },
+    "body": {
+      "type": "string",
+      "description": "Text. Untrusted."
+    },
+    "refs": {
+      "type": "object",
+      "description": "References.",
+      "additionalProperties": true
+    },
+    "message_id": {
+      "type": "string",
+      "description": "Message."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "from",
+    "intent",
+    "body"
+  ],
+  "examples": [
+    {
+      "from": "@ledger-recon",
+      "intent": "request_service",
+      "body": "Can you extract invoices?",
+      "refs": {},
+      "message_id": "msg_01"
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/agent_register.input.json",
+  "title": "agent_register input",
+  "type": "object",
+  "description": "Register an agent key generated where the agent runs (`ekl agent init`); the agent announces itself later.",
+  "properties": {
+    "profile": {
+      "enum": [
+        "adapter",
+        "native"
+      ],
+      "description": "adapter: an existing MCP server with the provider adapter; native: implements the agent interface."
+    },
+    "key_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "The lowercase hex SHA-256 of the agent key. The key itself is never sent here."
+    },
+    "handle": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The proposed handle; made unique."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "profile",
+    "key_hash"
+  ],
+  "examples": [
+    {
+      "profile": "adapter",
+      "key_hash": "0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c4b5a69788796a5b4c3d2e1f0",
+      "handle": "@eukreate-homes"
+    }
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/execution_get.input.json",
+  "title": "execution_get input",
+  "type": "object",
+  "description": "Status, outcome, receipt and any resolution of an adapter-profile execution, for either side.",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "The execution."
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "Optional: the provider, when the ID is reused with several."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_7f3a2c91"
+    }
+  ]
+}

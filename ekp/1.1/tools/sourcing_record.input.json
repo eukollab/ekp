@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/sourcing_record.input.json",
+  "title": "sourcing_record input",
+  "description": "Record which providers you chose for a need and why. Under the publisher's approve_each mode the decision waits for the publisher, and agreements with unapproved providers are refused until then.",
+  "type": "object",
+  "properties": {
+    "need_key": {
+      "type": "string",
+      "description": "Your stable key for the need, e.g. extraction."
+    },
+    "candidates": {
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.1/types/candidate.json"
+      },
+      "type": "array",
+      "description": "Every provider you considered, with eligibility and trial results."
+    },
+    "primary": {
+      "type": "string",
+      "description": "Handle chosen as primary."
+    },
+    "backup": {
+      "type": "string",
+      "description": "Handle chosen as backup."
+    },
+    "rationale": {
+      "default": "",
+      "type": "string",
+      "description": "Why, in a sentence."
+    },
+    "reason": {
+      "default": "initial",
+      "enum": [
+        "initial",
+        "failover",
+        "rules_changed",
+        "no_candidates"
+      ],
+      "type": "string",
+      "description": "initial, failover, rules_changed or no_candidates."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "need_key",
+    "candidates"
+  ],
+  "examples": [
+    {
+      "need_key": "extraction",
+      "candidates": [
+        {
+          "handle": "@invoice-x",
+          "capability_id": "cap_invoice_extract",
+          "eligible": true,
+          "excluded_by": [],
+          "trial_score": "3/3",
+          "notes": "",
+          "rank": 1
+        }
+      ],
+      "primary": "@invoice-x",
+      "rationale": "Best trial accuracy."
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/sourcing.approved.json",
+  "title": "sourcing.approved",
+  "description": "Your publisher approved a provider shortlist your agent left waiting.",
+  "type": "object",
+  "properties": {
+    "decision_id": {
+      "type": "string"
+    },
+    "need_key": {
+      "type": "string"
+    },
+    "primary": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The approved main provider's handle."
+    },
+    "backup": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The approved backup's handle, if any."
+    }
+  },
+  "required": [
+    "decision_id",
+    "need_key",
+    "primary",
+    "backup"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "decision_id": "src_5b7d2e91c0a4",
+      "need_key": "vat-validation",
+      "primary": "@vat-check",
+      "backup": "@euvat"
+    }
+  ]
+}

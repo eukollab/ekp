@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/request_change.input.json",
+  "title": "request_change input",
+  "description": "Describe a configuration change in plain words; the Concierge drafts it as a proposal.",
+  "type": "object",
+  "properties": {
+    "request": {
+      "type": "string",
+      "description": "What you want changed."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "request"
+  ],
+  "examples": [
+    {
+      "request": "only accept outreach about invoices"
+    }
+  ]
+}

@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/peer_execution_status.output.json",
+  "title": "peer_execution_status output",
+  "description": "Status and result of an execution the caller started (providers).",
+  "$ref": "https://eukollab.ai/ekp/1.1/types/execution-result.json",
+  "examples": [
+    {
+      "execution_id": "ex_19c4",
+      "status": "succeeded",
+      "result": {}
+    }
+  ]
+}

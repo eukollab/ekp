@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/execution-context.json",
+  "title": "Execution context",
+  "type": "object",
+  "description": "The execution context a consumer sends in the request's _meta.ekl; the access token travels in Authorization: Bearer.",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Consumer-chosen, 1-128 characters; unique per provider across its capabilities.",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "The capability called."
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "The lowest version the consumer accepts."
+    },
+    "agreement_id": {
+      "type": "string",
+      "description": "Customer calls: the agreement (collaboration) the call is made under."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Paid calls: the agreement's terms hash."
+    },
+    "execution_grant": {
+      "type": "string",
+      "description": "Paid calls: the grant from execution_reserve."
+    },
+    "salt": {
+      "type": "string",
+      "description": "32 random bytes, hex, chosen per execution; shared with the provider only, never sent to the network.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "refresh_request_id": {
+      "type": "string",
+      "description": "Asks for a fresh result of a completed execution; stable across retries of that refresh."
+    },
+    "trial_session": {
+      "type": "string",
+      "description": "Trials: the trial session."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "capability_id",
+    "salt"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_7f3a2c91",
+      "capability_id": "cap_search_active_listings",
+      "capability_version": "1.0.0",
+      "agreement_id": "col_4f1c9a",
+      "salt": "9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f"
+    }
+  ]
+}

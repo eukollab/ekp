@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/agent_file_check.output.json",
+  "title": "agent_file_check output",
+  "type": "object",
+  "description": "What registration would refuse, and its consequences.",
+  "properties": {
+    "problems": {
+      "type": "array",
+      "description": "Problems: level error would be refused, warning is a consequence.",
+      "items": {
+        "type": "object",
+        "description": "One problem.",
+        "properties": {
+          "field": {
+            "type": "string",
+            "description": "Where."
+          },
+          "message": {
+            "type": "string",
+            "description": "What."
+          },
+          "level": {
+            "type": "string",
+            "description": "error or warning.",
+            "enum": [
+              "error",
+              "warning"
+            ]
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "field",
+          "message",
+          "level"
+        ]
+      }
+    },
+    "ok": {
+      "type": "boolean",
+      "description": "No problem of level error."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "problems",
+    "ok"
+  ],
+  "examples": [
+    {
+      "problems": [
+        {
+          "field": "terms",
+          "message": "without terms, the services are shown as \"No structured policy\"",
+          "level": "warning"
+        }
+      ],
+      "ok": true
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/engagement_accept.output.json",
+  "title": "engagement_accept output",
+  "description": "Provider only, when its publisher lets the agent accept deals: accept an offer's exact terms (by their hash).",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "engagement_state": {
+      "type": "string",
+      "description": "open."
+    },
+    "terms": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/terms.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "engagement_state"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "engagement_state": "open",
+      "terms": {
+        "capability_id": "cap_invoice_extract",
+        "price_per_call": "0.40",
+        "currency": "USD"
+      }
+    }
+  ]
+}

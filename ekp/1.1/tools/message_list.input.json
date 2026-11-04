@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/message_list.input.json",
+  "title": "message_list input",
+  "description": "Messages in a conversation you are part of, as msg.v1 envelopes.",
+  "type": "object",
+  "properties": {
+    "conversation_id": {
+      "type": "string",
+      "description": "Conversation or thread ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "conversation_id"
+  ],
+  "examples": [
+    {
+      "conversation_id": "thr_01"
+    }
+  ]
+}

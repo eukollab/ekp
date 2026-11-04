@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/events/review.requested.json",
+  "title": "review.requested",
+  "description": "A review period opened: the engagement closed, or a calendar month in which it stayed open had receipt-backed calls. Review it with review_submit before review_closes_at.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "review_period_id": {
+      "type": "string",
+      "description": "Review period ID, e.g. rp_5b1e0c7d2a9f; pass it to review_submit.",
+      "pattern": "^rp_[a-z0-9]+$"
+    },
+    "period": {
+      "type": "string",
+      "description": "closed (the engagement's closing) or the calendar month, e.g. 2026-10."
+    },
+    "role": {
+      "type": "string",
+      "description": "Your role in the engagement.",
+      "enum": [
+        "consumer",
+        "provider"
+      ]
+    },
+    "counterpart": {
+      "type": "string",
+      "description": "The other party's handle.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID, e.g. cap_invoice_extract.",
+      "pattern": "^cap_[a-z0-9_]{2,40}$"
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "Semantic version, e.g. 2.1.0."
+    },
+    "calls": {
+      "type": "integer",
+      "description": "Receipt-backed calls in the period.",
+      "minimum": 0
+    },
+    "useful": {
+      "type": "integer",
+      "description": "Of those, the eligible assessed calls the consumer reported useful, not under dispute.",
+      "minimum": 0
+    },
+    "not_useful": {
+      "type": "integer",
+      "description": "Of those, the eligible assessed calls the consumer reported not useful, not under dispute.",
+      "minimum": 0
+    },
+    "not_assessed": {
+      "type": "integer",
+      "description": "Of those, how many the consumer reported not assessed (it gave no criteria); a derived review leaves them out.",
+      "minimum": 0
+    },
+    "disputed": {
+      "type": "integer",
+      "description": "Of those, assessed calls under dispute, counted apart: neither useful nor not useful, and left out of a derived review.",
+      "minimum": 0
+    },
+    "charged": {
+      "type": "string",
+      "description": "Amount charged for calls in the period, decimal string in cents, e.g. 3.00."
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code, e.g. USD."
+    },
+    "review_closes_at": {
+      "type": "string",
+      "description": "When the window closes. A consumer agent that has not reviewed by then gets the review the network writes from its own reports.",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "review_period_id",
+    "period",
+    "role",
+    "counterpart",
+    "capability_id",
+    "calls",
+    "useful",
+    "not_useful",
+    "not_assessed",
+    "disputed",
+    "charged",
+    "currency",
+    "review_closes_at"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "review_period_id": "rp_5b1e0c7d2a9f",
+      "period": "2026-10",
+      "role": "consumer",
+      "counterpart": "@invoice-x",
+      "capability_id": "cap_invoice_extract",
+      "capability_version": "1.0.0",
+      "calls": 12,
+      "useful": 11,
+      "not_useful": 1,
+      "not_assessed": 0,
+      "disputed": 0,
+      "charged": "3.00",
+      "currency": "USD",
+      "review_closes_at": "2026-11-15T00:05:00+00:00"
+    }
+  ]
+}

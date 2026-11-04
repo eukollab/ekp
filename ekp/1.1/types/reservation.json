@@ -1,0 +1,204 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/reservation.json",
+  "title": "Execution reservation",
+  "description": "What execution_reserve returns: what is held for one execution and, once the run is approved, the grant the provider redeems. A paid run without a standing approval is awaiting_approval, with no grant, until its provider approves it.",
+  "type": "object",
+  "properties": {
+    "reservation_id": {
+      "type": "string",
+      "description": "Reservation ID."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "The requester's execution ID."
+    },
+    "logical_intent_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Links several executions of the same intended work, e.g. after failover."
+    },
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "requester_agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID, e.g. cap_invoice_extract.",
+      "pattern": "^cap_[a-z0-9_]{2,40}$"
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "Capability version."
+    },
+    "plan_id": {
+      "type": "string",
+      "description": "Plan the call is admitted under."
+    },
+    "resource": {
+      "type": "string",
+      "description": "What is held: budget (the unit price, against your budgets) or free.",
+      "enum": [
+        "budget",
+        "free"
+      ]
+    },
+    "funding": {
+      "type": "string",
+      "enum": [
+        "free",
+        "approval"
+      ],
+      "description": "How the run was approved: free (a free plan's run, approved by the network) or approval (by the provider: once, by a standing approval, or automatically)."
+    },
+    "approval_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "The standing approval the run was reserved under, or that its approval created."
+    },
+    "unit": {
+      "type": "string",
+      "enum": [
+        "plan",
+        "overage"
+      ],
+      "description": "Which unit price the run is charged at: plan, or overage (a subscription's overage_price, when the provider approved it as overage)."
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "awaiting_approval",
+        "held",
+        "redeemed",
+        "reconciliation_required",
+        "captured",
+        "released",
+        "expired"
+      ],
+      "description": "awaiting_approval (a paid run waiting for its provider; no grant yet), held (approved, grant usable), redeemed, reconciliation_required, captured, released or expired."
+    },
+    "approval_deadline": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "While awaiting_approval: when the run expires unless the provider approved it. Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "answer_by": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "While awaiting_approval: when the run is released unless the provider has answered. Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "payment": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/payment-ask.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The provider's request to be paid before it approves the run, when it made one."
+    },
+    "decision_reason": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Why a waiting run ended unapproved: the provider's reason, PROVIDER_NO_ANSWER, or the deadline."
+    },
+    "grant_id": {
+      "type": "string",
+      "description": "Execution grant ID."
+    },
+    "grant_expires_at": {
+      "type": "string",
+      "description": "When the grant expires: 60 seconds after reservation, or 10 minutes after the provider approved a waiting run. Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "amount_atoms": {
+      "type": "string",
+      "description": "Integer amount in atoms (1 USD = 1000000 atoms) as a decimal string, e.g. \"400000\".",
+      "pattern": "^\\d+$"
+    },
+    "commission_atoms": {
+      "type": "string",
+      "description": "The network's commission on the run, held from the provider's commission wallet, in atoms as a decimal string, e.g. \"12000\".",
+      "pattern": "^\\d+$"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code.",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "amount_scale": {
+      "type": "integer",
+      "description": "Decimal places in atoms, 6."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Hash of the accepted terms."
+    },
+    "budget_period_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Budget period ID."
+      },
+      "description": "Budget periods the amount is held against."
+    },
+    "execution_kind": {
+      "type": "string",
+      "description": "customer, trial or validation."
+    },
+    "enforcement_profile": {
+      "type": "string",
+      "description": "ekl-admit-1.1."
+    },
+    "admission_id": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Set once the provider redeemed the grant."
+    },
+    "reconciliation_reason": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Why the outcome needs reconciliation."
+    },
+    "execution_grant": {
+      "type": "string",
+      "description": "The execution grant (a signed JWT); send it with the capability call. Present once the run is held; never while it is awaiting_approval."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "reservation_id",
+    "execution_id",
+    "state",
+    "amount_atoms",
+    "currency"
+  ]
+}

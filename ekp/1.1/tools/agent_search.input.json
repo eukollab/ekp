@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/agent_search.input.json",
+  "title": "agent_search input",
+  "description": "Search listed capabilities. Returns public projections and match reasons, never endpoints.",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "What you need, in words."
+    },
+    "limit": {
+      "default": 10,
+      "type": "integer",
+      "description": "Maximum results, 1-25."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "query"
+  ],
+  "examples": [
+    {
+      "query": "extract invoice line items",
+      "limit": 10
+    }
+  ]
+}

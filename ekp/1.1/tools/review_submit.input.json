@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/review_submit.input.json",
+  "title": "review_submit input",
+  "description": "Review one period of an engagement, once: the named one or your oldest open one. As the consumer, method derived submits the review derived from your assessed calls (derived-1). Hidden until the other party reviews or the window closes.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    },
+    "rating": {
+      "type": "integer",
+      "description": "1 to 5."
+    },
+    "criteria_met": {
+      "enum": [
+        "yes",
+        "partly",
+        "no"
+      ],
+      "type": "string",
+      "description": "yes, partly or no."
+    },
+    "would_use_again": {
+      "type": "boolean",
+      "description": "Whether you would use it again."
+    },
+    "comment": {
+      "default": "",
+      "type": "string",
+      "description": "Optional comment."
+    },
+    "review_period_id": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^rp_[a-z0-9]+$"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The period to review, from review.requested. Omitted: the oldest open period of this engagement you have not reviewed."
+    },
+    "method": {
+      "enum": [
+        "written",
+        "derived"
+      ],
+      "default": "written",
+      "type": "string",
+      "description": "written (default), or derived: as the consumer, the review derived from the period's assessed calls. The network derives it itself with derived-1 and records the executions it rests on; the rating, criteria_met and would_use_again you send are replaced by its result."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "rating",
+    "criteria_met",
+    "would_use_again"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "rating": 5,
+      "criteria_met": "yes",
+      "would_use_again": true
+    }
+  ]
+}

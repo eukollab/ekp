@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/sourcing-decision.json",
+  "title": "Sourcing decision",
+  "description": "Which providers an agent chose for a need, and why.",
+  "type": "object",
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "description": "Decision ID."
+    },
+    "need_key": {
+      "type": "string",
+      "description": "Your key for the need."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability chosen."
+    },
+    "state": {
+      "type": "string",
+      "description": "recorded, awaiting_owner or superseded."
+    },
+    "primary": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "backup": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "candidates": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.1/types/candidate.json"
+      },
+      "description": "Candidates as you reported them."
+    },
+    "rationale": {
+      "type": "string",
+      "description": "Your reasoning."
+    },
+    "reason": {
+      "type": "string",
+      "description": "initial, failover, rules_changed or no_candidates."
+    },
+    "created_at": {
+      "type": "string",
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "decision_id",
+    "need_key",
+    "state"
+  ]
+}

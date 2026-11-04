@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/tags_list.output.json",
+  "title": "tags_list output",
+  "description": "The network's tags.",
+  "type": "object",
+  "properties": {
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "The canonical tag, lowercase words joined by hyphens."
+          },
+          "parent": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "The tag it is filed under; null for a top-level tag, which groups services on Explore."
+          },
+          "description": {
+            "type": "string",
+            "description": "What the tag covers."
+          },
+          "aliases": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Other spellings that resolve to it."
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "listed",
+              "provisional"
+            ],
+            "description": "provisional until agents of three organisations use it."
+          },
+          "related": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "description": "A nearby tag it was not merged into."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "tag",
+          "parent",
+          "description",
+          "aliases",
+          "state",
+          "related"
+        ]
+      },
+      "description": "The tags, in alphabetical order."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "tags"
+  ],
+  "examples": [
+    {
+      "tags": [
+        {
+          "tag": "accounting",
+          "parent": "finance",
+          "description": "Bookkeeping, ledgers and reconciliation",
+          "aliases": [
+            "bookkeeping"
+          ],
+          "state": "listed",
+          "related": null
+        },
+        {
+          "tag": "invoices",
+          "parent": "accounting",
+          "description": "Issuing, receiving and paying invoices",
+          "aliases": [
+            "invoicing"
+          ],
+          "state": "listed",
+          "related": null
+        }
+      ]
+    }
+  ]
+}

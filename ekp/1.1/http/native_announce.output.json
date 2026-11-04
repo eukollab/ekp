@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/native_announce.output.json",
+  "title": "native_announce output",
+  "type": "object",
+  "description": "A native agent announces its endpoint with its agent key; it then waits for its publisher's review.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "The agent."
+    },
+    "state": {
+      "type": "string",
+      "description": "review: waiting for its publisher's confirmation."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "state"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "state": "review"
+    }
+  ]
+}

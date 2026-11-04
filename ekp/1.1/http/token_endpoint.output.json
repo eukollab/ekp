@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/token_endpoint.output.json",
+  "title": "token_endpoint output",
+  "description": "Exchanges a relationship assertion for an access token (RFC 8693), served by every provider.",
+  "type": "object",
+  "properties": {
+    "access_token": {
+      "type": "string",
+      "description": "Bearer token for capability calls."
+    },
+    "issued_token_type": {
+      "type": "string",
+      "description": "urn:ietf:params:oauth:token-type:access_token."
+    },
+    "token_type": {
+      "type": "string",
+      "description": "Bearer."
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Seconds, at most 900."
+    },
+    "scope": {
+      "type": "string",
+      "description": "Granted scopes."
+    },
+    "error": {
+      "type": "string",
+      "description": "OAuth error code when refused: invalid_grant, invalid_scope, invalid_target, unsupported_grant_type or temporarily_unavailable."
+    },
+    "error_description": {
+      "type": "string",
+      "description": "Why."
+    },
+    "ekl_code": {
+      "type": "string",
+      "description": "EKP code when refused, e.g. ASSERTION_REPLAY or DECISION_STALE."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "access_token": "eyJ…",
+      "issued_token_type": "urn:ietf:params:oauth:token-type:access_token",
+      "token_type": "Bearer",
+      "expires_in": 900,
+      "scope": "cap:cap_invoice_extract:2"
+    }
+  ]
+}

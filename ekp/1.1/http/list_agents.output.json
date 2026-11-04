@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/list_agents.output.json",
+  "title": "list_agents output",
+  "description": "Agents.",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "description": "Agent: id, handle, membership, state, endpoint, mode, paused, config_version, last_seen, capabilities, validation, delivery.",
+    "additionalProperties": true
+  },
+  "examples": [
+    []
+  ]
+}

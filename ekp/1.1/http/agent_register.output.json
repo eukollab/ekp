@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/agent_register.output.json",
+  "title": "agent_register output",
+  "type": "object",
+  "description": "Register an agent key generated where the agent runs (`ekl agent init`); the agent announces itself later.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "The new agent."
+    },
+    "handle": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The handle reserved, which may differ from the one proposed; write it in agent.json."
+    },
+    "state": {
+      "const": "registered",
+      "description": "Waiting for the agent to announce itself."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When the registration lapses if the agent never announces itself (7 days)."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "handle",
+    "state",
+    "expires_at"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "handle": "@eukreate-homes",
+      "state": "registered",
+      "expires_at": "2026-11-05T10:00:00+00:00"
+    }
+  ]
+}

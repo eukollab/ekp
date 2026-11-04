@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/restoration_begin.input.json",
+  "title": "restoration_begin input",
+  "description": "Open a restoration after the agent's administrator acknowledged that it runs from state restored from an older backup.",
+  "type": "object",
+  "properties": {
+    "local_event_cursor": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The highest event sequence in the agent's restored state."
+    },
+    "local_execution_seq": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "The highest execution sequence in the agent's restored state."
+    },
+    "pending_execution_ids": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Execution ID."
+      },
+      "description": "Executions the agent's restored state still has pending."
+    }
+  },
+  "required": [
+    "local_event_cursor",
+    "local_execution_seq"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "local_event_cursor": 980,
+      "local_execution_seq": 41,
+      "pending_execution_ids": []
+    }
+  ]
+}

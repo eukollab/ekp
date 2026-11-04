@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/execution-semantics.json",
+  "title": "Execution semantics",
+  "description": "How a capability treats execution IDs and work in progress, declared by the provider in its manifest and shown to consumers before they connect.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "execution_id_retention_days"
+  ],
+  "properties": {
+    "execution_id_retention_days": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 365,
+      "description": "How long the provider keeps each execution ID with its input fingerprint and result, so a repeat returns the stored result instead of running again. The reference adapter keeps 7 days."
+    },
+    "cancellable": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether peer_cancel can stop an execution in progress."
+    },
+    "in_flight_on_revocation": {
+      "type": "string",
+      "enum": [
+        "complete",
+        "cancel"
+      ],
+      "default": "complete",
+      "description": "What happens to admitted work in progress when the connection ends or is blocked: completed, or cancelled where possible."
+    },
+    "repeat": {
+      "anyOf": [
+        {
+          "enum": [
+            "return_kept",
+            "status_only",
+            "refresh"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Adapter profile: what a repeated execution ID returns."
+    },
+    "completion": {
+      "anyOf": [
+        {
+          "enum": [
+            "reliable",
+            "best_effort"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Adapter profile: reliable (durable mode) or best-effort (storage-free) completion."
+    }
+  },
+  "examples": [
+    {
+      "execution_id_retention_days": 7,
+      "cancellable": false,
+      "in_flight_on_revocation": "complete"
+    }
+  ]
+}

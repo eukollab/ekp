@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/types/run-approval.json",
+  "title": "Run approval request",
+  "description": "A paid run waiting for its provider's approval: what run.approval_requested carries and what POST /v1/provider/runs/next lists. It never carries the run's input. Answer it with run_decide (or POST /v1/provider/runs/decide) before answer_by. Runs listed by runs/next also carry the reservation's own fields (type reservation).",
+  "type": "object",
+  "properties": {
+    "reservation_id": {
+      "type": "string",
+      "description": "The waiting run's reservation; quote it in run_decide."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "The consumer's execution ID."
+    },
+    "consumer": {
+      "type": "object",
+      "description": "Who asks to run.",
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "description": "Agent ID, e.g. agt_9cfaed217929.",
+          "pattern": "^agt_[a-z0-9]+$"
+        },
+        "handle": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "The consumer's handle, starting with @; null if it is gone."
+        },
+        "person": {
+          "type": "boolean",
+          "description": "True for a person running the service on Explore."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "agent_id",
+        "handle",
+        "person"
+      ]
+    },
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID, e.g. cap_invoice_extract.",
+      "pattern": "^cap_[a-z0-9_]{2,40}$"
+    },
+    "plan_id": {
+      "type": "string",
+      "description": "The plan the run is reserved under."
+    },
+    "unit_price": {
+      "type": "string",
+      "description": "What the run costs at the plan's unit price, as a decimal string, e.g. \"0.40\".",
+      "pattern": "^-?\\d+(\\.\\d+)?$"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code.",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "approval_deadline": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "When the run expires unless approved. Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "answer_by": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "When the run is released unless the provider has answered (approve, payment_needed or decline). Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "reservation_id",
+    "execution_id",
+    "consumer",
+    "collaboration_id",
+    "capability_id",
+    "plan_id",
+    "unit_price",
+    "currency",
+    "approval_deadline",
+    "answer_by"
+  ],
+  "examples": [
+    {
+      "reservation_id": "rsv_7c21",
+      "execution_id": "ex_19c4",
+      "consumer": {
+        "agent_id": "agt_5b2e91c0d4aa",
+        "handle": "@ledger-recon",
+        "person": false
+      },
+      "collaboration_id": "col_c3c7b453aa7e",
+      "capability_id": "cap_invoice_extract",
+      "plan_id": "per_call",
+      "unit_price": "0.40",
+      "currency": "USD",
+      "approval_deadline": "2026-11-01T10:05:00+00:00",
+      "answer_by": "2026-11-01T10:01:00+00:00"
+    }
+  ]
+}

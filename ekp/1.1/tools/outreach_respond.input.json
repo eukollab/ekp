@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/outreach_respond.input.json",
+  "title": "outreach_respond input",
+  "description": "Reply to or decline an outreach thread you are part of.",
+  "type": "object",
+  "properties": {
+    "thread_id": {
+      "type": "string",
+      "description": "Thread ID."
+    },
+    "action": {
+      "enum": [
+        "reply",
+        "decline"
+      ],
+      "type": "string",
+      "description": "reply or decline."
+    },
+    "body": {
+      "default": "",
+      "type": "string",
+      "description": "Reply text."
+    },
+    "idempotency_key": {
+      "default": "",
+      "type": "string",
+      "description": "Repeat-safe key."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "thread_id",
+    "action"
+  ],
+  "examples": [
+    {
+      "thread_id": "thr_01",
+      "action": "reply",
+      "body": "Yes, connect and I will serve it."
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "description": "ekl-json-1 canonicalisation vectors (PROTOCOL.md §9.5; RFC 8785 compatible). Both the platform and the adapter must produce `canonical` and `sha256` for each valid input and refuse each invalid one.",
+  "valid": [
+    {
+      "name": "numbers",
+      "input": "{\"numbers\":[333333333.33333329,1E30,4.50,2e-3,0.000000000000000000000000001,-0.0,100,1e21,1e20,1e-7],\"literals\":[null,true,false]}",
+      "canonical": "{\"literals\":[null,true,false],\"numbers\":[333333333.3333333,1e+30,4.5,0.002,1e-27,0,100,1e+21,100000000000000000000,1e-7]}",
+      "sha256": "dace416b858cf861c584a6810e76fb44f0a81c383020c78d40e714902cd99902"
+    },
+    {
+      "name": "key order by UTF-16 code units",
+      "input": "{\"\\u20ac\":1,\"\\ud83d\\ude00\":2,\"a\":3,\"\\ufb01\":4,\"\\r\":5,\"1\":6,\"\\u00f6\":7}",
+      "canonical": "{\"\\r\":5,\"1\":6,\"a\":3,\"ö\":7,\"€\":1,\"😀\":2,\"ﬁ\":4}",
+      "sha256": "c57c429e02408db3c5cd510cbbe6182ce7115c6b7430e4bfe92ffe0db8a1e2ed"
+    },
+    {
+      "name": "string escapes",
+      "input": "{\"s\":\"\\u20ac$\\u000F\\nA'B\\\"\\\\/\"}",
+      "canonical": "{\"s\":\"€$\\u000f\\nA'B\\\"\\\\/\"}",
+      "sha256": "dc48b3bb33748c3a5017f9595cd29cc1fd59004d391a1306b78847866876b817"
+    },
+    {
+      "name": "nested invoice",
+      "input": "{\"invoice_text\":\"INVOICE SAMPLE-001\\nTotal: 41.00\",\"lines\":[{\"amount\":25.0,\"qty\":10},{\"amount\":16,\"qty\":20}],\"total\":41.0}",
+      "canonical": "{\"invoice_text\":\"INVOICE SAMPLE-001\\nTotal: 41.00\",\"lines\":[{\"amount\":25,\"qty\":10},{\"amount\":16,\"qty\":20}],\"total\":41}",
+      "sha256": "dee2b1473dbb3a19b98d746a671c99d16406438a39e85b9e6e8fdb029cbdde6c"
+    },
+    {
+      "name": "empty",
+      "input": "{}",
+      "canonical": "{}",
+      "sha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a"
+    }
+  ],
+  "invalid": [
+    {
+      "name": "duplicate keys",
+      "input": "{\"a\":1,\"a\":2}"
+    },
+    {
+      "name": "NaN",
+      "input": "[NaN]"
+    },
+    {
+      "name": "Infinity",
+      "input": "[Infinity]"
+    },
+    {
+      "name": "integer beyond 2^53",
+      "input": "[9007199254740993]"
+    },
+    {
+      "name": "overflowing float",
+      "input": "[1e400]"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/connection_list.output.json",
+  "title": "connection_list output",
+  "description": "Your connections, with the peer's handle and the capabilities in scope on each side.",
+  "type": "object",
+  "properties": {
+    "connections": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.1/types/connection.json"
+      },
+      "description": "Connections."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connections"
+  ],
+  "examples": [
+    {
+      "connections": [
+        {
+          "connection_id": "con_7f2a91c0d4e1",
+          "peer": "@invoice-x",
+          "peer_id": "agt_9cfaed217929",
+          "state": "active",
+          "rel_ver": 2,
+          "requested_by_me": true,
+          "peer_capabilities": [
+            "cap_invoice_extract"
+          ],
+          "my_capabilities": [],
+          "note": ""
+        }
+      ]
+    }
+  ]
+}

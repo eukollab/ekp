@@ -1,0 +1,125 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/tools/peer_get_access.output.json",
+  "title": "peer_get_access output",
+  "description": "How to call a connected provider: for the adapter profile its endpoint and a network-issued access token; for the native profile the descriptor and a relationship assertion.",
+  "type": "object",
+  "properties": {
+    "profile": {
+      "type": "string",
+      "description": "adapter or native.",
+      "enum": [
+        "adapter",
+        "native"
+      ]
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "The provider."
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "Where to call."
+    },
+    "access_token": {
+      "type": "string",
+      "description": "Adapter profile: Bearer token for the adapter, at most 15 minutes."
+    },
+    "expires_at": {
+      "type": "string",
+      "description": "Adapter profile: token expiry.",
+      "format": "date-time"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "One capability as reachable through the access.",
+        "properties": {
+          "capability_id": {
+            "type": "string",
+            "description": "Capability."
+          },
+          "version": {
+            "type": "string",
+            "description": "Version."
+          },
+          "tool": {
+            "type": "string",
+            "description": "The tool to call."
+          },
+          "repeat": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Declared repeat behaviour."
+          },
+          "completion": {
+            "type": "string",
+            "description": "reliable or best_effort."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "capability_id",
+          "version",
+          "tool"
+        ]
+      },
+      "description": "Adapter profile: the capabilities and their tools."
+    },
+    "token_endpoint": {
+      "type": "string",
+      "description": "Native profile: the provider's token endpoint."
+    },
+    "descriptor": {
+      "type": "object",
+      "description": "Native profile: the peer descriptor.",
+      "additionalProperties": true
+    },
+    "assertion": {
+      "type": "string",
+      "description": "Native profile: a single-use relationship assertion."
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Native profile: assertion lifetime in seconds."
+    },
+    "contracts": {
+      "type": "object",
+      "description": "A digest of each capability's input and output schemas, by capability ID. A consumer that chose the provider against one contract chooses again when the digest changes.",
+      "additionalProperties": {
+        "type": "string"
+      }
+    }
+  },
+  "required": [
+    "profile",
+    "provider_agent_id",
+    "endpoint"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "profile": "adapter",
+      "provider_agent_id": "agt_7f2a",
+      "endpoint": "https://mcp.example.com/ekl",
+      "access_token": "eyJ…",
+      "expires_at": "2026-10-26T10:15:00+00:00",
+      "capabilities": [
+        {
+          "capability_id": "cap_search_active_listings",
+          "version": "1.0.0",
+          "tool": "search_active_listings",
+          "repeat": "refresh",
+          "completion": "best_effort"
+        }
+      ]
+    }
+  ]
+}

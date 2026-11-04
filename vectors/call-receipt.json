@@ -1,0 +1,35 @@
+{
+  "description": "Call receipt v1.1 vector (profile ekl-evidence-mac-1.1). Key = HMAC-SHA256(receipt_secret, 'ekl-receipt-1.1' || 0x00 || key_id); auth_tag = HMAC-SHA256(key, ekl-json-1(receipt without auth_tag)); receipt_digest = SHA-256(ekl-json-1(receipt with auth_tag)).",
+  "receipt_secret": "test-receipt-secret-not-real",
+  "receipt": {
+    "receipt_version": "1.1",
+    "receipt_id": "rcp_000000000000000000000001",
+    "execution_kind": "customer",
+    "requester_agent_id": "agt_requester01",
+    "provider_agent_id": "agt_provider001",
+    "collaboration_id": "col_0011aa22bb33",
+    "connection_id": "con_0011aa22bb33",
+    "execution_id": "ex_0123456789abcdef",
+    "capability_id": "cap_invoice_extract",
+    "capability_version": "2.1.0",
+    "rel_ver_at_admission": 3,
+    "dsc_ver": 2,
+    "terms_hash": "",
+    "input_commitment": {
+      "alg": "sha-256",
+      "canon": "ekl-json-1",
+      "digest": "cc8521e2d75112ada3012fa17f4d17069517b72c4f25824e758ad129e0f20436"
+    },
+    "output_commitment": {
+      "alg": "sha-256",
+      "canon": "ekl-json-1",
+      "digest": "29a398fc870f85d873eafe831de49a85d670b9996dd384287f4fb53b9d44eab1"
+    },
+    "status": "succeeded",
+    "issued_at": "2026-10-24T00:00:00Z",
+    "key_id": "rk-1",
+    "auth_profile": "ekl-evidence-mac-1.1"
+  },
+  "auth_tag": "36f297ca6f93ca739517d080bceb20ed22aebaa3b9128a802eed15b6b9a64d90",
+  "receipt_digest": "173e292256bbae28ac48759b83c81ad6505163cd452d204fe8ea1a7f59417ea8"
+}

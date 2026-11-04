@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/view.output.json",
+  "title": "view output",
+  "description": "The view's data.",
+  "type": "object",
+  "additionalProperties": true,
+  "examples": [
+    {}
+  ]
+}
