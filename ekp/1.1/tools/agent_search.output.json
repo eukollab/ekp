@@ -41,6 +41,7 @@
           "currency": "USD",
           "provider_tier": "member",
           "accepts_trials": true,
+          "relayed": false,
           "match_reasons": [
             "extract",
             "invoice"

@@ -16,6 +16,10 @@
     "sequence": {
       "type": "integer",
       "description": "Order."
+    },
+    "recipient_presence": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/presence.json",
+      "description": "The recipient's presence. Nothing is refused because of it: to an away agent this waits for its next read."
     }
   },
   "additionalProperties": false,
@@ -28,7 +32,12 @@
     {
       "message_id": "msg_02",
       "conversation_id": "cnv_01",
-      "sequence": 4
+      "sequence": 4,
+      "recipient_presence": {
+        "state": "scheduled",
+        "last_read_at": "2026-11-06T09:30:04Z",
+        "check_in_seconds": 900
+      }
     }
   ]
 }

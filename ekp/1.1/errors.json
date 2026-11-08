@@ -138,6 +138,13 @@
       "retry": "Later, with backoff."
     },
     {
+      "code": "CLIENT_RETIRED",
+      "http_status": 426,
+      "retryable": false,
+      "meaning": "The publisher API or the publisher MCP server refused this version of ekl because it is retired. The body's detail carries {code, message, policy}, policy linking the deprecation schedule.",
+      "retry": "After upgrading ekl to a supported version."
+    },
+    {
       "code": "SERVICE_UNAVAILABLE",
       "http_status": 503,
       "retryable": true,
@@ -432,11 +439,11 @@
       "retry": "Connect again."
     },
     {
-      "code": "PAUSED",
+      "code": "AGENT_UNAVAILABLE",
       "http_status": 403,
       "retryable": true,
-      "meaning": "An agent in the call is paused by its publisher.",
-      "retry": "Wait until it is resumed."
+      "meaning": "An agent in the call is currently not available. The reason is its publisher's and is not given.",
+      "retry": "Later, when it is available again."
     },
     {
       "code": "SUSPENDED",
@@ -598,6 +605,69 @@
       "retryable": true,
       "meaning": "The provider adapter has not loaded its configuration from the network yet.",
       "retry": "Retry shortly; check the adapter's EKL_PROVIDER_CREDENTIAL and EKL_NETWORK_URL if it persists."
+    },
+    {
+      "code": "NOT_LISTED",
+      "http_status": 404,
+      "retryable": false,
+      "meaning": "The provider adapter was asked for a tool that agent.json does not offer on the network.",
+      "retry": "Never as is; call a service the agent offers (see its descriptor)."
+    },
+    {
+      "code": "UNAVAILABLE",
+      "http_status": 503,
+      "retryable": false,
+      "meaning": "The provider adapter did not run the tool: it is not available under the version the call was admitted under, or the adapter's recovery took the attempt over before it started. The admission settles as failed_before_effect.",
+      "retry": "With a new admission, against the provider's current version."
+    },
+    {
+      "code": "REFRESH_FAILED",
+      "http_status": 502,
+      "retryable": false,
+      "meaning": "A refresh of an earlier result failed in the provider's server; nothing was recorded or charged.",
+      "retry": "Request the refresh again if the provider allows more refreshes."
+    },
+    {
+      "code": "INTERRUPTED",
+      "http_status": 503,
+      "retryable": false,
+      "meaning": "The provider adapter stopped while the tool ran and settled the attempt on restart: failed_before_effect, or outcome_unknown for an external action. It is reported as the attempt's error code, not returned to a live call.",
+      "retry": "Never for outcome_unknown (it is reconciled); otherwise with a new admission."
+    },
+    {
+      "code": "PROVIDER_AWAY",
+      "http_status": 503,
+      "retryable": true,
+      "meaning": "The agent runs with ekl agent run and is not running now: nothing took the call, so nothing was admitted.",
+      "retry": "Retry later, or choose another provider."
+    },
+    {
+      "code": "PROVIDER_TIMEOUT",
+      "http_status": 504,
+      "retryable": true,
+      "meaning": "The relayed agent took the call but did not answer within 60 seconds.",
+      "retry": "Retry with the same execution ID: a result the agent kept is returned, never run twice."
+    },
+    {
+      "code": "LEASE_HELD",
+      "http_status": 409,
+      "retryable": true,
+      "meaning": "Another copy of the agent's runner holds its stream of calls.",
+      "retry": "Wait and try again; the copy takes over when the other stops."
+    },
+    {
+      "code": "LEASE_LOST",
+      "http_status": 409,
+      "retryable": true,
+      "meaning": "The runner was silent longer than its relay lease, which lapsed: it no longer receives the agent's calls.",
+      "retry": "Connect the stream again; the lease is taken anew."
+    },
+    {
+      "code": "RELAY_REFUSED",
+      "http_status": 403,
+      "retryable": false,
+      "meaning": "The provider is relayed, and the consumer's rules allow only direct calls.",
+      "retry": "Choose a provider that takes calls directly, or allow relayed providers (the rule May take calls through EuKollab)."
     }
   ]
 }

@@ -74,6 +74,10 @@
       "type": "boolean",
       "description": "Whether capability_trial is accepted."
     },
+    "relayed": {
+      "type": "boolean",
+      "description": "The provider takes calls through the network's relay (it has no public address), so calls pass through EuKollab. Shown as Calls pass through EuKollab."
+    },
     "match_reasons": {
       "type": "array",
       "items": {

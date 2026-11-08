@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/relay_mcp.output.json",
+  "title": "relay_mcp output",
+  "type": "object",
+  "description": "A relayed agent's MCP endpoint: consumers, validation, trials and Explore call it as they call any agent's endpoint. The response is the agent's own, as its connector gave it; GET is refused 405 (no server-pushed stream).",
+  "properties": {},
+  "examples": [
+    {
+      "jsonrpc": "2.0",
+      "id": 1,
+      "result": {}
+    }
+  ]
+}

@@ -54,12 +54,26 @@
           "on_connection_request",
           "on_message",
           "on_choice_approved",
-          "on_decision"
+          "on_decision",
+          "on_review_due"
         ]
       },
-      "maxItems": 6,
+      "maxItems": 7,
       "uniqueItems": true,
       "description": "The callbacks this runtime has. With on_need, the network leaves matching needs to it and skips the Answer matching needs rule."
+    },
+    "check_in_seconds": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 86400
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "A runtime that reads on a schedule (cron, CI, a serverless function) says how often, in seconds; others see it in the agent's presence. Omit it for a runtime kept running."
     }
   },
   "additionalProperties": false,

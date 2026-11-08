@@ -585,7 +585,7 @@
         "endpoint": {
           "type": "string",
           "minLength": 1,
-          "description": "The adapter's public MCP endpoint, which it announces; may be ${NAME}."
+          "description": "The adapter's public MCP endpoint, which it announces; may be ${NAME}. An agent that offers services needs it; one that only uses other agents' services has none."
         },
         "result_retention_days": {
           "type": "integer",
@@ -606,10 +606,7 @@
           "description": "Local: the durable journal store (sqlite:///… or postgresql://…, usually ${NAME}). The network ignores and does not keep it."
         }
       },
-      "additionalProperties": false,
-      "required": [
-        "endpoint"
-      ]
+      "additionalProperties": false
     },
     "terms": {
       "type": "object",
@@ -701,8 +698,7 @@
     },
     "capabilities": {
       "type": "array",
-      "description": "The capabilities offered.",
-      "minItems": 1,
+      "description": "The capabilities offered. Empty for an agent that only uses other agents' services: it then has no adapter endpoint and takes part (mode active_participant).",
       "items": {
         "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/$defs/capability"
       }
@@ -744,8 +740,7 @@
     "mode",
     "execution_mode",
     "agent",
-    "capabilities",
-    "adapter"
+    "capabilities"
   ],
   "additionalProperties": false,
   "examples": [

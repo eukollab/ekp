@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_stream.input.json",
+  "title": "provider_stream input",
+  "type": "object",
+  "description": "The relayed agent's calls, pushed as server-sent events down one stream the runner keeps open.",
+  "properties": {
+    "holder": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Query: the runner copy's name. One copy holds the stream at a time; another is refused LEASE_HELD."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "holder"
+  ],
+  "examples": [
+    {
+      "holder": "9c41d07e2b6a3f15"
+    }
+  ]
+}

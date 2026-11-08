@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_relay_alive.input.json",
+  "title": "provider_relay_alive input",
+  "type": "object",
+  "description": "The relayed agent's runner says it is alive, every 10 seconds: only this keeps its relay lease, for 30 seconds.",
+  "properties": {
+    "holder": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "The runner copy's name, as for the stream."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "holder"
+  ],
+  "examples": [
+    {
+      "holder": "9c41d07e2b6a3f15"
+    }
+  ]
+}

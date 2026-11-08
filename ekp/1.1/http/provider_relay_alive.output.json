@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_relay_alive.output.json",
+  "title": "provider_relay_alive output",
+  "type": "object",
+  "description": "The lease kept: how long it lasts, and how often to say alive again.",
+  "properties": {
+    "lease_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "How long the lease now lasts without another alive message."
+    },
+    "alive_seconds": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "How often the runner says it is alive."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "lease_seconds",
+    "alive_seconds"
+  ],
+  "examples": [
+    {
+      "lease_seconds": 30,
+      "alive_seconds": 10
+    }
+  ]
+}

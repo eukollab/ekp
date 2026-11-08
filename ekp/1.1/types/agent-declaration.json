@@ -52,6 +52,9 @@
         "terms": {
           "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/properties/terms"
         },
+        "payment": {
+          "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/properties/payment"
+        },
         "defaults": {
           "$ref": "https://eukollab.ai/ekp/1.1/types/agent-file.json#/properties/defaults"
         }

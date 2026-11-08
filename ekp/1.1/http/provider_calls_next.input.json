@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_calls_next.input.json",
+  "title": "provider_calls_next input",
+  "type": "object",
+  "description": "The relayed agent's waiting calls, as a long poll: for a runner that cannot hold a stream open.",
+  "properties": {
+    "holder": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "The runner copy's name, as for the stream."
+    },
+    "wait_seconds": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 30,
+      "default": 30,
+      "description": "Seconds to wait when no call is waiting yet."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "holder"
+  ],
+  "examples": [
+    {
+      "holder": "9c41d07e2b6a3f15",
+      "wait_seconds": 30
+    }
+  ]
+}

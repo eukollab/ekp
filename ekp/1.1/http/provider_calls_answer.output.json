@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_calls_answer.output.json",
+  "title": "provider_calls_answer output",
+  "type": "object",
+  "description": "The runner's answer to one relayed call: the HTTP response its connector gave, passed to the waiting caller and kept nowhere.",
+  "properties": {
+    "delivered": {
+      "type": "boolean",
+      "description": "False when the caller stopped waiting (it timed out)."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "delivered"
+  ],
+  "examples": [
+    {
+      "delivered": true
+    }
+  ]
+}

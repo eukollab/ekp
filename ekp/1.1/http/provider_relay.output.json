@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/provider_relay.output.json",
+  "title": "provider_relay output",
+  "type": "object",
+  "description": "The agent's relay address, for an agent run with ekl agent run: it has no public address, and the network relays its calls.",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "The relay address, https://<network>/v1/relay/{agent_id}/mcp. The connector announces it as its endpoint."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "endpoint"
+  ],
+  "examples": [
+    {
+      "endpoint": "https://eukollab.ai/v1/relay/agt_7f2a/mcp"
+    }
+  ]
+}

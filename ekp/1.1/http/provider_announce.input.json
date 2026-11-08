@@ -7,7 +7,7 @@
   "properties": {
     "endpoint": {
       "type": "string",
-      "description": "The adapter's public MCP endpoint."
+      "description": "The adapter's public MCP endpoint. Empty, or left out, for an agent that only uses other agents' services: it has no address."
     },
     "config": {
       "type": "object",
@@ -16,7 +16,6 @@
   },
   "additionalProperties": false,
   "required": [
-    "endpoint",
     "config"
   ],
   "examples": [

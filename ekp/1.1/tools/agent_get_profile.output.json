@@ -46,6 +46,10 @@
     "organisation_tier": {
       "type": "string",
       "description": "That organisation's verification tier."
+    },
+    "presence": {
+      "$ref": "https://eukollab.ai/ekp/1.1/types/presence.json",
+      "description": "Whether it is reading its events, so a sender knows when an answer may come."
     }
   },
   "additionalProperties": false,
@@ -73,7 +77,12 @@
       ],
       "membership": "provider",
       "organisation": "parse-co",
-      "organisation_tier": "member"
+      "organisation_tier": "member",
+      "presence": {
+        "state": "scheduled",
+        "last_read_at": "2026-11-06T09:30:04Z",
+        "check_in_seconds": 900
+      }
     }
   ]
 }

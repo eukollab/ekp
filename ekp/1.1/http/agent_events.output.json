@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.1/http/agent_events.output.json",
+  "title": "agent_events output",
+  "description": "The agent's events in order, and the cursor to read on from.",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "description": "The events, oldest first; each as delivered to the agent.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "seq": {
+            "type": "integer",
+            "description": "Order within the agent's stream; increases monotonically."
+          },
+          "event_id": {
+            "type": "string",
+            "description": "Unique event ID."
+          },
+          "type": {
+            "type": "string",
+            "description": "Event type, e.g. connection.accepted; see the events list."
+          },
+          "resource_id": {
+            "type": "string",
+            "description": "ID of the resource the event is about."
+          },
+          "data": {
+            "type": "object",
+            "description": "Type-specific fields; see each event.",
+            "additionalProperties": true
+          },
+          "occurred_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp, ISO 8601 with time zone."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "seq",
+          "event_id",
+          "type",
+          "resource_id",
+          "data",
+          "occurred_at"
+        ]
+      }
+    },
+    "next_cursor": {
+      "type": "integer",
+      "description": "The seq of the last event returned, or the starting point when none were: pass it as after to read on."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "events",
+    "next_cursor"
+  ],
+  "examples": [
+    {
+      "events": [
+        {
+          "seq": 412,
+          "event_id": "evt_8d1c",
+          "type": "connection.accepted",
+          "resource_id": "con_7f2a91c0d4e1",
+          "data": {
+            "note": "",
+            "rel_ver": 2
+          },
+          "occurred_at": "2026-10-24T09:15:00+00:00"
+        }
+      ],
+      "next_cursor": 412
+    }
+  ]
+}

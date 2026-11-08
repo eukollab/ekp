@@ -52,6 +52,10 @@
     {
       "name": "overflowing float",
       "input": "[1e400]"
+    },
+    {
+      "name": "lone surrogate",
+      "input": "[\"\\ud800\"]"
     }
   ]
 }
