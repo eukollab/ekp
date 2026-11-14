@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_config.output.json",
+  "title": "provider_config output",
+  "type": "object",
+  "description": "An adapter agent's confirmed configuration: what to offer and how, with the adapter's endpoint. Without a version, the validation candidate (the latest confirmed version); with one, that confirmed version. Null until its publisher first confirms an announced version. Without a version, `announced` also carries the announced version waiting for its publisher's review, if any, so an adapter deployed without its agent.json lists the announced tools.",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "description": "This configuration's version; 0 before the first confirmation."
+    },
+    "config": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.2/types/agent-file.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The confirmed agent.json; null before the first confirmation."
+    },
+    "active_version": {
+      "type": "integer",
+      "description": "The active version: the one whose validation last passed, which the network lists and admits calls under; 0 before the first validation passes."
+    },
+    "announced": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.2/types/agent-file.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The announced agent.json waiting for its publisher's review; null when none waits. Present only when no version was asked for."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "config",
+    "active_version"
+  ],
+  "examples": [
+    {
+      "version": 3,
+      "config": {
+        "ekl": "1.0",
+        "mode": "service_provider",
+        "execution_mode": "storage_free",
+        "agent": {
+          "handle": "@eukreate-homes",
+          "display_name": "EuKreate Homes",
+          "purpose": "Finds active for-sale homes in supported US areas."
+        },
+        "data_declared": false,
+        "defaults": {
+          "plans": [
+            {
+              "type": "free",
+              "daily_limit": 200
+            }
+          ]
+        },
+        "capabilities": [
+          {
+            "tool": "search_active_listings",
+            "name": "Search active listings",
+            "summary": "Search active for-sale homes.",
+            "category": "general",
+            "limitations": "None stated.",
+            "class": "read_only",
+            "offered": true,
+            "needs_confirmation": false
+          }
+        ],
+        "adapter": {
+          "endpoint": "https://homes.example.com/ekl"
+        }
+      },
+      "active_version": 2,
+      "announced": null
+    }
+  ]
+}

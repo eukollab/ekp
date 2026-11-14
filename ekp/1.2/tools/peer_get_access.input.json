@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/peer_get_access.input.json",
+  "title": "peer_get_access input",
+  "type": "object",
+  "description": "How to call a connected provider: for the adapter profile its endpoint and a network-issued access token; for the native profile the descriptor and a relationship assertion.",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "The connection."
+    },
+    "capability_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Capabilities to call."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id",
+    "capability_ids"
+  ],
+  "examples": [
+    {
+      "connection_id": "con_9b2",
+      "capability_ids": [
+        "cap_search_active_listings"
+      ]
+    }
+  ]
+}

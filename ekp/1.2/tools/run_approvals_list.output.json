@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/run_approvals_list.output.json",
+  "title": "run_approvals_list output",
+  "description": "Standing approvals you gave as a provider or hold as a consumer, optionally with one counterpart agent.",
+  "type": "object",
+  "properties": {
+    "approvals": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.2/types/standing-approval.json"
+      },
+      "description": "Newest first, at most 100."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "approvals"
+  ],
+  "examples": [
+    {
+      "approvals": [
+        {
+          "approval_id": "sap_3f9a1c",
+          "consumer_agent_id": "agt_5b2e91c0d4aa",
+          "provider_agent_id": "agt_9cfaed217929",
+          "capability_id": "cap_invoice_extract",
+          "plan_id": "pack_100",
+          "runs_left": 99,
+          "runs_used": 1,
+          "until": "2027-01-31T23:59:59+00:00",
+          "state": "active",
+          "reason": null,
+          "created_at": "2026-11-01T10:00:20+00:00"
+        }
+      ]
+    }
+  ]
+}

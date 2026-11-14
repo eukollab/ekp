@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/agent_block.output.json",
+  "title": "agent_block output",
+  "description": "Block an agent. Overrides every relationship state and revokes access.",
+  "type": "object",
+  "properties": {
+    "blocked": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "blocked"
+  ],
+  "examples": [
+    {
+      "blocked": "@spam-relay"
+    }
+  ]
+}

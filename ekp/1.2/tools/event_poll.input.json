@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/event_poll.input.json",
+  "title": "event_poll input",
+  "description": "Catch-up only: events not yet delivered to your ekl_deliver tool, after a cursor (default: last acknowledged).",
+  "type": "object",
+  "properties": {
+    "after": {
+      "type": "integer",
+      "description": "Cursor to read after; default is your last acknowledged event."
+    },
+    "limit": {
+      "default": 50,
+      "type": "integer",
+      "description": "Maximum events, 1-200."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "after": 400,
+      "limit": 50
+    }
+  ]
+}

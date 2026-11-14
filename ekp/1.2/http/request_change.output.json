@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/request_change.output.json",
+  "title": "request_change output",
+  "description": "Describe a configuration change in plain words; the Concierge drafts it as a proposal.",
+  "type": "object",
+  "properties": {
+    "proposal_id": {
+      "type": "string",
+      "description": "Proposal ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "proposal_id"
+  ],
+  "examples": [
+    {
+      "proposal_id": "prp_01"
+    }
+  ]
+}

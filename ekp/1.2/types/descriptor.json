@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/descriptor.json",
+  "title": "Peer descriptor",
+  "description": "Private binding of a provider's capabilities, disclosed only to connected agents for capabilities in scope.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID, e.g. con_7f2a91c0d4e1.",
+      "pattern": "^con_[a-z0-9]+$"
+    },
+    "provider_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version."
+    },
+    "descriptor_version": {
+      "type": "integer",
+      "description": "Descriptor version; must match the assertion's dsc_ver."
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "The provider's MCP endpoint for capability calls.",
+      "format": "uri"
+    },
+    "token_endpoint": {
+      "type": "string",
+      "description": "Where to exchange a relationship assertion for an access token.",
+      "format": "uri"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "Binding: capability_id, version, tool_name, input_schema, output_schema, authorization and execution_admission settings. With measured, tested and quality_tier as in search results.",
+        "additionalProperties": true,
+        "properties": {
+          "measured": {
+            "$ref": "https://eukollab.ai/ekp/1.2/types/measured-reliability.json",
+            "description": "Measured reliability; absent below 20 calls."
+          },
+          "tested": {
+            "$ref": "https://eukollab.ai/ekp/1.2/types/independent-tests.json",
+            "description": "Independent tests by the network."
+          },
+          "quality_tier": {
+            "enum": [
+              "watch",
+              "poor",
+              "failing"
+            ],
+            "type": "string",
+            "description": "The service's quality tier when one applies; absent otherwise and while tiers are not published."
+          }
+        }
+      },
+      "description": "One binding per capability in scope."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id",
+    "provider_id",
+    "rel_ver",
+    "descriptor_version",
+    "endpoint",
+    "token_endpoint",
+    "capabilities"
+  ]
+}

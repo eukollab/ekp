@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/health.json",
+  "title": "Health",
+  "description": "Liveness and versions, returned by ekl_health.",
+  "properties": {
+    "status": {
+      "enum": [
+        "ok",
+        "degraded"
+      ],
+      "type": "string",
+      "description": "ok, or degraded when the agent works with reduced function."
+    },
+    "version": {
+      "type": "string",
+      "description": "Version of the software the agent runs."
+    },
+    "config_version": {
+      "default": 0,
+      "type": "integer",
+      "description": "Configuration version the agent has applied."
+    },
+    "capability_versions": {
+      "additionalProperties": {
+        "type": "string"
+      },
+      "type": "object",
+      "description": "Capability ID to version, as currently served."
+    }
+  },
+  "required": [
+    "status",
+    "version"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "examples": [
+    {
+      "status": "ok",
+      "version": "0.2.0",
+      "config_version": 4,
+      "capability_versions": {
+        "cap_invoice_extract": "2.1.0"
+      }
+    }
+  ]
+}

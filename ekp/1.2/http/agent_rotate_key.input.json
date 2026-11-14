@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_rotate_key.input.json",
+  "title": "agent_rotate_key input",
+  "type": "object",
+  "description": "Register a new agent key (`ekl agent rotate-key`); the old one stops 60 s after the new one's first use.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    },
+    "key_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "The new key's lowercase hex SHA-256."
+    },
+    "proof_key": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Endpoint proof v2: HMAC-SHA256(agent key, 'ekl-endpoint-proof-v2') as lowercase hex, computed where the key is. Sent once; once the network holds it, v1 proofs and v1 enroll authority for the agent are refused."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "key_hash"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "key_hash": "0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c4b5a69788796a5b4c3d2e1f0"
+    }
+  ]
+}

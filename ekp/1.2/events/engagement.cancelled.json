@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/engagement.cancelled.json",
+  "title": "engagement.cancelled",
+  "description": "The consumer withdrew the offer.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "by": {
+      "type": "string",
+      "description": "Who decided."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why.",
+      "x-ekl-untrusted": true
+    },
+    "terms": {
+      "$ref": "https://eukollab.ai/ekp/1.2/types/terms.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "by"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "by": "agent:@invoice-x",
+      "reason": "",
+      "terms": {
+        "capability_id": "cap_invoice_extract",
+        "price_per_call": "0.40",
+        "currency": "USD"
+      }
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/execution_reserve.output.json",
+  "title": "execution_reserve output",
+  "description": "Reserve one execution before calling the provider: its unit price is held against every budget that applies, and you get an execution grant the provider redeems before it starts the work. A paid run waits for the provider's approval unless a standing approval covers it: the reservation is then awaiting_approval with no grant until run.approved (or read it with execution_reservation_get); the provider may ask you to pay it first (run.payment_needed, paid on the provider's own page). A retry with the same execution_id returns the same reservation.",
+  "$ref": "https://eukollab.ai/ekp/1.2/types/reservation.json",
+  "examples": [
+    {
+      "reservation_id": "rsv_01",
+      "execution_id": "ex_19c4",
+      "state": "held",
+      "amount_atoms": "400000",
+      "currency": "USD",
+      "grant_id": "grt_01",
+      "grant_expires_at": "2026-10-24T09:31:00+00:00",
+      "execution_grant": "eyJ…",
+      "terms_hash": "9a1f…",
+      "amount_scale": 6,
+      "execution_kind": "customer",
+      "enforcement_profile": "ekl-admit-1.1",
+      "funding": "approval",
+      "approval_id": "sap_3f9a1c",
+      "commission_atoms": "12000"
+    },
+    {
+      "reservation_id": "rsv_7c21",
+      "execution_id": "ex_19d0",
+      "state": "awaiting_approval",
+      "funding": "approval",
+      "approval_deadline": "2026-11-01T10:05:00+00:00",
+      "answer_by": "2026-11-01T10:01:00+00:00",
+      "payment": null,
+      "amount_atoms": "400000",
+      "commission_atoms": "12000",
+      "currency": "USD",
+      "amount_scale": 6,
+      "execution_kind": "customer",
+      "enforcement_profile": "ekl-admit-1.1"
+    }
+  ]
+}

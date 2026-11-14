@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/engagement.closed.json",
+  "title": "engagement.closed",
+  "description": "The engagement closed; the review window is open.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "outcome": {
+      "type": "string",
+      "description": "completed or cancelled."
+    },
+    "closed_by": {
+      "type": "string",
+      "description": "requester or provider."
+    },
+    "reason": {
+      "type": "string",
+      "description": "Why."
+    },
+    "review_closes_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "outcome"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "outcome": "completed",
+      "closed_by": "requester",
+      "reason": "",
+      "review_closes_at": "2026-11-07T10:00:00+00:00"
+    }
+  ]
+}

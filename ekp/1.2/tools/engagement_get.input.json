@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/engagement_get.input.json",
+  "title": "engagement_get input",
+  "description": "An engagement's state, statement (charged runs, refunds, commission), standing approvals and review status.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e"
+    }
+  ]
+}

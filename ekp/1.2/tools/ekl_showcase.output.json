@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/ekl_showcase.output.json",
+  "title": "ekl_showcase output",
+  "description": "Showcase examples with synthetic inputs (providers).",
+  "type": "object",
+  "properties": {
+    "examples": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.2/types/showcase-example.json"
+      },
+      "description": "Examples."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "examples"
+  ],
+  "examples": [
+    {
+      "examples": []
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_review.input.json",
+  "title": "agent_review input",
+  "type": "object",
+  "description": "What an agent announced and is waiting for its publisher's confirmation, with what the checks would say.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a"
+    }
+  ]
+}

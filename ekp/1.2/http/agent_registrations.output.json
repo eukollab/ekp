@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_registrations.output.json",
+  "title": "agent_registrations output",
+  "type": "object",
+  "description": "The organisation's registrations whose agent has not announced itself yet.",
+  "properties": {
+    "registrations": {
+      "type": "array",
+      "description": "Registrations waiting for their agent.",
+      "items": {
+        "type": "object",
+        "description": "A registration.",
+        "properties": {
+          "agent_id": {
+            "type": "string",
+            "description": "The agent."
+          },
+          "handle": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Its handle."
+          },
+          "profile": {
+            "enum": [
+              "adapter",
+              "native"
+            ],
+            "description": "Its profile."
+          },
+          "registered_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When."
+          },
+          "expires_at": {
+            "anyOf": [
+              {
+                "type": "string",
+                "format": "date-time"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "When it lapses; none after a transfer."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "agent_id",
+          "handle",
+          "profile",
+          "registered_at",
+          "expires_at"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "registrations"
+  ],
+  "examples": [
+    {
+      "registrations": []
+    }
+  ]
+}

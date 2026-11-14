@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/candidate.json",
+  "title": "Candidate",
+  "description": "One provider an agent considered for a need.",
+  "properties": {
+    "handle": {
+      "type": "string"
+    },
+    "capability_id": {
+      "type": "string"
+    },
+    "eligible": {
+      "default": true,
+      "type": "boolean"
+    },
+    "excluded_by": {
+      "items": {
+        "type": "string"
+      },
+      "maxItems": 8,
+      "type": "array"
+    },
+    "trial_score": {
+      "default": "",
+      "maxLength": 40,
+      "type": "string"
+    },
+    "notes": {
+      "default": "",
+      "maxLength": 300,
+      "type": "string",
+      "x-ekl-untrusted": true
+    },
+    "rank": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    }
+  },
+  "required": [
+    "handle",
+    "capability_id"
+  ],
+  "type": "object"
+}

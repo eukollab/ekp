@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/escalation_resolve.output.json",
+  "title": "escalation_resolve output",
+  "description": "Mark your own escalation resolved once the problem is gone.",
+  "type": "object",
+  "properties": {
+    "resolved": {
+      "type": "integer",
+      "description": "Escalations resolved."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "resolved"
+  ],
+  "examples": [
+    {
+      "resolved": 1
+    }
+  ]
+}

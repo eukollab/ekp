@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/ekl_verify.input.json",
+  "title": "ekl_verify input",
+  "description": "Answers a challenge with a keyed response bound to this agent's enrollment, proving it holds the registration.",
+  "type": "object",
+  "properties": {
+    "challenge": {
+      "type": "string",
+      "description": "Random challenge from the network."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "challenge"
+  ],
+  "examples": [
+    {
+      "challenge": "c_77a1"
+    }
+  ]
+}

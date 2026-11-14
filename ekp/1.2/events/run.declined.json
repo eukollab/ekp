@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/run.declined.json",
+  "title": "run.declined",
+  "description": "The provider declined your waiting run, or its overage price did not fit your budget: the reservation, released, with decision_reason. Nothing ran: nothing counts against the consumer's limits and no commission is taken. A payment the consumer already made to the provider stays with the provider.",
+  "$ref": "https://eukollab.ai/ekp/1.2/types/reservation.json",
+  "examples": [
+    {
+      "reservation_id": "rsv_7c21",
+      "execution_id": "ex_19c4",
+      "collaboration_id": "col_c3c7b453aa7e",
+      "capability_id": "cap_invoice_extract",
+      "plan_id": "pack_100",
+      "funding": "approval",
+      "approval_id": null,
+      "unit": "plan",
+      "state": "released",
+      "approval_deadline": "2026-11-01T10:05:00+00:00",
+      "answer_by": null,
+      "payment": null,
+      "grant_id": "grt_01",
+      "grant_expires_at": "2026-11-01T10:10:20+00:00",
+      "amount_atoms": "400000",
+      "commission_atoms": "12000",
+      "currency": "USD",
+      "amount_scale": 6,
+      "execution_kind": "customer",
+      "enforcement_profile": "ekl-admit-1.1",
+      "decision_reason": "Not a customer of ours."
+    }
+  ]
+}

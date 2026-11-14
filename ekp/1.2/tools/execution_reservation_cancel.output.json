@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/execution_reservation_cancel.output.json",
+  "title": "execution_reservation_cancel output",
+  "description": "Cancel a reservation the provider never redeemed, or a run still waiting for its approval, releasing what it held. A redeemed one cannot be.",
+  "$ref": "https://eukollab.ai/ekp/1.2/types/reservation.json",
+  "examples": [
+    {
+      "reservation_id": "rsv_01",
+      "execution_id": "ex_19c4",
+      "state": "released",
+      "amount_atoms": "400000",
+      "currency": "USD"
+    }
+  ]
+}

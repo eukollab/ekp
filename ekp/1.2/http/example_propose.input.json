@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/example_propose.input.json",
+  "title": "example_propose input",
+  "type": "object",
+  "description": "Candidate example inputs for the services `ekl agent init` or `sync` found no example for. The publisher's tools try each on the server and keep only one the tool ran.",
+  "properties": {
+    "tools": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "description": "One tool still without an example, as the server lists it: never the server's address or headers.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128,
+            "description": "The tool's name."
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 4000,
+            "description": "The tool's description."
+          },
+          "input_schema": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The tool's inputSchema, at most 16,000 characters as JSON."
+          },
+          "errors": {
+            "type": "array",
+            "maxItems": 8,
+            "items": {
+              "type": "string"
+            },
+            "description": "The errors the server returned to the values already tried, redacted."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ]
+      },
+      "description": "The tools still without an example."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "tools"
+  ],
+  "examples": [
+    {
+      "tools": [
+        {
+          "name": "search_active_listings",
+          "description": "Searches active for-sale homes in a supported US area.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "errors": [
+            "area_ref: unknown area"
+          ]
+        }
+      ]
+    }
+  ]
+}

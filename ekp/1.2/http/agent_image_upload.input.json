@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_image_upload.input.json",
+  "title": "agent_image_upload input",
+  "type": "object",
+  "description": "Upload an agent's image ahead of its card (`ekl agent init` and `sync`, from a file on the publisher's machine): checked as check 3 checks an agent image, kept, and its network address returned for `agent.logo`.",
+  "properties": {
+    "image": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 360000,
+      "contentEncoding": "base64",
+      "description": "The image, base64: a square PNG, JPEG or WebP, 128-1024 px, at most 256 KB."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "image"
+  ],
+  "examples": [
+    {
+      "image": "iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAYAAAA="
+    }
+  ]
+}

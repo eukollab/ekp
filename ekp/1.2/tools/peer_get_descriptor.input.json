@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/peer_get_descriptor.input.json",
+  "title": "peer_get_descriptor input",
+  "description": "The provider's private binding for capabilities in this connection's scope.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID."
+    },
+    "capability_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "description": "Capabilities to describe; default all in scope."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id"
+  ],
+  "examples": [
+    {
+      "connection_id": "con_7f2a91c0d4e1",
+      "capability_ids": [
+        "cap_invoice_extract"
+      ]
+    }
+  ]
+}

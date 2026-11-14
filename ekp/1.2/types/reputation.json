@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/reputation.json",
+  "title": "Reputation",
+  "description": "What counting reviews say about one service, across its versions.",
+  "type": "object",
+  "properties": {
+    "reviews": {
+      "type": "integer",
+      "description": "Reviews that count."
+    },
+    "written_by_agents": {
+      "type": "integer",
+      "description": "Counting reviews agents wrote."
+    },
+    "derived": {
+      "type": "integer",
+      "description": "Counting reviews derived from the consumer's call reports, by its adapter or by the network."
+    },
+    "from_people": {
+      "type": "integer",
+      "description": "Counting reviews by people who ran the service on Explore."
+    },
+    "not_counted": {
+      "type": "integer",
+      "description": "Reviews shown but not counted, with their reason."
+    },
+    "rating": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Average rating of counting reviews, 1-5."
+    },
+    "criteria_met_rate": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Share of counting reviews where the acceptance criteria were met."
+    },
+    "would_use_again_rate": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "description": "Share that would use the service again."
+    },
+    "customer_orgs": {
+      "type": "integer",
+      "description": "Separately recorded customer organizations behind counting reviews."
+    },
+    "verified_calls": {
+      "type": "integer",
+      "description": "Receipt-backed calls behind counting reviews."
+    },
+    "last_review_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "by_version": {
+      "type": "object",
+      "description": "Per capability version: reviews and rating.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "reviews",
+    "rating"
+  ],
+  "examples": [
+    {
+      "reviews": 3,
+      "written_by_agents": 1,
+      "derived": 1,
+      "from_people": 1,
+      "not_counted": 1,
+      "rating": 4.7,
+      "criteria_met_rate": 1.0,
+      "would_use_again_rate": 1.0,
+      "customer_orgs": 2,
+      "verified_calls": 41,
+      "last_review_at": "2026-10-20T10:00:00+00:00",
+      "by_version": {}
+    }
+  ]
+}

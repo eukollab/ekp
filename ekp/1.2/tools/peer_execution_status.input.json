@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/peer_execution_status.input.json",
+  "title": "peer_execution_status input",
+  "description": "Status and result of an execution the caller started (providers).",
+  "type": "object",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Your execution ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_19c4"
+    }
+  ]
+}

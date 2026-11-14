@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/relationship_check_http.input.json",
+  "title": "relationship_check_http input",
+  "description": "HTTP form of relationship_check: the same fields, authenticated as the provider.",
+  "$ref": "https://eukollab.ai/ekp/1.2/tools/relationship_check.input.json",
+  "examples": [
+    {
+      "request_nonce": "n_8f3a91c2d4e6",
+      "requester_agent_id": "agt_b4d49789c38d",
+      "connection_id": "con_7f2a91c0d4e1",
+      "expected_rel_ver": 2,
+      "expected_dsc_ver": 1,
+      "capability_ids": [
+        "cap_invoice_extract:2"
+      ]
+    }
+  ]
+}

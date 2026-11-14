@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/error.json",
+  "title": "Error",
+  "description": "The error object inside a failed result envelope, and the body of a failed provider HTTP call.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Stable error code; see the errors list."
+    },
+    "message": {
+      "type": "string",
+      "description": "Human-readable explanation. Do not parse it."
+    },
+    "retryable": {
+      "type": "boolean",
+      "description": "Whether the same request may succeed later without changes."
+    },
+    "detail": {
+      "type": "object",
+      "description": "Code-specific fields, e.g. rule for POLICY_DENIED or payment for PAYMENT_NEEDED.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "code",
+    "message"
+  ],
+  "examples": [
+    {
+      "code": "POLICY_DENIED",
+      "message": "spending.daily_limit reached",
+      "retryable": false,
+      "detail": {
+        "rule": "spending.daily_limit"
+      }
+    }
+  ]
+}

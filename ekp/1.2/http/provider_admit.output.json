@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_admit.output.json",
+  "title": "provider_admit output",
+  "description": "Admit one call before running the tool. Refusals are decisions (200): the adapter runs nothing on them.",
+  "type": "object",
+  "properties": {
+    "decision": {
+      "type": "string",
+      "description": "run, refresh, refresh_used, duplicate_done, duplicate_running or refused. refresh_used: this refresh request ID was granted to another attempt, which runs it once; nothing runs and no allowance is taken.",
+      "enum": [
+        "run",
+        "refresh",
+        "refresh_used",
+        "duplicate_done",
+        "duplicate_running",
+        "refused"
+      ]
+    },
+    "admission_id": {
+      "type": "string",
+      "description": "run, duplicate_done, duplicate_running."
+    },
+    "snapshot": {
+      "$ref": "https://eukollab.ai/ekp/1.2/types/admission-snapshot.json"
+    },
+    "lease_expires_at": {
+      "type": "string",
+      "description": "run, duplicate_running.",
+      "format": "date-time"
+    },
+    "dry_run": {
+      "type": "boolean",
+      "description": "run, refresh: apply the capability's genuine dry run."
+    },
+    "refresh_id": {
+      "type": "string",
+      "description": "refresh, refresh_used."
+    },
+    "refresh_of": {
+      "type": "string",
+      "description": "refresh, refresh_used: the original admission."
+    },
+    "refresh_request_id": {
+      "type": "string",
+      "description": "refresh, refresh_used."
+    },
+    "version": {
+      "type": "string",
+      "description": "refresh: the version to execute now."
+    },
+    "refreshes_left": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "refresh, refresh_used: declared refreshes left for this execution."
+    },
+    "outcome": {
+      "type": "string",
+      "description": "duplicate_done: the recorded outcome."
+    },
+    "receipt_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "duplicate_done."
+    },
+    "repeat": {
+      "type": "string",
+      "description": "duplicate_done: the declared repeat behaviour.",
+      "enum": [
+        "return_kept",
+        "status_only",
+        "refresh"
+      ]
+    },
+    "code": {
+      "type": "string",
+      "description": "refused: one of the refusal codes in errors.json."
+    },
+    "message": {
+      "type": "string",
+      "description": "refused."
+    },
+    "retryable": {
+      "type": "boolean",
+      "description": "refused."
+    },
+    "config_version": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The agent.json version the call is admitted under: the active version, or for a validation call the version its run validates. The adapter executes the call under it, fetching it by number when it does not hold it."
+    }
+  },
+  "required": [
+    "decision"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "decision": "run",
+      "admission_id": "adm_8c1f",
+      "lease_expires_at": "2026-10-26T10:01:00+00:00",
+      "dry_run": false,
+      "snapshot": {
+        "admission_id": "adm_8c1f",
+        "kind": "customer",
+        "capability_id": "cap_search_active_listings",
+        "version_executed": "1.0.0",
+        "input_fingerprint": "6d3c7b0f2e5a4c19b8e7d6a5f4e3d2c1b0a9f8e7d6c5b4a39281706f5e4d3c2b",
+        "lease_expires_at": "2026-10-26T10:01:00+00:00",
+        "dry_run": false
+      }
+    },
+    {
+      "decision": "refused",
+      "code": "DAILY_LIMIT",
+      "message": "the free plan allows 200 calls a day",
+      "retryable": true
+    }
+  ]
+}

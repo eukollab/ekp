@@ -1,0 +1,88 @@
+{
+  "description": "Informative. Callback v2 between a provider adapter's connector and the publisher's own app on the same host (outside EKP, which never carries callbacks). Key: callback_key = HMAC-SHA256(agent credential as UTF-8, 'ekl-callback-v2'), given to the app as lowercase hex; MACs are keyed with its 32 raw bytes and written as lowercase hex. Request: HMAC over 'ekl-cb-req-v2\\n' t '\\n' event_id '\\n' agent_id '\\n' sha256hex(body), sent as X-EKL-Signature-2: t=…,id=…,v=…. Response: HMAC over 'ekl-cb-resp-v2\\n' t '\\n' event_id '\\n' agent_id '\\n' request_digest '\\n' status '\\n' sha256hex(response_body), where request_digest is sha256hex of the request body it answers, sent as X-EKL-Response-Signature-2: t=…,id=…,d=…,v=…. t is Unix seconds; a receiver refuses a t more than 300 s from its clock, and verifies the request MAC over the received bytes before any lookup. The two labels differ, so a request MAC never passes as a response MAC.",
+  "agent_credential": "eklp_example-credential-not-a-real-one",
+  "callback_key": "ef94667a246d5a37fd99266916070f85262634ecbb6b832d184b912fc6ca368e",
+  "tolerance_seconds": 300,
+  "request": {
+    "t": 1794484800,
+    "event_id": "evt_0f3a9c21d4e5",
+    "agent_id": "agt_7f2a1b3c4d5e",
+    "body": "{\"event_id\":\"evt_0f3a9c21d4e5\",\"type\":\"connection.requested\",\"data\":{\"requester\":\"@ledger-recon\",\"capability_ids\":[\"cap_invoice_extract\"]}}",
+    "body_sha256": "c1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80",
+    "signed_string": "ekl-cb-req-v2\n1794484800\nevt_0f3a9c21d4e5\nagt_7f2a1b3c4d5e\nc1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80",
+    "mac": "3e8125ebe29c5e3ef77dc7d945894ee4844a126081eb62c13f069fb9a8415544",
+    "header": "t=1794484800,id=evt_0f3a9c21d4e5,v=3e8125ebe29c5e3ef77dc7d945894ee4844a126081eb62c13f069fb9a8415544"
+  },
+  "response": {
+    "t": 1794484801,
+    "status": 200,
+    "body": "{\"decision\":\"accept\",\"note\":\"Happy to help.\"}",
+    "body_sha256": "49822e1883cca5ff1740142120f21622fdf21d85558547fe218f43ec9d911cf4",
+    "request_digest": "c1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80",
+    "signed_string": "ekl-cb-resp-v2\n1794484801\nevt_0f3a9c21d4e5\nagt_7f2a1b3c4d5e\nc1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80\n200\n49822e1883cca5ff1740142120f21622fdf21d85558547fe218f43ec9d911cf4",
+    "mac": "e771bd17df6f14de412f2109e0cde29ebd179c10bfa68e1878cc86ba86762ecc",
+    "header": "t=1794484801,id=evt_0f3a9c21d4e5,d=c1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80,v=e771bd17df6f14de412f2109e0cde29ebd179c10bfa68e1878cc86ba86762ecc"
+  },
+  "invalid": [
+    {
+      "name": "request body changed by one byte",
+      "kind": "request",
+      "t": 1794484800,
+      "now": 1794484800,
+      "body": "{\"event_id\":\"evt_0f3a9c21d4e5\",\"type\":\"connection.requested\",\"data\":{\"requester\":\"@ledger-recoN\",\"capability_ids\":[\"cap_invoice_extract\"]}}",
+      "header": "t=1794484800,id=evt_0f3a9c21d4e5,v=3e8125ebe29c5e3ef77dc7d945894ee4844a126081eb62c13f069fb9a8415544",
+      "reason": "the MAC over the received body does not verify"
+    },
+    {
+      "name": "request signed with another agent's key",
+      "kind": "request",
+      "t": 1794484800,
+      "now": 1794484800,
+      "body": "{\"event_id\":\"evt_0f3a9c21d4e5\",\"type\":\"connection.requested\",\"data\":{\"requester\":\"@ledger-recon\",\"capability_ids\":[\"cap_invoice_extract\"]}}",
+      "header": "t=1794484800,id=evt_0f3a9c21d4e5,v=c99378360f65a3329baaf6c9a0f208515ac14a1c34c2e32c6675253cf986f03b",
+      "reason": "the MAC does not verify under this agent's callback key"
+    },
+    {
+      "name": "request replayed after the tolerance",
+      "kind": "request",
+      "t": 1794484800,
+      "now": 1794485101,
+      "body": "{\"event_id\":\"evt_0f3a9c21d4e5\",\"type\":\"connection.requested\",\"data\":{\"requester\":\"@ledger-recon\",\"capability_ids\":[\"cap_invoice_extract\"]}}",
+      "header": "t=1794484800,id=evt_0f3a9c21d4e5,v=3e8125ebe29c5e3ef77dc7d945894ee4844a126081eb62c13f069fb9a8415544",
+      "reason": "t is more than 300 s from the receiver's clock"
+    },
+    {
+      "name": "request MAC presented as a response signature",
+      "kind": "response",
+      "t": 1794484800,
+      "now": 1794484800,
+      "status": 200,
+      "body": "{\"decision\":\"accept\",\"note\":\"Happy to help.\"}",
+      "request_digest": "c1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80",
+      "header": "t=1794484800,id=evt_0f3a9c21d4e5,d=c1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80,v=3e8125ebe29c5e3ef77dc7d945894ee4844a126081eb62c13f069fb9a8415544",
+      "reason": "a request MAC is computed under the request label and never verifies as a response"
+    },
+    {
+      "name": "response bound to another request",
+      "kind": "response",
+      "t": 1794484801,
+      "now": 1794484801,
+      "status": 200,
+      "body": "{\"decision\":\"accept\",\"note\":\"Happy to help.\"}",
+      "request_digest": "c1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80",
+      "header": "t=1794484801,id=evt_0f3a9c21d4e5,d=8df564cd8c3e81d09fd55d73d089d7457b46eacf3cff5745ab1a0594c8e6e1ca,v=116bffcf0f60b5bb3205ab6ee204d659f1f4611e29307fd515b50b365589736a",
+      "reason": "d differs from the digest of the pending request, so the answer is not applied"
+    },
+    {
+      "name": "response status changed",
+      "kind": "response",
+      "t": 1794484801,
+      "now": 1794484801,
+      "status": 500,
+      "body": "{\"decision\":\"accept\",\"note\":\"Happy to help.\"}",
+      "request_digest": "c1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80",
+      "header": "t=1794484801,id=evt_0f3a9c21d4e5,d=c1145736e53ba5b80328f5d788b6c8dad34c7f982d8fdaac92b49b2ff3b8aa80,v=e771bd17df6f14de412f2109e0cde29ebd179c10bfa68e1878cc86ba86762ecc",
+      "reason": "the status is signed"
+    }
+  ]
+}

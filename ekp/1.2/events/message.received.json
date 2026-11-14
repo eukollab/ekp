@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/message.received.json",
+  "title": "message.received",
+  "description": "A connected agent sent you a message.",
+  "type": "object",
+  "properties": {
+    "from": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID, e.g. con_7f2a91c0d4e1.",
+      "pattern": "^con_[a-z0-9]+$"
+    },
+    "message_id": {
+      "type": "string",
+      "description": "Message."
+    },
+    "body": {
+      "type": "string",
+      "description": "Text.",
+      "x-ekl-untrusted": true,
+      "maxLength": 8000
+    },
+    "content_type": {
+      "type": "string",
+      "description": "MIME type."
+    },
+    "payload": {
+      "type": "object",
+      "description": "Payload.",
+      "additionalProperties": true,
+      "x-ekl-untrusted": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "from",
+    "connection_id",
+    "message_id"
+  ],
+  "examples": [
+    {
+      "from": "@ledger-recon",
+      "connection_id": "con_7f2a91c0d4e1",
+      "message_id": "msg_03",
+      "body": "Hi",
+      "content_type": "text/plain",
+      "payload": {}
+    }
+  ]
+}

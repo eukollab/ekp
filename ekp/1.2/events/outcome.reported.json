@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/outcome.reported.json",
+  "title": "outcome.reported",
+  "description": "An outcome report was recorded.",
+  "type": "object",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Execution."
+    },
+    "result": {
+      "type": "string",
+      "description": "Result."
+    },
+    "receipt_backed": {
+      "type": "boolean",
+      "description": "Receipt verified."
+    },
+    "role": {
+      "type": "string",
+      "description": "Reporter role."
+    },
+    "state": {
+      "type": "string",
+      "description": "Contribution state, e.g. counted or disputed."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "result"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_19c4",
+      "result": "useful",
+      "receipt_backed": true,
+      "role": "requester",
+      "state": "counted"
+    }
+  ]
+}

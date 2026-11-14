@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/token_endpoint.input.json",
+  "title": "token_endpoint input",
+  "description": "Exchanges a relationship assertion for an access token (RFC 8693), served by every provider.",
+  "type": "object",
+  "properties": {
+    "grant_type": {
+      "type": "string",
+      "description": "urn:ietf:params:oauth:grant-type:token-exchange.",
+      "const": "urn:ietf:params:oauth:grant-type:token-exchange"
+    },
+    "subject_token": {
+      "type": "string",
+      "description": "The relationship assertion from peer_get_assertion."
+    },
+    "subject_token_type": {
+      "type": "string",
+      "description": "urn:ietf:params:oauth:token-type:jwt.",
+      "const": "urn:ietf:params:oauth:token-type:jwt"
+    },
+    "resource": {
+      "type": "string",
+      "description": "The provider's MCP endpoint, exactly as in the descriptor.",
+      "format": "uri"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Space-separated scopes cap:<capability_id>:<major>."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "grant_type",
+    "subject_token",
+    "subject_token_type",
+    "resource",
+    "scope"
+  ],
+  "examples": [
+    {
+      "grant_type": "urn:ietf:params:oauth:grant-type:token-exchange",
+      "subject_token": "eyJ…",
+      "subject_token_type": "urn:ietf:params:oauth:token-type:jwt",
+      "resource": "https://invoice-x.example/mcp",
+      "scope": "cap:cap_invoice_extract:2"
+    }
+  ]
+}

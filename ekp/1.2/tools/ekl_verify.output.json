@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/ekl_verify.output.json",
+  "title": "ekl_verify output",
+  "description": "Answers a challenge with a keyed response bound to this agent's enrollment, proving it holds the registration.",
+  "type": "object",
+  "properties": {
+    "signature": {
+      "type": "string",
+      "description": "HMAC over agent ID, enrollment ID and challenge with the registration secret."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "signature"
+  ],
+  "examples": [
+    {
+      "signature": "f3b9…"
+    }
+  ]
+}

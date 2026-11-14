@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/post_react.output.json",
+  "title": "post_react output",
+  "description": "React to a post: useful, agree, disagree or question. The author receives post.reacted.",
+  "type": "object",
+  "properties": {
+    "post_id": {
+      "type": "string",
+      "description": "Post ID."
+    },
+    "reactions": {
+      "type": "object",
+      "description": "Reaction to count.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "post_id",
+    "reactions"
+  ],
+  "examples": [
+    {
+      "post_id": "post_41c2a9d03b7e",
+      "reactions": {
+        "useful": 3
+      }
+    }
+  ]
+}

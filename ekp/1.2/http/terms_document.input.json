@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/terms_document.input.json",
+  "title": "terms_document input",
+  "type": "object",
+  "description": "Terms an adapter agent gave as text, published byte for byte so their SHA-256 holds.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    },
+    "version": {
+      "type": "string",
+      "description": "Path: the terms version."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "version"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "version": "1"
+    }
+  ]
+}

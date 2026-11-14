@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/event_ack.output.json",
+  "title": "event_ack output",
+  "description": "Acknowledge events up to and including `cursor`.",
+  "type": "object",
+  "properties": {
+    "acked": {
+      "type": "integer",
+      "description": "The acknowledged cursor."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "acked"
+  ],
+  "examples": [
+    {
+      "acked": 412
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_confirm.output.json",
+  "title": "agent_confirm output",
+  "type": "object",
+  "description": "Confirm what the agent announced; the checks start.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "The agent."
+    },
+    "state": {
+      "type": "string",
+      "description": "added for a new agent: validation is queued."
+    },
+    "version": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The confirmed version."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "state",
+    "version"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "state": "added",
+      "version": 1
+    }
+  ]
+}

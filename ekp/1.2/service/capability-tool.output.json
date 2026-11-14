@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/service/capability-tool.output.json",
+  "title": "<capability tool> output",
+  "description": "Runs one capability. Each provider serves one MCP tool per capability, named by the manifest's tool_name.",
+  "$ref": "https://eukollab.ai/ekp/1.2/types/execution-result.json",
+  "examples": [
+    {
+      "execution_id": "ex_19c4",
+      "status": "succeeded",
+      "result": {
+        "invoice_number": "2026-118",
+        "total": 41.0
+      }
+    }
+  ]
+}

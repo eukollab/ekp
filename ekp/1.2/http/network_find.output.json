@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/network_find.output.json",
+  "title": "network_find output",
+  "description": "Search the services listed on the organisation's network to plan an agent around them.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "description": "Search results as agent_search returns them, each named by its service reference (@handle/name), without the agent's internal ID.",
+      "items": {
+        "type": "object"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "items"
+  ],
+  "examples": [
+    {
+      "items": [
+        {
+          "service": "@vat-check/validate",
+          "handle": "@vat-check",
+          "capability_id": "cap_validate"
+        }
+      ]
+    }
+  ]
+}

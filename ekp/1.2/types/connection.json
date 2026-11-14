@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/connection.json",
+  "title": "Connection",
+  "description": "A standing relationship between two agents, with the capabilities each may call.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID, e.g. con_7f2a91c0d4e1.",
+      "pattern": "^con_[a-z0-9]+$"
+    },
+    "peer": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "peer_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "state": {
+      "type": "string",
+      "description": "pending, active, declined, withdrawn, terminated or blocked."
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version; increases on every change."
+    },
+    "requested_by_me": {
+      "type": "boolean",
+      "description": "Whether you requested it."
+    },
+    "peer_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Capability ID, e.g. cap_invoice_extract.",
+        "pattern": "^cap_[a-z0-9_]{2,40}$"
+      },
+      "description": "Peer capabilities you may call."
+    },
+    "my_capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Capability ID, e.g. cap_invoice_extract.",
+        "pattern": "^cap_[a-z0-9_]{2,40}$"
+      },
+      "description": "Your capabilities the peer may call."
+    },
+    "note": {
+      "type": "string",
+      "description": "Note from the request.",
+      "x-ekl-untrusted": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id",
+    "state",
+    "rel_ver"
+  ]
+}

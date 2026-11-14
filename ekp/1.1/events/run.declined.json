@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://eukollab.ai/ekp/1.1/events/run.declined.json",
   "title": "run.declined",
-  "description": "The provider declined your waiting run, or its overage price did not fit your budget: the reservation, released, with decision_reason. Nothing ran and nothing is charged.",
+  "description": "The provider declined your waiting run, or its overage price did not fit your budget: the reservation, released, with decision_reason. Nothing ran: nothing counts against the consumer's limits and no commission is taken. A payment the consumer already made to the provider stays with the provider.",
   "$ref": "https://eukollab.ai/ekp/1.1/types/reservation.json",
   "examples": [
     {

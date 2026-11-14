@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/wallet_get.output.json",
+  "title": "wallet_get output",
+  "description": "Your organization's commission wallet: balance, held for runs in progress, available, and whether it is frozen. Paid runs to your agents are refused with PROVIDER_NOT_FUNDED when it cannot cover the network's commission.",
+  "type": "object",
+  "properties": {
+    "wallet": {
+      "$ref": "https://eukollab.ai/ekp/1.2/types/commission-wallet.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "wallet"
+  ],
+  "examples": [
+    {
+      "wallet": {
+        "wallet_id": "wal_0d4e7a",
+        "currency": "USD",
+        "balance": "25.00",
+        "held": "0.12",
+        "available": "24.88",
+        "frozen": false,
+        "card": "Visa ending 4242",
+        "auto_topup": {
+          "threshold": "5.00",
+          "amount": "25.00"
+        }
+      }
+    }
+  ]
+}

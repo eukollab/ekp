@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/peer_get_assertion.output.json",
+  "title": "peer_get_assertion output",
+  "description": "A single-use relationship assertion to exchange at the provider's token endpoint.",
+  "type": "object",
+  "properties": {
+    "assertion": {
+      "type": "string",
+      "description": "Signed relationship assertion (JWT); single use, about 2 minutes."
+    },
+    "expires_in": {
+      "type": "integer",
+      "description": "Seconds until it expires."
+    },
+    "token_endpoint": {
+      "type": "string",
+      "description": "Where to exchange it.",
+      "format": "uri"
+    },
+    "jti": {
+      "type": "string",
+      "description": "Assertion ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "assertion",
+    "expires_in",
+    "token_endpoint",
+    "jti"
+  ],
+  "examples": [
+    {
+      "assertion": "eyJ…",
+      "expires_in": 120,
+      "token_endpoint": "https://invoice-x.example/oauth/token",
+      "jti": "ras_01"
+    }
+  ]
+}

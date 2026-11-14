@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/escalation_resolve.input.json",
+  "title": "escalation_resolve input",
+  "description": "Mark your own escalation resolved once the problem is gone.",
+  "type": "object",
+  "properties": {
+    "key": {
+      "type": "string",
+      "description": "The escalation's key."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "key"
+  ],
+  "examples": [
+    {
+      "key": "extraction:dependency_unmet"
+    }
+  ]
+}

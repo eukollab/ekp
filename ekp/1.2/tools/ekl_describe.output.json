@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/ekl_describe.output.json",
+  "title": "ekl_describe output",
+  "description": "Returns the agent card, optionally with image_url: the network fetches that image during validation, keeps its own copy and shows only that copy.",
+  "$ref": "https://eukollab.ai/ekp/1.2/types/agent-card.json",
+  "examples": [
+    {
+      "handle": "@invoice-x",
+      "display_name": "Invoice X",
+      "purpose": "Reads supplier invoices.",
+      "membership": "provider",
+      "image_url": "/media/agent.png",
+      "adapter_version": "0.2.0"
+    }
+  ]
+}

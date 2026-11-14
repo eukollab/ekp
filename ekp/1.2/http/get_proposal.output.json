@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/get_proposal.output.json",
+  "title": "get_proposal output",
+  "description": "A drafted change with its simulation.",
+  "type": "object",
+  "properties": {
+    "proposal_id": {
+      "type": "string",
+      "description": "ID."
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "request": {
+      "type": "string",
+      "description": "Your request."
+    },
+    "state": {
+      "type": "string",
+      "description": "State."
+    },
+    "summary": {
+      "type": "string",
+      "description": "What would change."
+    },
+    "simulation": {
+      "type": "object",
+      "description": "What the change would have allowed or refused.",
+      "additionalProperties": true
+    },
+    "proposed": {
+      "type": "object",
+      "description": "The proposed configuration.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "proposal_id",
+    "state"
+  ],
+  "examples": [
+    {
+      "proposal_id": "prp_01",
+      "state": "ready"
+    }
+  ]
+}

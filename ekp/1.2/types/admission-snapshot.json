@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/admission-snapshot.json",
+  "title": "Admission snapshot",
+  "type": "object",
+  "description": "What one admission decided; receipts cite it.",
+  "properties": {
+    "admission_id": {
+      "type": "string",
+      "description": "Admission."
+    },
+    "kind": {
+      "type": "string",
+      "description": "customer, trial or validation.",
+      "enum": [
+        "customer",
+        "trial",
+        "validation"
+      ]
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability."
+    },
+    "version_executed": {
+      "type": "string",
+      "description": "The version the provider runs, recorded at admission."
+    },
+    "agreement_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Agreement."
+    },
+    "terms_hash": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Terms hash."
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version at admission."
+    },
+    "dsc_ver": {
+      "type": "integer",
+      "description": "Descriptor version at admission."
+    },
+    "rules_version": {
+      "type": "object",
+      "description": "Effective rules versions.",
+      "properties": {
+        "provider": {
+          "type": "integer",
+          "description": "Provider's configuration version."
+        },
+        "consumer": {
+          "type": "integer",
+          "description": "Consumer's configuration version."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "provider",
+        "consumer"
+      ]
+    },
+    "funding": {
+      "type": "object",
+      "description": "The reservation and grant of a paid call, or {plan: free}.",
+      "additionalProperties": true
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "description": "Salted input fingerprint.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "lease_expires_at": {
+      "type": "string",
+      "description": "When the lease ends.",
+      "format": "date-time"
+    },
+    "dry_run": {
+      "type": "boolean",
+      "description": "The adapter must run the tool's genuine dry run."
+    },
+    "cancellable": {
+      "type": "boolean",
+      "description": "The capability declares a cancellation hook."
+    },
+    "in_flight_on_revocation": {
+      "type": "string",
+      "description": "complete or cancel.",
+      "enum": [
+        "complete",
+        "cancel"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "admission_id",
+    "kind",
+    "capability_id",
+    "version_executed",
+    "input_fingerprint",
+    "lease_expires_at",
+    "dry_run"
+  ],
+  "examples": [
+    {
+      "admission_id": "adm_8c1f",
+      "kind": "customer",
+      "capability_id": "cap_search_active_listings",
+      "version_executed": "1.0.0",
+      "agreement_id": "col_4f1c9a",
+      "terms_hash": null,
+      "rel_ver": 2,
+      "dsc_ver": 1,
+      "rules_version": {
+        "provider": 4,
+        "consumer": 7
+      },
+      "funding": {
+        "plan": "free"
+      },
+      "input_fingerprint": "6d3c7b0f2e5a4c19b8e7d6a5f4e3d2c1b0a9f8e7d6c5b4a39281706f5e4d3c2b",
+      "lease_expires_at": "2026-10-26T10:01:00+00:00",
+      "dry_run": false,
+      "cancellable": false,
+      "in_flight_on_revocation": "complete"
+    }
+  ]
+}

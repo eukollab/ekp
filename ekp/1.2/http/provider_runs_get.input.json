@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_runs_get.input.json",
+  "title": "provider_runs_get input",
+  "type": "object",
+  "description": "One of the provider's paid runs, with its state and the payment the provider asked for: what an adapter that lost its own record of a payment request (it restarted, or another copy asked) reads back before approving a payment.",
+  "properties": {
+    "reservation_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 64,
+      "description": "The run's reservation ID, as the payment's reference carries it."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "reservation_id"
+  ],
+  "examples": [
+    {
+      "reservation_id": "rsv_7c21"
+    }
+  ]
+}

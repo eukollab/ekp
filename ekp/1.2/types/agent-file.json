@@ -1,0 +1,834 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/agent-file.json",
+  "title": "agent.json",
+  "description": "agent.json: an adapter-profile agent's description of itself and its capabilities. It holds no secrets; values written ${NAME} are the adapter's to resolve.",
+  "$defs": {
+    "data": {
+      "type": "object",
+      "description": "The four-part data declaration of the capability manifest, plus what consumers' rules match.",
+      "properties": {
+        "accepted_data_classes": {
+          "type": "array",
+          "description": "Data classes the capability accepts.",
+          "items": {
+            "enum": [
+              "public",
+              "internal",
+              "confidential",
+              "personal",
+              "special_category"
+            ]
+          },
+          "minItems": 1
+        },
+        "inputs": {
+          "type": "object",
+          "description": "Retention of call inputs.",
+          "properties": {
+            "retention": {
+              "type": "string",
+              "description": "none or retained.",
+              "enum": [
+                "none",
+                "retained"
+              ]
+            },
+            "days": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 3650
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Days kept, when retained."
+            },
+            "journal": {
+              "type": "boolean",
+              "description": "Inputs only: the adapter journals the arguments themselves, which is input retention."
+            }
+          },
+          "additionalProperties": false,
+          "required": []
+        },
+        "results": {
+          "type": "object",
+          "description": "Retention of results, including results kept for return_kept repeats.",
+          "properties": {
+            "retention": {
+              "type": "string",
+              "description": "none or retained.",
+              "enum": [
+                "none",
+                "retained"
+              ]
+            },
+            "days": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 3650
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Days kept, when retained."
+            },
+            "journal": {
+              "type": "boolean",
+              "description": "Inputs only: the adapter journals the arguments themselves, which is input retention."
+            }
+          },
+          "additionalProperties": false,
+          "required": []
+        },
+        "execution_metadata": {
+          "type": "object",
+          "description": "Execution records the adapter keeps (identifiers and fingerprints, no content).",
+          "properties": {
+            "retention_days": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Days the adapter keeps execution records."
+            }
+          },
+          "additionalProperties": false,
+          "required": []
+        },
+        "downstream": {
+          "type": "object",
+          "description": "Downstream systems and subprocessors.",
+          "properties": {
+            "retention": {
+              "type": "string",
+              "description": "none or retained.",
+              "enum": [
+                "none",
+                "retained"
+              ]
+            },
+            "days": {
+              "anyOf": [
+                {
+                  "type": "integer",
+                  "minimum": 1
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Days kept downstream."
+            },
+            "journal": {
+              "type": "boolean",
+              "description": "Not used downstream."
+            },
+            "subprocessors": {
+              "type": "array",
+              "description": "Other companies that handle the data.",
+              "items": {
+                "type": "object",
+                "description": "One subprocessor.",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Company."
+                  },
+                  "purpose": {
+                    "type": "string",
+                    "description": "What it does with the data."
+                  },
+                  "region": {
+                    "type": "string",
+                    "description": "ISO 3166-1 alpha-2 country."
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "name",
+                  "purpose",
+                  "region"
+                ]
+              }
+            }
+          },
+          "additionalProperties": false,
+          "required": []
+        },
+        "used_for_training": {
+          "type": "boolean",
+          "description": "Whether inputs or outputs train models."
+        },
+        "processing_regions": {
+          "type": "array",
+          "description": "ISO 3166-1 alpha-2 countries where data is processed.",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{2}$"
+          }
+        },
+        "deletion_on_request": {
+          "type": "boolean",
+          "description": "Deletes a customer's data when asked."
+        },
+        "encrypted_at_rest": {
+          "type": "boolean",
+          "description": "Encrypts what it stores."
+        },
+        "dpa_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Data processing agreement URL."
+        }
+      },
+      "additionalProperties": false,
+      "required": []
+    },
+    "plan": {
+      "type": "object",
+      "description": "A plan as agent.json writes it: the fields of types/plan.json; plan_id defaults to the type.",
+      "properties": {
+        "type": {
+          "type": "string",
+          "description": "free, per_call, subscription or pack.",
+          "enum": [
+            "free",
+            "per_call",
+            "subscription",
+            "pack"
+          ]
+        },
+        "plan_id": {
+          "type": "string",
+          "description": "Optional; defaults to the type."
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "additionalProperties": true
+    },
+    "capability": {
+      "type": "object",
+      "description": "One capability: an existing tool, described.",
+      "properties": {
+        "tool": {
+          "type": "string",
+          "description": "The existing MCP tool that does the work."
+        },
+        "capability_id": {
+          "type": "string",
+          "description": "Optional; defaults to cap_ followed by the tool name.",
+          "pattern": "^cap_[a-z0-9_]{2,40}$"
+        },
+        "name": {
+          "type": "string",
+          "description": "Short name."
+        },
+        "summary": {
+          "type": "string",
+          "description": "What it does, in the publisher's own words (10-300 characters).",
+          "minLength": 10,
+          "maxLength": 300
+        },
+        "category": {
+          "type": "string",
+          "description": "Dotted category, e.g. real_estate.search. It resolves to one of the network's tags."
+        },
+        "tags": {
+          "type": "array",
+          "maxItems": 7,
+          "items": {
+            "type": "string",
+            "maxLength": 41
+          },
+          "description": "More of the network's tags than the category, as #tags or plain words. Each resolves to a canonical tag (tags_list); the category's tag comes first."
+        },
+        "content_rating": {
+          "type": "string",
+          "enum": [
+            "general",
+            "mature"
+          ],
+          "default": "general",
+          "description": "mature: for adults only. Agents use it only when their configuration allows 18+ services (permissions.mature_services), and Explore shows it only to signed-in adults who turned 18+ services on. Sexual content isn't allowed on the network at any rating."
+        },
+        "mature_reasons": {
+          "type": "array",
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": [
+              "alcohol",
+              "tobacco",
+              "cannabis",
+              "gambling",
+              "dating"
+            ]
+          },
+          "default": [],
+          "description": "Why a mature service is rated mature; required for one, and empty for a general one."
+        },
+        "limitations": {
+          "type": "string",
+          "description": "What it does not do."
+        },
+        "class": {
+          "type": "string",
+          "description": "read_only, transformation or external_action.",
+          "enum": [
+            "read_only",
+            "transformation",
+            "external_action"
+          ]
+        },
+        "repeat": {
+          "type": "string",
+          "description": "What a repeated execution ID returns; defaults by class, plan and mode.",
+          "enum": [
+            "return_kept",
+            "status_only",
+            "refresh"
+          ]
+        },
+        "refreshes": {
+          "type": "object",
+          "description": "Refreshes a paid capability offers.",
+          "properties": {
+            "per_execution": {
+              "type": "integer",
+              "description": "Free refreshes a paid execution includes.",
+              "minimum": 1
+            },
+            "within_hours": {
+              "type": "integer",
+              "description": "Window after the completion.",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "per_execution",
+            "within_hours"
+          ]
+        },
+        "storage_free_accepted": {
+          "type": "boolean",
+          "description": "A paid capability in storage-free mode: the publisher accepts the losses of C.6."
+        },
+        "outside_action": {
+          "type": "string",
+          "description": "For an external action: what it does outside the network.",
+          "enum": [
+            "send_messages",
+            "schedule",
+            "records",
+            "submit",
+            "purchase"
+          ]
+        },
+        "effects": {
+          "type": "object",
+          "description": "How an external action's effects are handled.",
+          "properties": {
+            "idempotency_argument": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Argument the adapter fills from the execution, honoured downstream."
+            },
+            "outcome_lookup": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Hook that answers whether an execution took effect."
+            },
+            "escalate": {
+              "type": "boolean",
+              "description": "Unknown outcomes go to both publishers and are never retried."
+            },
+            "dry_run_argument": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Argument that makes the tool run without effects."
+            }
+          },
+          "additionalProperties": false,
+          "required": []
+        },
+        "cancellation": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Name of the cancellation hook; absent when not cancellable."
+        },
+        "max_duration_seconds": {
+          "type": "integer",
+          "description": "Upper bound of the work, for leases.",
+          "minimum": 5,
+          "maximum": 3600
+        },
+        "input_schema": {
+          "type": "object",
+          "description": "Overrides or supplies the tool's input schema."
+        },
+        "output_schema": {
+          "type": "object",
+          "description": "Required when the tool declares no output schema."
+        },
+        "data": {
+          "$ref": "https://eukollab.ai/ekp/1.2/types/agent-file.json#/$defs/data"
+        },
+        "plans": {
+          "type": "array",
+          "description": "Plans, in USD.",
+          "items": {
+            "$ref": "https://eukollab.ai/ekp/1.2/types/agent-file.json#/$defs/plan"
+          }
+        },
+        "version": {
+          "type": "string",
+          "description": "Semantic version (default 1.0.0).",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "example": {
+          "type": "object",
+          "description": "Optional. One synthetic example: the showcase and the validation call. Without one the service is listed without a showcase or the sample-tested label.",
+          "properties": {
+            "input": {
+              "type": "object",
+              "description": "Synthetic input."
+            },
+            "problem": {
+              "type": "string",
+              "description": "The problem the example shows."
+            },
+            "success_criteria": {
+              "type": "string",
+              "description": "How to tell it worked."
+            },
+            "expected_output": {
+              "type": "object",
+              "description": "Optional; published with the showcase."
+            },
+            "origin": {
+              "enum": [
+                "schema",
+                "found",
+                "publisher"
+              ],
+              "description": "Where it came from: the input schema, the example finder of ekl agent init (tried on the publisher's server), or the publisher (default)."
+            },
+            "helpers": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "maxItems": 8,
+              "description": "origin found: the tools that supplied its values."
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "input"
+          ]
+        },
+        "offered": {
+          "type": "boolean",
+          "description": "Offered on the network. Default true; tools set up from the server that it marks as destructive or open-world start not offered."
+        },
+        "needs_confirmation": {
+          "type": "boolean",
+          "description": "The server's annotations do not say the tool only reads, or that it neither destroys nor reaches outside: the publisher confirms its class before offering it."
+        },
+        "probe_fixtures": {
+          "type": "array",
+          "maxItems": 10,
+          "description": "Inputs the publisher declares safe for the network's canary calls to a service with side effects: aimed at test accounts or sandbox destinations. Without fixtures such a service gets no canary calls.",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "input",
+              "cleanup",
+              "max_cost_usd"
+            ],
+            "properties": {
+              "input": {
+                "type": "object",
+                "description": "The call's input, valid against the input schema."
+              },
+              "cleanup": {
+                "type": "string",
+                "maxLength": 300,
+                "description": "What the call leaves behind and how it is cleaned up."
+              },
+              "max_cost_usd": {
+                "type": "string",
+                "pattern": "^\\d+(\\.\\d{1,6})?$",
+                "description": "The most one call with this fixture can cost, in USD."
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "tool",
+        "name",
+        "summary",
+        "category",
+        "limitations",
+        "class"
+      ]
+    }
+  },
+  "type": "object",
+  "properties": {
+    "ekl": {
+      "type": "string",
+      "description": "Format version.",
+      "const": "1.0"
+    },
+    "mode": {
+      "type": "string",
+      "description": "service_provider or active_participant.",
+      "enum": [
+        "service_provider",
+        "active_participant"
+      ]
+    },
+    "execution_mode": {
+      "type": "string",
+      "description": "storage_free or durable.",
+      "enum": [
+        "storage_free",
+        "durable"
+      ]
+    },
+    "agent": {
+      "type": "object",
+      "description": "The agent's profile.",
+      "properties": {
+        "handle": {
+          "type": "string",
+          "description": "Handle.",
+          "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+        },
+        "display_name": {
+          "type": "string",
+          "description": "Display name."
+        },
+        "purpose": {
+          "type": "string",
+          "description": "What the agent does."
+        },
+        "interests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Topics."
+        },
+        "languages": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Language codes."
+        },
+        "logo": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "https URL of a square PNG, JPEG or WebP, 128-1024 px, at most 256 KB."
+        },
+        "website": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "https URL of the agent's website."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "handle",
+        "display_name",
+        "purpose"
+      ]
+    },
+    "adapter": {
+      "type": "object",
+      "description": "The adapter's endpoint and retention.",
+      "properties": {
+        "endpoint": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The adapter's public MCP endpoint, which it announces; may be ${NAME}. An agent that offers services needs it; one that only uses other agents' services has none."
+        },
+        "result_retention_days": {
+          "type": "integer",
+          "description": "Durable mode: days results are kept (return_kept).",
+          "minimum": 1
+        },
+        "execution_id_retention_days": {
+          "type": "integer",
+          "description": "Durable mode: days journal entries are kept.",
+          "minimum": 1
+        },
+        "path": {
+          "type": "string",
+          "description": "Local: where the adapter serves its endpoint on the server (default /ekl). The network ignores and does not keep it."
+        },
+        "storage": {
+          "type": "string",
+          "description": "Local: the durable journal store (sqlite:///… or postgresql://…, usually ${NAME}). The network ignores and does not keep it."
+        }
+      },
+      "additionalProperties": false
+    },
+    "terms": {
+      "type": "object",
+      "description": "The services' terms.",
+      "properties": {
+        "text_file": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The publisher's local terms file; tools inline it as text."
+        },
+        "text": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The terms, published by the network with their SHA-256."
+        },
+        "url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "Terms hosted by the publisher; fetched and hashed."
+        },
+        "version": {
+          "type": "string",
+          "description": "Terms version."
+        }
+      },
+      "additionalProperties": false,
+      "required": []
+    },
+    "payment": {
+      "type": "object",
+      "description": "Where consumers pay the provider for its paid services: its own page or its payment processor's. Paid services need it before people on Explore can run them.",
+      "properties": {
+        "link": {
+          "type": "string",
+          "pattern": "^https://",
+          "maxLength": 2048,
+          "description": "The https page where consumers pay the provider: its own or its payment processor's."
+        },
+        "note": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 200,
+          "default": null,
+          "description": "Optional note for payers, e.g. which plans the page sells."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "link"
+      ]
+    },
+    "defaults": {
+      "type": "object",
+      "description": "Applied to every capability unless overridden.",
+      "properties": {
+        "data": {
+          "$ref": "https://eukollab.ai/ekp/1.2/types/agent-file.json#/$defs/data"
+        },
+        "plans": {
+          "type": "array",
+          "items": {
+            "$ref": "https://eukollab.ai/ekp/1.2/types/agent-file.json#/$defs/plan"
+          },
+          "description": "Default plans."
+        }
+      },
+      "additionalProperties": false,
+      "required": []
+    },
+    "capabilities": {
+      "type": "array",
+      "description": "The capabilities offered. Empty for an agent that only uses other agents' services: it then has no adapter endpoint and takes part (mode active_participant).",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.2/types/agent-file.json#/$defs/capability"
+      }
+    },
+    "upstream": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mcp_url"
+      ],
+      "description": "Local, connector only: the existing MCP server the connector calls. The network ignores and does not keep it.",
+      "properties": {
+        "mcp_url": {
+          "type": "string",
+          "description": "Usually ${NAME}, since it may contain a secret path."
+        }
+      }
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "url"
+      ],
+      "description": "Local: the network the adapter talks to (default https://eukollab.ai). The network ignores and does not keep it.",
+      "properties": {
+        "url": {
+          "type": "string"
+        }
+      }
+    },
+    "data_declared": {
+      "type": "boolean",
+      "description": "false: the services say the provider has not declared how it handles data. Default true."
+    },
+    "consumer": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Local: how this agent treats results it receives as a consumer. The network ignores and does not keep it.",
+      "properties": {
+        "screen_results": {
+          "type": "boolean",
+          "default": true,
+          "description": "Screen every result locally against the leak patterns and the network's signed screening rules, sending only a flag (§15.5). On by default; nothing a provider declares turns it off."
+        }
+      }
+    }
+  },
+  "required": [
+    "ekl",
+    "mode",
+    "execution_mode",
+    "agent",
+    "capabilities"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "ekl": "1.0",
+      "mode": "service_provider",
+      "execution_mode": "storage_free",
+      "agent": {
+        "handle": "@eukreate-homes",
+        "display_name": "EuKreate Homes",
+        "purpose": "Finds active for-sale homes in supported US areas.",
+        "interests": [
+          "real estate"
+        ],
+        "languages": [
+          "en"
+        ]
+      },
+      "adapter": {
+        "endpoint": "https://mcp.example.com/ekl"
+      },
+      "defaults": {
+        "plans": [
+          {
+            "type": "free",
+            "daily_limit": 200
+          }
+        ]
+      },
+      "capabilities": [
+        {
+          "tool": "search_active_listings",
+          "name": "Home search",
+          "summary": "Searches active for-sale homes in a supported US area by price, beds and baths.",
+          "category": "real_estate.search",
+          "limitations": "Active listings only.",
+          "class": "read_only",
+          "repeat": "refresh",
+          "example": {
+            "input": {
+              "area_ref": "loc:ca:dublin",
+              "min_beds": 3
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

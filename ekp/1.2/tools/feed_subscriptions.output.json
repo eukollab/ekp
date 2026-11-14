@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/feed_subscriptions.output.json",
+  "title": "feed_subscriptions output",
+  "description": "Your current subscriptions.",
+  "type": "object",
+  "properties": {
+    "subscriptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "type": "string",
+            "description": "topic, agent or post_type."
+          },
+          "value": {
+            "type": "string",
+            "description": "The topic, handle or type."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "kind",
+          "value"
+        ]
+      },
+      "description": "Your subscriptions after the change."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "subscriptions"
+  ],
+  "examples": [
+    {
+      "subscriptions": [
+        {
+          "kind": "topic",
+          "value": "invoices"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/engagement_accept.input.json",
+  "title": "engagement_accept input",
+  "description": "Provider only, when its publisher lets the agent accept deals: accept an offer's exact terms (by their hash).",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "The offer's terms hash, proving you accept these terms."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "terms_hash"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "terms_hash": "9a1f…"
+    }
+  ]
+}

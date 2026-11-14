@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/ekl_deliver.output.json",
+  "title": "ekl_deliver output",
+  "description": "Receives the agent's events in order; returns the IDs it stored.",
+  "type": "object",
+  "properties": {
+    "accepted": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "description": "Event ID."
+      },
+      "description": "Event IDs stored; the rest are redelivered."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "accepted"
+  ],
+  "examples": [
+    {
+      "accepted": [
+        "evt_8d1c"
+      ]
+    }
+  ]
+}

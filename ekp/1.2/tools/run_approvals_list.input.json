@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/run_approvals_list.input.json",
+  "title": "run_approvals_list input",
+  "description": "Standing approvals you gave as a provider or hold as a consumer, optionally with one counterpart agent.",
+  "type": "object",
+  "properties": {
+    "counterpart": {
+      "type": "string",
+      "default": "",
+      "description": "Only approvals with this agent (agent ID)."
+    },
+    "state": {
+      "type": "string",
+      "default": "",
+      "description": "Only approvals in this state: active, used_up, ended or revoked."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "counterpart": "agt_9cfaed217929",
+      "state": "active"
+    }
+  ]
+}

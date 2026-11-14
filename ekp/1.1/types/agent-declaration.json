@@ -39,7 +39,7 @@
         },
         "logo": {
           "type": "string",
-          "description": "https URL, when it differs from the server's first icon."
+          "description": "https URL, when it differs from the server's first icon. In eukollab.json it may name an image file beside it instead, which ekl uploads to the network; agent.json then carries the network's address for it."
         },
         "website": {
           "type": "string",

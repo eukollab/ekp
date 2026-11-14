@@ -1,0 +1,91 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_runs_decide.input.json",
+  "title": "provider_runs_decide input",
+  "type": "object",
+  "description": "The provider's answer to a paid run waiting for it: approve, payment_needed or decline.",
+  "properties": {
+    "reservation_id": {
+      "type": "string",
+      "description": "The waiting run's reservation ID, from run.approval_requested."
+    },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "approve",
+        "payment_needed",
+        "decline"
+      ],
+      "description": "approve: the run may go ahead. payment_needed: ask the consumer to pay first (needs payment); the run keeps waiting and a later ask replaces this one. decline: release the run."
+    },
+    "unit": {
+      "type": "string",
+      "enum": [
+        "plan",
+        "overage"
+      ],
+      "default": "plan",
+      "description": "approve only: plan (the plan's unit price) or overage (a subscription's overage_price, for a run beyond its included calls)."
+    },
+    "standing": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "approve only: also give a standing approval for this consumer, capability and plan, of which this run is the first. runs, until, or both.",
+      "properties": {
+        "runs": {
+          "type": [
+            "integer",
+            "null"
+          ],
+          "minimum": 1,
+          "maximum": 10000,
+          "description": "Runs it covers, this one included."
+        },
+        "until": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "When it ends, at most a year away. Timestamp, ISO 8601 with time zone.",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false,
+      "default": null
+    },
+    "payment": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.2/types/payment-ask.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "payment_needed only: your payment request (url, amount, currency, description, challenge)."
+    },
+    "reason": {
+      "type": "string",
+      "default": "",
+      "description": "decline only: why, at most 200 characters; the consumer sees it.",
+      "maxLength": 200
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "reservation_id",
+    "decision"
+  ],
+  "examples": [
+    {
+      "reservation_id": "rsv_7c21",
+      "decision": "approve",
+      "standing": {
+        "runs": 100
+      }
+    }
+  ]
+}

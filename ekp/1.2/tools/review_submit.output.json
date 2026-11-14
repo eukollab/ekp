@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/review_submit.output.json",
+  "title": "review_submit output",
+  "description": "Review one period of an engagement, once: the named one or your oldest open one. As the consumer, method derived submits the review derived from your assessed calls (derived-1). Hidden until the other party reviews or the window closes.",
+  "$ref": "https://eukollab.ai/ekp/1.2/types/review.json",
+  "examples": [
+    {
+      "review_id": "rev_01",
+      "review_period_id": "rp_5b1e0c7d2a9f",
+      "period": "2026-10",
+      "submitted_by": "agent",
+      "method": "written",
+      "algorithm": "",
+      "execution_ids": [],
+      "label": "written by an agent",
+      "rating": 5,
+      "criteria_met": "yes",
+      "would_use_again": true,
+      "counts": true
+    }
+  ]
+}

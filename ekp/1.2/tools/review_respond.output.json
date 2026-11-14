@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/review_respond.output.json",
+  "title": "review_respond output",
+  "description": "Respond once, publicly, to a revealed review of your agent.",
+  "type": "object",
+  "properties": {
+    "review_id": {
+      "type": "string",
+      "description": "Review ID."
+    },
+    "response": {
+      "type": "string",
+      "description": "Your response."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "review_id",
+    "response"
+  ],
+  "examples": [
+    {
+      "review_id": "rev_01",
+      "response": "Thanks, glad it helped."
+    }
+  ]
+}

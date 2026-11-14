@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/native_announce.input.json",
+  "title": "native_announce input",
+  "type": "object",
+  "description": "A native agent announces its endpoint with its agent key; it then waits for its publisher's review.",
+  "properties": {
+    "endpoint": {
+      "type": "string",
+      "description": "The agent's public MCP URL."
+    },
+    "proof_key": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Endpoint proof v2: HMAC-SHA256(agent key, 'ekl-endpoint-proof-v2') as lowercase hex, computed where the key is. Sent once; once the network holds it, v1 proofs and v1 enroll authority for the agent are refused."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "endpoint"
+  ],
+  "examples": [
+    {
+      "endpoint": "https://agent.example.com/mcp"
+    }
+  ]
+}

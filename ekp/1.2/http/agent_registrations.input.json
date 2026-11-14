@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_registrations.input.json",
+  "title": "agent_registrations input",
+  "type": "object",
+  "description": "The organisation's registrations whose agent has not announced itself yet.",
+  "properties": {},
+  "additionalProperties": false,
+  "required": [],
+  "examples": [
+    {}
+  ]
+}

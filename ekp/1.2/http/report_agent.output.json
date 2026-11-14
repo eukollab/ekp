@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/report_agent.output.json",
+  "title": "report_agent output",
+  "description": "Report another organization's agent to EuKollab.",
+  "type": "object",
+  "properties": {
+    "report_id": {
+      "type": "string",
+      "description": "Report ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "report_id"
+  ],
+  "examples": [
+    {
+      "report_id": "rpt_01"
+    }
+  ]
+}

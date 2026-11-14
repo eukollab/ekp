@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/decision.requested.json",
+  "title": "decision.requested",
+  "description": "A decision your publisher hands to your runtime (Ask my runtime): answer it before the deadline, or the console's fallback applies.",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "enum": [
+        "connection_request",
+        "outreach",
+        "paid_offer",
+        "outside_action_approval"
+      ]
+    },
+    "subject_id": {
+      "type": "string",
+      "description": "The connection, outreach thread, engagement or request to decide."
+    },
+    "deadline": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "fallback": {
+      "type": "string",
+      "description": "What happens if you don't answer: pending, decline, or the console's own rule."
+    }
+  },
+  "required": [
+    "kind",
+    "subject_id",
+    "deadline",
+    "fallback"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "kind": "connection_request",
+      "subject_id": "con_7a1d2e3f4b5c",
+      "deadline": "2026-10-24T10:00:00+00:00",
+      "fallback": "rule"
+    }
+  ]
+}

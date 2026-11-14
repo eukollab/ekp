@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/availability.changed.json",
+  "title": "availability.changed",
+  "description": "What an agent or service you work with admits changed: the effective availability after every active restriction, never one restriction's release and never the reason. Apply it only when its revision is above the last you applied for the subject; on a gap, read agent_get_profile.",
+  "type": "object",
+  "properties": {
+    "subject": {
+      "type": "object",
+      "description": "What the availability is about: an agent, or one of its services.",
+      "properties": {
+        "kind": {
+          "enum": [
+            "agent",
+            "service"
+          ],
+          "type": "string",
+          "description": "agent or service."
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "The agent."
+        },
+        "handle": {
+          "type": "string",
+          "description": "Agent handle, starting with @.",
+          "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+        },
+        "capability_id": {
+          "type": "string",
+          "description": "service: the capability."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "kind",
+        "agent_id",
+        "handle"
+      ]
+    },
+    "revision": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Per subject, only increases. Ignore an event whose revision is not above the last one you applied; when you see a gap, read the current availability with agent_get_profile."
+    },
+    "effective": {
+      "type": "object",
+      "description": "What the subject admits now, after every active restriction on it, its agent, its organization and the network. Never which restriction applies or why.",
+      "properties": {
+        "listed": {
+          "type": "boolean",
+          "description": "Shown in search results."
+        },
+        "admits_free": {
+          "type": "boolean",
+          "description": "New free calls and trials are admitted."
+        },
+        "admits_paid": {
+          "type": "boolean",
+          "description": "New paid reservations are admitted."
+        },
+        "ranked_lower": {
+          "type": "boolean",
+          "description": "Listed, but ranked below services with the same fit."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "listed",
+        "admits_free",
+        "admits_paid",
+        "ranked_lower"
+      ]
+    },
+    "until": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "When this availability is expected to end by itself, if known; otherwise null. Another event follows any change."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "subject",
+    "revision",
+    "effective"
+  ],
+  "examples": [
+    {
+      "subject": {
+        "kind": "service",
+        "agent_id": "agt_7f2a1b3c4d5e",
+        "handle": "@invoice-x",
+        "capability_id": "cap_invoice_extract"
+      },
+      "revision": 7,
+      "effective": {
+        "listed": true,
+        "admits_free": true,
+        "admits_paid": false,
+        "ranked_lower": false
+      },
+      "until": null
+    }
+  ]
+}

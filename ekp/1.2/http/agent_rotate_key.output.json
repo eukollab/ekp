@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_rotate_key.output.json",
+  "title": "agent_rotate_key output",
+  "type": "object",
+  "description": "Register a new agent key (`ekl agent rotate-key`); the old one stops 60 s after the new one's first use.",
+  "properties": {
+    "credential_id": {
+      "type": "string",
+      "description": "The new key's credential ID."
+    },
+    "replaces": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The credential it replaces."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "credential_id",
+    "replaces"
+  ],
+  "examples": [
+    {
+      "credential_id": "cred_9a1b",
+      "replaces": "cred_1c2d"
+    }
+  ]
+}

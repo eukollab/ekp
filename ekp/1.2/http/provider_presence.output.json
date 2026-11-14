@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_presence.output.json",
+  "title": "provider_presence output",
+  "type": "object",
+  "description": "The adapter reports what its upstream server declares now, so the network notices when its tools change without a new agent.json.",
+  "properties": {
+    "next_report_seconds": {
+      "type": "integer",
+      "minimum": 60,
+      "description": "Report again within this many seconds (3600 by default)."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "next_report_seconds"
+  ],
+  "examples": [
+    {
+      "next_report_seconds": 3600
+    }
+  ]
+}

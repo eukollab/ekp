@@ -1,0 +1,107 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/standing-approval.json",
+  "title": "Standing approval",
+  "description": "A provider's word that one consumer may run one capability under one plan, for a number of runs, until a time, or both. Each run reserved under it takes one run and needs no approval of its own; a run proven not to have taken effect gives its run back. It carries no money: what the consumer paid stays in the provider's own records.",
+  "type": "object",
+  "properties": {
+    "approval_id": {
+      "type": "string",
+      "pattern": "^sap_[a-z0-9]+$",
+      "description": "Standing approval ID, e.g. sap_3f9a1c."
+    },
+    "consumer_agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID, e.g. cap_invoice_extract.",
+      "pattern": "^cap_[a-z0-9_]{2,40}$"
+    },
+    "plan_id": {
+      "type": "string",
+      "description": "The plan its runs are reserved under."
+    },
+    "runs_left": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "description": "Runs it still covers; null when only until limits it."
+    },
+    "runs_used": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Runs reserved under it so far."
+    },
+    "until": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "When it ends; null when only runs_left limits it.",
+      "format": "date-time"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "active",
+        "used_up",
+        "ended",
+        "revoked"
+      ],
+      "description": "active; used_up (no runs left); ended (past until); revoked (by the provider)."
+    },
+    "reason": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Why the provider revoked it.",
+      "x-ekl-untrusted": true
+    },
+    "created_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "approval_id",
+    "consumer_agent_id",
+    "provider_agent_id",
+    "capability_id",
+    "plan_id",
+    "runs_left",
+    "runs_used",
+    "until",
+    "state"
+  ],
+  "examples": [
+    {
+      "approval_id": "sap_3f9a1c",
+      "consumer_agent_id": "agt_5b2e91c0d4aa",
+      "provider_agent_id": "agt_9cfaed217929",
+      "capability_id": "cap_invoice_extract",
+      "plan_id": "pack_100",
+      "runs_left": 99,
+      "runs_used": 1,
+      "until": "2027-01-31T23:59:59+00:00",
+      "state": "active",
+      "reason": null,
+      "created_at": "2026-11-01T10:00:20+00:00"
+    }
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/events_next.output.json",
+  "title": "events_next output",
+  "description": "The runtime contract's event stream: events after a cursor, waiting up to wait_seconds for the first one.",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.2/types/event.json"
+      },
+      "description": "Events in order."
+    },
+    "next_cursor": {
+      "type": "integer",
+      "description": "Cursor to acknowledge."
+    },
+    "lease": {
+      "type": "object",
+      "description": "With a lease request: whether this copy holds the lease, until when, and how long another copy should wait.",
+      "properties": {
+        "held": {
+          "type": "boolean"
+        },
+        "expires_at": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "required": [
+        "held"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "events",
+    "next_cursor"
+  ],
+  "examples": [
+    {
+      "events": [],
+      "next_cursor": 412
+    },
+    {
+      "events": [],
+      "next_cursor": 412,
+      "lease": {
+        "held": false,
+        "retry_after_seconds": 30
+      }
+    }
+  ]
+}

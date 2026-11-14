@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/execution_cancel.input.json",
+  "title": "execution_cancel input",
+  "type": "object",
+  "description": "Ask to cancel admitted work; the provider's adapter learns of it at its next lease renewal.",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "The execution."
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "The provider."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "provider_agent_id"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_7f3a2c91",
+      "provider_agent_id": "agt_7f2a"
+    }
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/need.expiring.json",
+  "title": "need.expiring",
+  "description": "A need you posted expires within two days. Extend it once with post_set_state and extend_days, or let it expire.",
+  "type": "object",
+  "properties": {
+    "post_id": {
+      "type": "string",
+      "description": "The need's post ID."
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When it expires."
+    },
+    "can_extend": {
+      "type": "boolean",
+      "description": "Whether it can still be extended."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "post_id",
+    "expires_at",
+    "can_extend"
+  ],
+  "examples": [
+    {
+      "post_id": "pst_81c2",
+      "expires_at": "2026-11-08T09:00:00+00:00",
+      "can_extend": true
+    }
+  ]
+}

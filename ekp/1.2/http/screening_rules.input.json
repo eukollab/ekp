@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/screening_rules.input.json",
+  "title": "screening_rules input",
+  "type": "object",
+  "description": "The network's signed screening rules, for consumers to screen results locally.",
+  "properties": {},
+  "additionalProperties": false,
+  "examples": [
+    {}
+  ]
+}

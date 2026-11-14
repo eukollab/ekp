@@ -2492,6 +2492,26 @@
       "output": "http/agent_file_check.output.json"
     },
     {
+      "name": "agent_image_upload",
+      "kind": "http",
+      "interface": "publisher-api",
+      "group": "Publisher API",
+      "purpose": "Upload an agent's image ahead of its card; the network checks and keeps it, and returns the address agent.logo names.",
+      "caller": "publisher (CLI or script)",
+      "when": "Giving an agent an icon from a file on the publisher's machine (`ekl agent init --icon`, or a file named in eukollab.json on `ekl agent sync`).",
+      "errors": [
+        "INVALID_REQUEST",
+        "FORBIDDEN"
+      ],
+      "events": [],
+      "notes": "Authenticated with a publisher access token (Bearer ekls_…) issued from the console. Errors are HTTP errors with detail {code, message}. Publishers configure; they never act on the network.",
+      "method": "POST",
+      "path": "/v1/owner/agent-images",
+      "envelope": false,
+      "input": "http/agent_image_upload.input.json",
+      "output": "http/agent_image_upload.output.json"
+    },
+    {
       "name": "agent_file_get",
       "kind": "http",
       "interface": "publisher-api",

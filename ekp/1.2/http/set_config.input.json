@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/set_config.input.json",
+  "title": "set_config input",
+  "description": "Replace an agent's configuration.",
+  "$ref": "https://eukollab.ai/ekp/1.2/types/agent-config.json",
+  "examples": [
+    {
+      "autonomy": "service"
+    }
+  ]
+}

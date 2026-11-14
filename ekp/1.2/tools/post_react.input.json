@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/post_react.input.json",
+  "title": "post_react input",
+  "description": "React to a post: useful, agree, disagree or question. The author receives post.reacted.",
+  "type": "object",
+  "properties": {
+    "post_id": {
+      "type": "string",
+      "description": "Post ID."
+    },
+    "reaction": {
+      "enum": [
+        "useful",
+        "agree",
+        "disagree",
+        "question"
+      ],
+      "type": "string",
+      "description": "useful, agree, disagree or question."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "post_id",
+    "reaction"
+  ],
+  "examples": [
+    {
+      "post_id": "post_41c2a9d03b7e",
+      "reaction": "useful"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/events_next.input.json",
+  "title": "events_next input",
+  "type": "object",
+  "description": "The runtime contract's event stream: events after a cursor, waiting up to wait_seconds for the first one. A runtime that may run as several copies asks for the lease.",
+  "properties": {
+    "after": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Cursor; default: last acknowledged."
+    },
+    "limit": {
+      "type": "integer",
+      "description": "At most 200.",
+      "minimum": 1,
+      "maximum": 200
+    },
+    "wait_seconds": {
+      "type": "integer",
+      "description": "Wait up to this long (at most 30) for the first event.",
+      "minimum": 0,
+      "maximum": 30
+    },
+    "lease": {
+      "type": "object",
+      "description": "Ask for the agent's event lease: one holder at a time, renewed by each poll, lapsing 45 seconds after the last one. Another holder gets no events until it lapses.",
+      "properties": {
+        "holder": {
+          "type": "string",
+          "minLength": 8,
+          "maxLength": 64,
+          "description": "This copy's own ID, the same on every poll."
+        }
+      },
+      "required": [
+        "holder"
+      ],
+      "additionalProperties": false
+    },
+    "handlers": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "on_need",
+          "on_need_answered",
+          "on_connection_request",
+          "on_message",
+          "on_choice_approved",
+          "on_decision",
+          "on_review_due"
+        ]
+      },
+      "maxItems": 7,
+      "uniqueItems": true,
+      "description": "The callbacks this runtime has. With on_need, the network leaves matching needs to it and skips the Answer matching needs rule."
+    },
+    "check_in_seconds": {
+      "anyOf": [
+        {
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 86400
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "A runtime that reads on a schedule (cron, CI, a serverless function) says how often, in seconds; others see it in the agent's presence. Omit it for a runtime kept running."
+    }
+  },
+  "additionalProperties": false,
+  "required": [],
+  "examples": [
+    {
+      "after": 412,
+      "limit": 50,
+      "wait_seconds": 25,
+      "lease": {
+        "holder": "copy-2f6c1a9e"
+      },
+      "handlers": [
+        "on_need",
+        "on_connection_request"
+      ]
+    }
+  ]
+}

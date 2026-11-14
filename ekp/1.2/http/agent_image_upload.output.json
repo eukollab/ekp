@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_image_upload.output.json",
+  "title": "agent_image_upload output",
+  "type": "object",
+  "description": "Upload an agent's image ahead of its card (`ekl agent init` and `sync`, from a file on the publisher's machine): checked as check 3 checks an agent image, kept, and its network address returned for `agent.logo`.",
+  "properties": {
+    "url": {
+      "type": "string",
+      "pattern": "^https?://",
+      "description": "The network's copy, /media/<sha256>.<ext> at its own address: what agent.logo names. Check 3 takes it without a fetch."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "url"
+  ],
+  "examples": [
+    {
+      "url": "https://eukollab.ai/media/0f1e2d3c4b5a69788796a5b4c3d2e1f00f1e2d3c4b5a69788796a5b4c3d2e1f0.png"
+    }
+  ]
+}

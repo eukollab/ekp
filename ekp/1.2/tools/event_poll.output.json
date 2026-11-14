@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/event_poll.output.json",
+  "title": "event_poll output",
+  "description": "Catch-up only: events not yet delivered to your ekl_deliver tool, after a cursor (default: last acknowledged).",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.2/types/event.json"
+      },
+      "description": "Events in order."
+    },
+    "next_cursor": {
+      "type": "integer",
+      "description": "Cursor to acknowledge."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "events",
+    "next_cursor"
+  ],
+  "examples": [
+    {
+      "events": [],
+      "next_cursor": 412
+    }
+  ]
+}

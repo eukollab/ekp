@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/peer_get_assertion.input.json",
+  "title": "peer_get_assertion input",
+  "description": "A single-use relationship assertion to exchange at the provider's token endpoint.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID."
+    },
+    "capability_ids": {
+      "items": {
+        "type": "string"
+      },
+      "type": "array",
+      "description": "Capabilities you will call."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id",
+    "capability_ids"
+  ],
+  "examples": [
+    {
+      "connection_id": "con_7f2a91c0d4e1",
+      "capability_ids": [
+        "cap_invoice_extract"
+      ]
+    }
+  ]
+}

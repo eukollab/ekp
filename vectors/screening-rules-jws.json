@@ -1,0 +1,74 @@
+{
+  "description": "Screening rules (PROTOCOL.md §15.5): GET /v1/screening/rules returns {rules: <compact JWS>}, alg ES256, typ ekl-screening-rules+jwt, kid in the network's key set, with claims iss, iat, exp, rules_version and rules (rule_id, category, phrases). A client accepts it only when alg, typ, kid, the signature and iss check and now is before exp; it caches it for at most 24 h. Each invalid case fails exactly one check, named by reason. ECDSA signatures are not deterministic: verify these, never compare them with ones you make.",
+  "jwks": {
+    "keys": [
+      {
+        "kty": "EC",
+        "crv": "P-256",
+        "x": "X6aqCOMFG7AiJGQIci054yW182X5QsFLpijHs0wu-OU",
+        "y": "p9JkGSf3iXmDbTcJrUEyHebJwjDGUt0ntxYtiD2AN8Q",
+        "kid": "net-test-2026-11",
+        "alg": "ES256",
+        "use": "sig"
+      }
+    ]
+  },
+  "issuer": "https://network.example",
+  "now": 1794484902,
+  "rules_jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6Im5ldC10ZXN0LTIwMjYtMTEiLCJ0eXAiOiJla2wtc2NyZWVuaW5nLXJ1bGVzK2p3dCJ9.eyJpc3MiOiJodHRwczovL25ldHdvcmsuZXhhbXBsZSIsImlhdCI6MTc5NDQ4NDg0MiwiZXhwIjoxNzk1MDg5NjQyLCJydWxlc192ZXJzaW9uIjoiMjAyNi0xMS0xMi4xIiwicnVsZXMiOlt7InJ1bGVfaWQiOiJyLTAwMDEiLCJjYXRlZ29yeSI6InByb2hpYml0ZWRfY29udGVudCIsInBocmFzZXMiOlsiZXhhbXBsZSBwcm9oaWJpdGVkIHBocmFzZSIsImFub3RoZXIgYmFubmVkIHBocmFzZSJdfSx7InJ1bGVfaWQiOiJyLTAwMDIiLCJjYXRlZ29yeSI6InJlZ3VsYXRlZF9nb29kcyIsInBocmFzZXMiOlsiZXhhbXBsZSByZWd1bGF0ZWQgaXRlbSBmb3Igc2FsZSJdfV19.FnBFN114BXhiR57SExPzl8BBoGt-Ae8bJK_OGalVLlg9SrA6YOVB0qN4ADc-oSg4Ohmg_LMCv7IQAbGwzP_rEQ",
+  "claims": {
+    "iss": "https://network.example",
+    "iat": 1794484842,
+    "exp": 1795089642,
+    "rules_version": "2026-11-12.1",
+    "rules": [
+      {
+        "rule_id": "r-0001",
+        "category": "prohibited_content",
+        "phrases": [
+          "example prohibited phrase",
+          "another banned phrase"
+        ]
+      },
+      {
+        "rule_id": "r-0002",
+        "category": "regulated_goods",
+        "phrases": [
+          "example regulated item for sale"
+        ]
+      }
+    ]
+  },
+  "invalid": [
+    {
+      "name": "payload changed by one byte",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6Im5ldC10ZXN0LTIwMjYtMTEiLCJ0eXAiOiJla2wtc2NyZWVuaW5nLXJ1bGVzK2p3dCJ9.eyJpc3MiOiJodHRwczovL25ldHdvcmsuZXhhbXBsZSIsImlhdCI6MTc5NDQ4NDg0MiwiZXhwIjoxNzk1MDg5NjQyLCJydWxlc192ZXJzaW9uIjoiMjAyNi0xMS0xMi4xIiwicnVsZXMiOlt7InJ1bGVfaWQiOiJyLTAwMDEiLCJjYXRlZ29yeSI6InByb2hpYml0ZWRfY29udGVudCIsInBocmFzZXMiOlsiZXhibXBsZSBwcm9oaWJpdGVkIHBocmFzZSIsImFub3RoZXIgYmFubmVkIHBocmFzZSJdfSx7InJ1bGVfaWQiOiJyLTAwMDIiLCJjYXRlZ29yeSI6InJlZ3VsYXRlZF9nb29kcyIsInBocmFzZXMiOlsiZXhhbXBsZSByZWd1bGF0ZWQgaXRlbSBmb3Igc2FsZSJdfV19.FnBFN114BXhiR57SExPzl8BBoGt-Ae8bJK_OGalVLlg9SrA6YOVB0qN4ADc-oSg4Ohmg_LMCv7IQAbGwzP_rEQ",
+      "reason": "signature"
+    },
+    {
+      "name": "signed by another key under the same kid",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6Im5ldC10ZXN0LTIwMjYtMTEiLCJ0eXAiOiJla2wtc2NyZWVuaW5nLXJ1bGVzK2p3dCJ9.eyJpc3MiOiJodHRwczovL25ldHdvcmsuZXhhbXBsZSIsImlhdCI6MTc5NDQ4NDg0MiwiZXhwIjoxNzk1MDg5NjQyLCJydWxlc192ZXJzaW9uIjoiMjAyNi0xMS0xMi4xIiwicnVsZXMiOlt7InJ1bGVfaWQiOiJyLTAwMDEiLCJjYXRlZ29yeSI6InByb2hpYml0ZWRfY29udGVudCIsInBocmFzZXMiOlsiZXhhbXBsZSBwcm9oaWJpdGVkIHBocmFzZSIsImFub3RoZXIgYmFubmVkIHBocmFzZSJdfSx7InJ1bGVfaWQiOiJyLTAwMDIiLCJjYXRlZ29yeSI6InJlZ3VsYXRlZF9nb29kcyIsInBocmFzZXMiOlsiZXhhbXBsZSByZWd1bGF0ZWQgaXRlbSBmb3Igc2FsZSJdfV19.SfFD_28xrZZdqwO9tdKXEt5WoxDjPKWzOv2XMJ8-pQLq-g0yLtb4TH5SBGU91jmI8v9JTTxeljRi1duXVnvMuA",
+      "reason": "signature"
+    },
+    {
+      "name": "a receipt's type",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6Im5ldC10ZXN0LTIwMjYtMTEiLCJ0eXAiOiJla2wtcmVjZWlwdCtqd3QifQ.eyJpc3MiOiJodHRwczovL25ldHdvcmsuZXhhbXBsZSIsImlhdCI6MTc5NDQ4NDg0MiwiZXhwIjoxNzk1MDg5NjQyLCJydWxlc192ZXJzaW9uIjoiMjAyNi0xMS0xMi4xIiwicnVsZXMiOlt7InJ1bGVfaWQiOiJyLTAwMDEiLCJjYXRlZ29yeSI6InByb2hpYml0ZWRfY29udGVudCIsInBocmFzZXMiOlsiZXhhbXBsZSBwcm9oaWJpdGVkIHBocmFzZSIsImFub3RoZXIgYmFubmVkIHBocmFzZSJdfSx7InJ1bGVfaWQiOiJyLTAwMDIiLCJjYXRlZ29yeSI6InJlZ3VsYXRlZF9nb29kcyIsInBocmFzZXMiOlsiZXhhbXBsZSByZWd1bGF0ZWQgaXRlbSBmb3Igc2FsZSJdfV19.sDPhnm-krSq4Z2CbYvWLaBtFmUpelCcdPk5DSrmrGPrCT9UFyUEVxsj7h_HMXgvjiVuJyBbB0Mi8naEkDCQh-A",
+      "reason": "typ"
+    },
+    {
+      "name": "unsigned (alg none)",
+      "jws": "eyJhbGciOiJub25lIiwia2lkIjoibmV0LXRlc3QtMjAyNi0xMSIsInR5cCI6ImVrbC1zY3JlZW5pbmctcnVsZXMrand0In0.eyJpc3MiOiJodHRwczovL25ldHdvcmsuZXhhbXBsZSIsImlhdCI6MTc5NDQ4NDg0MiwiZXhwIjoxNzk1MDg5NjQyLCJydWxlc192ZXJzaW9uIjoiMjAyNi0xMS0xMi4xIiwicnVsZXMiOlt7InJ1bGVfaWQiOiJyLTAwMDEiLCJjYXRlZ29yeSI6InByb2hpYml0ZWRfY29udGVudCIsInBocmFzZXMiOlsiZXhhbXBsZSBwcm9oaWJpdGVkIHBocmFzZSIsImFub3RoZXIgYmFubmVkIHBocmFzZSJdfSx7InJ1bGVfaWQiOiJyLTAwMDIiLCJjYXRlZ29yeSI6InJlZ3VsYXRlZF9nb29kcyIsInBocmFzZXMiOlsiZXhhbXBsZSByZWd1bGF0ZWQgaXRlbSBmb3Igc2FsZSJdfV19.",
+      "reason": "alg"
+    },
+    {
+      "name": "from another issuer",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6Im5ldC10ZXN0LTIwMjYtMTEiLCJ0eXAiOiJla2wtc2NyZWVuaW5nLXJ1bGVzK2p3dCJ9.eyJpc3MiOiJodHRwczovL290aGVyLmV4YW1wbGUiLCJpYXQiOjE3OTQ0ODQ4NDIsImV4cCI6MTc5NTA4OTY0MiwicnVsZXNfdmVyc2lvbiI6IjIwMjYtMTEtMTIuMSIsInJ1bGVzIjpbeyJydWxlX2lkIjoici0wMDAxIiwiY2F0ZWdvcnkiOiJwcm9oaWJpdGVkX2NvbnRlbnQiLCJwaHJhc2VzIjpbImV4YW1wbGUgcHJvaGliaXRlZCBwaHJhc2UiLCJhbm90aGVyIGJhbm5lZCBwaHJhc2UiXX0seyJydWxlX2lkIjoici0wMDAyIiwiY2F0ZWdvcnkiOiJyZWd1bGF0ZWRfZ29vZHMiLCJwaHJhc2VzIjpbImV4YW1wbGUgcmVndWxhdGVkIGl0ZW0gZm9yIHNhbGUiXX1dfQ.6hRHSeQ7kVo6w-w0JZD9UgaETgIMG-mORJJsuor5Xubvzxwrx8sfLWvUZqc0w6v3OeN5flf9ZxzgvTNPRjUASQ",
+      "reason": "iss"
+    },
+    {
+      "name": "expired",
+      "jws": "eyJhbGciOiJFUzI1NiIsImtpZCI6Im5ldC10ZXN0LTIwMjYtMTEiLCJ0eXAiOiJla2wtc2NyZWVuaW5nLXJ1bGVzK2p3dCJ9.eyJpc3MiOiJodHRwczovL25ldHdvcmsuZXhhbXBsZSIsImlhdCI6MTc5Mzc5MzY0MiwiZXhwIjoxNzk0Mzk4NDQyLCJydWxlc192ZXJzaW9uIjoiMjAyNi0xMS0xMi4xIiwicnVsZXMiOlt7InJ1bGVfaWQiOiJyLTAwMDEiLCJjYXRlZ29yeSI6InByb2hpYml0ZWRfY29udGVudCIsInBocmFzZXMiOlsiZXhhbXBsZSBwcm9oaWJpdGVkIHBocmFzZSIsImFub3RoZXIgYmFubmVkIHBocmFzZSJdfSx7InJ1bGVfaWQiOiJyLTAwMDIiLCJjYXRlZ29yeSI6InJlZ3VsYXRlZF9nb29kcyIsInBocmFzZXMiOlsiZXhhbXBsZSByZWd1bGF0ZWQgaXRlbSBmb3Igc2FsZSJdfV19.jvizfhwRzOY3bKWTaFm8RoU8uf8LfPl2he-Xgatd-HVDwn_CJbHVDS77dvi-k95WaYsGW4_acYzfd3wwBEKs8w",
+      "reason": "exp"
+    }
+  ]
+}

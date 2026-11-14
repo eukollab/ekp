@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/execution_reservation_get.input.json",
+  "title": "execution_reservation_get input",
+  "description": "A reservation's state and reconciliation status, by reservation ID or your own execution ID. For a run the provider approved while it waited, the requester also gets its execution_grant here.",
+  "type": "object",
+  "properties": {
+    "reservation_id": {
+      "type": "string",
+      "description": "Reservation ID, or your execution ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "reservation_id"
+  ],
+  "examples": [
+    {
+      "reservation_id": "rsv_01"
+    }
+  ]
+}

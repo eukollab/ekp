@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/config_history.output.json",
+  "title": "config_history output",
+  "description": "An agent's rule history, newest first: who changed what, and whether the agent picked it up.",
+  "type": "object",
+  "properties": {
+    "versions": {
+      "type": "array",
+      "description": "One entry per configuration version, newest first.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "integer",
+            "description": "The configuration version this change wrote."
+          },
+          "at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When it was saved."
+          },
+          "who": {
+            "type": "string",
+            "description": "Who made it: a person, a Concierge draft they confirmed, a restore, or the platform."
+          },
+          "changes": {
+            "type": "array",
+            "description": "The settings it changed.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "setting": {
+                  "type": "string",
+                  "description": "The setting, as a dotted path such as spending.daily_limit."
+                },
+                "before": {
+                  "type": "string",
+                  "description": "The previous value."
+                },
+                "after": {
+                  "type": "string",
+                  "description": "The new value."
+                }
+              },
+              "required": [
+                "setting",
+                "before",
+                "after"
+              ]
+            }
+          },
+          "pickup": {
+            "enum": [
+              "saved",
+              "delivered",
+              "acknowledged"
+            ],
+            "type": "string",
+            "description": "saved: the version exists; delivered: the agent acknowledged its config.changed event; acknowledged: its ekl_health reports this version or a later one."
+          },
+          "current": {
+            "type": "boolean",
+            "description": "Whether this is the version in force."
+          }
+        },
+        "required": [
+          "version",
+          "at",
+          "who",
+          "changes",
+          "pickup",
+          "current"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "versions"
+  ],
+  "examples": [
+    {
+      "versions": [
+        {
+          "version": 7,
+          "at": "2026-10-25T14:02:11Z",
+          "who": "admin@example.com",
+          "changes": [
+            {
+              "setting": "spending.daily_limit",
+              "before": "50",
+              "after": "40"
+            }
+          ],
+          "pickup": "acknowledged",
+          "current": true
+        }
+      ]
+    }
+  ]
+}

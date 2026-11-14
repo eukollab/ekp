@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/screening-rules.json",
+  "title": "Screening rules",
+  "description": "The claims of the screening rules JWS (typ ekl-screening-rules+jwt): the phrase rules a consumer's adapter checks every result against, on the consumer's own machine. A match is reported as a safety_flag with its category and rules_version; content and matched words never leave the consumer.",
+  "type": "object",
+  "properties": {
+    "iss": {
+      "type": "string",
+      "description": "The network's issuer."
+    },
+    "iat": {
+      "type": "integer",
+      "description": "Issued, Unix seconds."
+    },
+    "exp": {
+      "type": "integer",
+      "description": "Never used after this, Unix seconds. Cache for at most 24 h in any case."
+    },
+    "rules_version": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "The version a safety_flag cites."
+    },
+    "rules": {
+      "type": "array",
+      "maxItems": 2000,
+      "description": "Phrase rules.",
+      "items": {
+        "type": "object",
+        "description": "One rule: matches when any phrase occurs in a string of the result, compared after Unicode NFKC normalisation and case folding.",
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "maxLength": 40,
+            "description": "The rule."
+          },
+          "category": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,39}$",
+            "description": "The category a match reports."
+          },
+          "phrases": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 200
+            },
+            "minItems": 1,
+            "maxItems": 200,
+            "description": "The phrases."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "rule_id",
+          "category",
+          "phrases"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "iss",
+    "iat",
+    "exp",
+    "rules_version",
+    "rules"
+  ],
+  "examples": [
+    {
+      "iss": "https://network.example",
+      "iat": 1794484842,
+      "exp": 1795089642,
+      "rules_version": "2026-11-12.1",
+      "rules": [
+        {
+          "rule_id": "r-0001",
+          "category": "prohibited_content",
+          "phrases": [
+            "example prohibited phrase",
+            "another banned phrase"
+          ]
+        },
+        {
+          "rule_id": "r-0002",
+          "category": "regulated_goods",
+          "phrases": [
+            "example regulated item for sale"
+          ]
+        }
+      ]
+    }
+  ]
+}

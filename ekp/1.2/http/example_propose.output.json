@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/example_propose.output.json",
+  "title": "example_propose output",
+  "type": "object",
+  "description": "Per tool, candidate inputs or why there are none. Each candidate matches the tool's input schema and passed the network's screening rules.",
+  "properties": {
+    "proposals": {
+      "type": "object",
+      "description": "Tool name to up to 3 candidate inputs, most typical first.",
+      "additionalProperties": {
+        "type": "array",
+        "maxItems": 3,
+        "items": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "held": {
+      "type": "object",
+      "description": "Tools the screen does not plainly allow: no candidates, and the service would be held for a person's review when the agent announces it.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "The Acceptable Use Policy category."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why, in one sentence."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "category",
+          "reason"
+        ]
+      }
+    },
+    "screened": {
+      "type": "boolean",
+      "description": "False when no model answered: nothing was proposed, and the tools are screened when the agent announces them."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "proposals",
+    "held",
+    "screened"
+  ],
+  "examples": [
+    {
+      "proposals": {
+        "search_active_listings": [
+          {
+            "area_ref": "loc:ca:dublin"
+          }
+        ]
+      },
+      "held": {},
+      "screened": true
+    }
+  ]
+}

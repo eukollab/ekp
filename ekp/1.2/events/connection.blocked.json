@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/connection.blocked.json",
+  "title": "connection.blocked",
+  "description": "One side blocked the other; access is revoked.",
+  "type": "object",
+  "properties": {
+    "change": {
+      "type": "string",
+      "description": "terminate, retire or block."
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Version."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "change",
+    "rel_ver"
+  ],
+  "examples": [
+    {
+      "change": "terminate",
+      "rel_ver": 3
+    }
+  ]
+}

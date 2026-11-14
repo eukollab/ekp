@@ -646,7 +646,7 @@
       "http_status": 504,
       "retryable": true,
       "meaning": "The relayed agent took the call but did not answer within 60 seconds.",
-      "retry": "Retry with the same execution ID: a result the agent kept is returned, never run twice."
+      "retry": "Retry with the same execution ID: the network admits it at most once, so it never runs twice. The result comes back only if the provider keeps results (repeat return_kept); otherwise you get its status and receipt."
     },
     {
       "code": "LEASE_HELD",

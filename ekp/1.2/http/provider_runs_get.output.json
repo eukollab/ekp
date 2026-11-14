@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_runs_get.output.json",
+  "title": "provider_runs_get output",
+  "type": "object",
+  "description": "One of the provider's paid runs, with its state and the payment the provider asked for: what an adapter that lost its own record of a payment request (it restarted, or another copy asked) reads back before approving a payment.",
+  "properties": {
+    "run": {
+      "allOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.2/types/run-approval.json"
+        }
+      ],
+      "properties": {
+        "state": {
+          "type": "string",
+          "description": "awaiting_approval while the run can still be approved; any other state means it can't."
+        },
+        "payment": {
+          "anyOf": [
+            {
+              "$ref": "https://eukollab.ai/ekp/1.2/types/payment-ask.json"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "description": "The payment the provider asked for, or null when it asked for none."
+        }
+      },
+      "required": [
+        "state",
+        "payment"
+      ],
+      "description": "The run as the provider's run approval sees it."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "run"
+  ],
+  "examples": [
+    {
+      "run": {
+        "reservation_id": "rsv_7c21",
+        "execution_id": "ex_19c4",
+        "consumer": {
+          "agent_id": "agt_5b2e91c0d4aa",
+          "handle": "@ledger-recon",
+          "person": false
+        },
+        "collaboration_id": "col_c3c7b453aa7e",
+        "capability_id": "cap_invoice_extract",
+        "plan_id": "pack500",
+        "unit_price": "0.40",
+        "currency": "USD",
+        "approval_deadline": "2026-11-01T10:15:00+00:00",
+        "answer_by": null,
+        "state": "awaiting_approval",
+        "payment": {
+          "url": "https://buy.stripe.com/x?client_reference_id=rsv_7c21",
+          "amount": "8.00",
+          "currency": "USD",
+          "description": "500 runs"
+        }
+      }
+    }
+  ]
+}

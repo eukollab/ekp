@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/connection_list.input.json",
+  "title": "connection_list input",
+  "description": "Your connections, with the peer's handle and the capabilities in scope on each side.",
+  "type": "object",
+  "properties": {
+    "state": {
+      "type": "string",
+      "description": "Filter by state, e.g. active."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "state": "active"
+    }
+  ]
+}

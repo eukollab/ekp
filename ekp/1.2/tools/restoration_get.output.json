@@ -1,0 +1,169 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/restoration_get.output.json",
+  "title": "restoration_get output",
+  "description": "The agent's open restoration, or null.",
+  "type": "object",
+  "properties": {
+    "restoration": {
+      "anyOf": [
+        {
+          "type": "object",
+          "description": "An open or completed restoration from an older backup. While open the agent is restricted.",
+          "properties": {
+            "restoration_id": {
+              "type": "string",
+              "description": "Restoration ID."
+            },
+            "state": {
+              "type": "string",
+              "enum": [
+                "open",
+                "complete"
+              ],
+              "description": "open: restricted until reconciliation completes."
+            },
+            "local_event_cursor": {
+              "type": "integer",
+              "description": "The agent's event cursor when it opened the restoration."
+            },
+            "local_execution_seq": {
+              "type": "integer",
+              "description": "The agent's execution sequence when it opened the restoration."
+            },
+            "network_event_cursor": {
+              "type": "integer",
+              "description": "The network's acknowledged event cursor then."
+            },
+            "network_execution_seq": {
+              "type": "integer",
+              "description": "The network's execution sequence then."
+            },
+            "items": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "description": "An execution affected by the restore.",
+                "properties": {
+                  "execution_id": {
+                    "type": "string",
+                    "description": "Execution ID."
+                  },
+                  "role": {
+                    "type": "string",
+                    "description": "provider, requester, or empty for an execution only the agent knows of."
+                  },
+                  "source": {
+                    "type": "string",
+                    "enum": [
+                      "network",
+                      "local"
+                    ],
+                    "description": "network: recorded by the network after the local checkpoint; local: pending in the agent's own state."
+                  },
+                  "resolution": {
+                    "type": "string",
+                    "description": "How it was resolved: settled_on_network, or the recorded resolution (no_effect, effect_confirmed, repeated_safely, settled_with_counterparty); empty while unresolved."
+                  },
+                  "resolved": {
+                    "type": "boolean",
+                    "description": "Whether it is resolved."
+                  },
+                  "collaboration_id": {
+                    "type": "string",
+                    "description": "The collaboration the execution ran under, when the network knows it."
+                  },
+                  "outcome": {
+                    "type": "string",
+                    "enum": [
+                      "succeeded",
+                      "failed_before_effect",
+                      "cancelled",
+                      "outcome_unknown"
+                    ],
+                    "description": "The outcome validated against the network's records (a requester's report backed by a verified receipt); outcome_unknown when they are missing, unresolved or contradictory."
+                  },
+                  "receipt": {
+                    "anyOf": [
+                      {
+                        "type": "object",
+                        "description": "The provider's call receipt."
+                      },
+                      {
+                        "type": "null"
+                      }
+                    ],
+                    "description": "The verified receipt behind a validated outcome, for the agent to restore into its local state."
+                  },
+                  "requester_agent_id": {
+                    "type": "string",
+                    "description": "The requester of a validated execution, so a provider restores its record under the right caller."
+                  }
+                },
+                "required": [
+                  "execution_id",
+                  "outcome",
+                  "resolution",
+                  "resolved"
+                ],
+                "additionalProperties": false
+              },
+              "description": "Executions to resolve."
+            },
+            "unresolved": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Execution ID."
+              },
+              "description": "Execution IDs still unresolved."
+            }
+          },
+          "required": [
+            "restoration_id",
+            "state",
+            "items",
+            "unresolved"
+          ],
+          "additionalProperties": false
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The restoration."
+    }
+  },
+  "required": [
+    "restoration"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "restoration": {
+        "restoration_id": "rst_4b1c9e0a2f7d",
+        "state": "open",
+        "local_event_cursor": 980,
+        "local_execution_seq": 41,
+        "network_event_cursor": 1042,
+        "network_execution_seq": 44,
+        "items": [
+          {
+            "execution_id": "ex_6d1f0a9b2c3e4f50",
+            "role": "provider",
+            "source": "network",
+            "resolution": "",
+            "resolved": false,
+            "collaboration_id": "col_1a2b3c4d5e6f",
+            "outcome": "outcome_unknown",
+            "receipt": null,
+            "requester_agent_id": ""
+          }
+        ],
+        "unresolved": [
+          "ex_6d1f0a9b2c3e4f50"
+        ]
+      }
+    }
+  ]
+}

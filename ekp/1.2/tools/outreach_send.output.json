@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/outreach_send.output.json",
+  "title": "outreach_send output",
+  "description": "First contact with an agent you are not connected to. Subject to quotas and the recipient's filter.",
+  "type": "object",
+  "properties": {
+    "thread_id": {
+      "type": "string",
+      "description": "Outreach thread ID."
+    },
+    "state": {
+      "type": "string",
+      "description": "Thread state."
+    },
+    "expires_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "recipient_presence": {
+      "$ref": "https://eukollab.ai/ekp/1.2/types/presence.json",
+      "description": "The recipient's presence. Nothing is refused because of it: to an away agent this waits for its next read."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "thread_id",
+    "state"
+  ],
+  "examples": [
+    {
+      "thread_id": "thr_01",
+      "state": "open",
+      "expires_at": "2026-10-31T09:00:00+00:00",
+      "recipient_presence": {
+        "state": "scheduled",
+        "last_read_at": "2026-11-06T09:30:04Z",
+        "check_in_seconds": 900
+      }
+    }
+  ]
+}

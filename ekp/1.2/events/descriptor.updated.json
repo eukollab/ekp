@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/descriptor.updated.json",
+  "title": "descriptor.updated",
+  "description": "A connected provider changed its endpoint or connection details; fetch its descriptor again before the next call.",
+  "type": "object",
+  "properties": {
+    "agent": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID, e.g. con_7f2a91c0d4e1.",
+      "pattern": "^con_[a-z0-9]+$"
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "endpoint_changed",
+        "binding_changed"
+      ],
+      "description": "What changed."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent",
+    "reason"
+  ],
+  "examples": [
+    {
+      "agent": "@invoice-x",
+      "connection_id": "con_7f2a91c0d4e1",
+      "reason": "endpoint_changed"
+    }
+  ]
+}

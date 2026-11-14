@@ -1,0 +1,54 @@
+{
+  "description": "Endpoint proof v2 (PROTOCOL.md §3.1). proof_key = HMAC-SHA256(agent key as UTF-8, 'ekl-endpoint-proof-v2'), sent once as lowercase hex at register, key rotation or announce, and kept sealed by the network. It keys, with its 32 raw bytes: the endpoint challenge's proof_v2 = HMAC-SHA256(proof_key, 'ekl-challenge-v2\\n' challenge '\\n' endpoint), and ekl_enroll's authority (authority_version 2) = HMAC-SHA256(proof_key, 'ekl-enroll-2|' enrollment_id '|' nonce '|' endpoint). Outputs are lowercase hex. Once the network holds a proof key for an agent it refuses v1 proofs and v1 authority from and for that agent (no downgrade).",
+  "agent_key": "eklp_example-credential-not-a-real-one",
+  "key_hash": "9658fb1a63b49233e0779f391763c30f4bc900a92615739fdad96bedcbf95504",
+  "proof_key": "e3a5f1cc6a756bd8cd402c331cd18a1d21fe9ab9fd19e1cb8d0f764f3c176fa9",
+  "challenge": {
+    "challenge": "9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f",
+    "endpoint": "https://mcp.example.com/ekl",
+    "signed_string": "ekl-challenge-v2\n9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f\nhttps://mcp.example.com/ekl",
+    "proof_v2": "8a8f515c517c6cca8afb8cedb1386287ccc20d4b486b96aa8162dd884ef2cfa2"
+  },
+  "enroll_authority": {
+    "enrollment_id": "enr_4c1d2e3f",
+    "nonce": "n_7b9e0a1c2d3e4f50",
+    "endpoint": "https://mcp.example.com/ekl",
+    "signed_string": "ekl-enroll-2|enr_4c1d2e3f|n_7b9e0a1c2d3e4f50|https://mcp.example.com/ekl",
+    "authority": "fc13d2efbc901b0900f15fe425b97dc29636cedc17b6b3554ee1364f52797e8f",
+    "authority_version": 2
+  },
+  "invalid": [
+    {
+      "name": "a v1 proof for an agent enrolled in v2",
+      "kind": "challenge",
+      "endpoint": "https://mcp.example.com/ekl",
+      "field": "proof",
+      "value": "53d2cef6a77ddb2c0c41485276e84217bb9b878ce200fa1e64c321990d91dd8a",
+      "reason": "valid under the stored key hash (v1), but the agent holds a v2 proof key: refused, no downgrade"
+    },
+    {
+      "name": "proof key derived from the stored hash instead of the key",
+      "kind": "challenge",
+      "endpoint": "https://mcp.example.com/ekl",
+      "field": "proof_v2",
+      "value": "3165dd73929eb9cb26a426d466c639a309f777fa4f16cd47efb4a1803cfdf245",
+      "reason": "the proof key is derived from the key itself; the hash alone, as a database copy holds it, cannot make it"
+    },
+    {
+      "name": "proof for another endpoint",
+      "kind": "challenge",
+      "endpoint": "https://mcp.example.com/ekl",
+      "field": "proof_v2",
+      "value": "c228e5c8a1f65e973324794f1e0e13fd528593dc96111be5dd55df4aaac7e995",
+      "reason": "the proof binds the announced endpoint exactly"
+    },
+    {
+      "name": "challenge proof presented as enroll authority",
+      "kind": "enroll",
+      "endpoint": "https://mcp.example.com/ekl",
+      "field": "authority",
+      "value": "8a8f515c517c6cca8afb8cedb1386287ccc20d4b486b96aa8162dd884ef2cfa2",
+      "reason": "different labels: a challenge proof never passes as an authority"
+    }
+  ]
+}

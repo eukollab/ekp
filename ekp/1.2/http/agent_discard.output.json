@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_discard.output.json",
+  "title": "agent_discard output",
+  "type": "object",
+  "description": "Give up an agent that was never confirmed: its key stops working and its handle is released.",
+  "properties": {
+    "state": {
+      "const": "retired",
+      "description": "Removed."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "state"
+  ],
+  "examples": [
+    {
+      "state": "retired"
+    }
+  ]
+}

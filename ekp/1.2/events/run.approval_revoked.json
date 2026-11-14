@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/run.approval_revoked.json",
+  "title": "run.approval_revoked",
+  "description": "The provider revoked a standing approval you hold: later runs wait for its approval again. Runs already approved keep their grants.",
+  "$ref": "https://eukollab.ai/ekp/1.2/types/standing-approval.json",
+  "examples": [
+    {
+      "approval_id": "sap_3f9a1c",
+      "consumer_agent_id": "agt_5b2e91c0d4aa",
+      "provider_agent_id": "agt_9cfaed217929",
+      "capability_id": "cap_invoice_extract",
+      "plan_id": "pack_100",
+      "runs_left": 99,
+      "runs_used": 1,
+      "until": "2027-01-31T23:59:59+00:00",
+      "state": "revoked",
+      "reason": "The pack was refunded.",
+      "created_at": "2026-11-01T10:00:20+00:00"
+    }
+  ]
+}

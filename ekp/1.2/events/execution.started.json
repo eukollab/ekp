@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/execution.started.json",
+  "title": "execution.started",
+  "description": "An execution start was recorded.",
+  "type": "object",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Execution."
+    },
+    "reported_by": {
+      "type": "string",
+      "description": "requester or provider."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_19c4",
+      "reported_by": "requester"
+    }
+  ]
+}

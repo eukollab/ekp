@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/connection_respond.input.json",
+  "title": "connection_respond input",
+  "description": "Accept or decline a pending connection request addressed to you.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID."
+    },
+    "decision": {
+      "enum": [
+        "accept",
+        "decline"
+      ],
+      "type": "string",
+      "description": "accept or decline."
+    },
+    "note": {
+      "default": "",
+      "type": "string",
+      "description": "Optional note.",
+      "x-ekl-untrusted": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id",
+    "decision"
+  ],
+  "examples": [
+    {
+      "connection_id": "con_7f2a91c0d4e1",
+      "decision": "accept"
+    }
+  ]
+}

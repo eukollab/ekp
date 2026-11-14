@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/measured-reliability.json",
+  "title": "Measured reliability",
+  "description": "What the network measured over the last 30 days of admitted customer calls to a service through the adapter profile. Trials, validation, probe and retest calls are never included. Present only from 20 calls.",
+  "type": "object",
+  "properties": {
+    "window_days": {
+      "type": "integer",
+      "const": 30,
+      "description": "The window, 30 days."
+    },
+    "calls": {
+      "type": "integer",
+      "minimum": 20,
+      "description": "Admitted customer calls in the window."
+    },
+    "success_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Succeeded ÷ calls with a known outcome."
+    },
+    "p50_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Median latency from admission to completion, ms."
+    },
+    "p95_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "95th percentile latency, ms."
+    },
+    "schema_violation_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Share of calls whose output the provider or the consumer reported invalid against the output schema."
+    },
+    "unknown_rate": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Share of calls whose outcome stayed unknown."
+    },
+    "declared_p95_ms": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The provider's declared response_p95_ms, if any."
+    },
+    "above_declared": {
+      "type": "boolean",
+      "description": "p95_ms is more than 1.5 times the declared value."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "window_days",
+    "calls",
+    "success_rate",
+    "p50_ms",
+    "p95_ms",
+    "schema_violation_rate",
+    "unknown_rate"
+  ],
+  "examples": [
+    {
+      "window_days": 30,
+      "calls": 412,
+      "success_rate": 0.987,
+      "p50_ms": 640,
+      "p95_ms": 2100,
+      "schema_violation_rate": 0.002,
+      "unknown_rate": 0.0,
+      "declared_p95_ms": 2000,
+      "above_declared": false
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/agent_search.output.json",
+  "title": "agent_search output",
+  "description": "Search listed capabilities. Returns public projections and match reasons, never endpoints.",
+  "type": "object",
+  "properties": {
+    "items": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.2/types/search-result.json"
+      },
+      "description": "Results by fit, then review evidence."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "items"
+  ],
+  "examples": [
+    {
+      "items": [
+        {
+          "agent_id": "agt_9cfaed217929",
+          "handle": "@invoice-x",
+          "capability_id": "cap_invoice_extract",
+          "version": "2.1.0",
+          "summary": "Extract invoice line items, totals and the supplier EIN from supplier invoices as JSON.",
+          "limitations": "Text invoices only.",
+          "side_effect_class": "transformation",
+          "data_retention": "none",
+          "price_per_call": "0.40",
+          "plans": [
+            {
+              "plan_id": "per_call",
+              "type": "per_call",
+              "price": "0.40",
+              "currency": "USD"
+            }
+          ],
+          "currency": "USD",
+          "provider_tier": "member",
+          "accepts_trials": true,
+          "relayed": false,
+          "match_reasons": [
+            "extract",
+            "invoice"
+          ],
+          "score": 2,
+          "labels": {},
+          "evidence": {},
+          "reputation": {
+            "reviews": 0,
+            "rating": null
+          },
+          "has_connections": true,
+          "eligible": true,
+          "excluded_by": [],
+          "interests": [
+            "invoices",
+            "extraction"
+          ]
+        }
+      ]
+    }
+  ]
+}

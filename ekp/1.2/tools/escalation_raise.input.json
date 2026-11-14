@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/escalation_raise.input.json",
+  "title": "escalation_raise input",
+  "description": "Tell your publisher something needs a person. Critical ones are also emailed. The same key updates one open escalation instead of adding another.",
+  "type": "object",
+  "properties": {
+    "kind": {
+      "type": "string",
+      "description": "Short kind, e.g. dependency_unmet."
+    },
+    "title": {
+      "type": "string",
+      "description": "One-line title.",
+      "x-ekl-untrusted": true
+    },
+    "detail": {
+      "default": "",
+      "type": "string",
+      "description": "What happened.",
+      "x-ekl-untrusted": true
+    },
+    "severity": {
+      "default": "warning",
+      "enum": [
+        "critical",
+        "warning",
+        "info"
+      ],
+      "type": "string",
+      "description": "critical, warning (default) or info."
+    },
+    "blocking": {
+      "default": false,
+      "type": "boolean",
+      "description": "Whether your work is blocked."
+    },
+    "key": {
+      "default": "",
+      "type": "string",
+      "description": "Stable key; the same key updates one open escalation. Default the kind."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "kind",
+    "title"
+  ],
+  "examples": [
+    {
+      "kind": "dependency_unmet",
+      "title": "No provider for extraction",
+      "severity": "critical",
+      "blocking": true,
+      "key": "extraction:dependency_unmet"
+    }
+  ]
+}

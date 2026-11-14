@@ -1,0 +1,190 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/adapter-execution.json",
+  "title": "Adapter execution",
+  "type": "object",
+  "description": "An adapter-profile execution as the network records it.",
+  "properties": {
+    "admission_id": {
+      "type": "string",
+      "description": "Admission."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "Execution."
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "Provider."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability."
+    },
+    "version_executed": {
+      "type": "string",
+      "description": "Version executed."
+    },
+    "kind": {
+      "type": "string",
+      "description": "customer, trial or validation."
+    },
+    "state": {
+      "type": "string",
+      "description": "admitted, completed, lapsed, not_completed, unknown or resolved.",
+      "enum": [
+        "admitted",
+        "completed",
+        "lapsed",
+        "not_completed",
+        "unknown",
+        "resolved"
+      ]
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The completed outcome."
+    },
+    "lease_expires_at": {
+      "type": "string",
+      "description": "Lease end.",
+      "format": "date-time"
+    },
+    "cancel_state": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "requested, received or confirmed."
+    },
+    "receipt_id": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Receipt."
+    },
+    "receipt": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.2/types/call-receipt-1-2.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The receipt, until the activity retention."
+    },
+    "resolution": {
+      "anyOf": [
+        {
+          "type": "object",
+          "description": "An appended resolution.",
+          "properties": {
+            "outcome": {
+              "type": "string",
+              "description": "Resolved outcome."
+            },
+            "basis": {
+              "type": "string",
+              "description": "Basis."
+            },
+            "receipt": {
+              "$ref": "https://eukollab.ai/ekp/1.2/types/call-receipt-1-2.json"
+            },
+            "receipt_jws": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$",
+              "description": "The same receipt as a compact JWS (typ ekl-receipt+jwt, ES256), whose claims are types/receipt-token.json: with iss and aud, for the consumer to verify claim by claim (PROTOCOL.md §9.5.1)."
+            }
+          },
+          "additionalProperties": false,
+          "required": [
+            "outcome",
+            "basis",
+            "receipt"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The appended resolution of an unknown outcome."
+    },
+    "receipt_jws": {
+      "anyOf": [
+        {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+\\.[A-Za-z0-9_-]+$",
+          "description": "The same receipt as a compact JWS (typ ekl-receipt+jwt, ES256), whose claims are types/receipt-token.json: with iss and aud, for the consumer to verify claim by claim (PROTOCOL.md §9.5.1)."
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The same receipt as a compact JWS (typ ekl-receipt+jwt, ES256), whose claims are types/receipt-token.json: with iss and aud, for the consumer to verify claim by claim (PROTOCOL.md §9.5.1). Null when there is no receipt."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "admission_id",
+    "execution_id",
+    "provider_agent_id",
+    "capability_id",
+    "state"
+  ],
+  "examples": [
+    {
+      "admission_id": "adm_8c1f",
+      "execution_id": "ex_7f3a2c91",
+      "provider_agent_id": "agt_7f2a1b3c4d5e",
+      "capability_id": "cap_search_active_listings",
+      "version_executed": "1.0.0",
+      "kind": "customer",
+      "state": "completed",
+      "outcome": "succeeded",
+      "lease_expires_at": "2026-10-26T10:01:00+00:00",
+      "cancel_state": null,
+      "receipt_id": "rcp_1c2d3e4f5a6b",
+      "receipt": {
+        "receipt_version": "1.2",
+        "receipt_id": "rcp_1c2d3e4f5a6b",
+        "auth_profile": "ekl-evidence-sig-1.2",
+        "execution_kind": "customer",
+        "requester_agent_id": "agt_9cfaed217929",
+        "provider_agent_id": "agt_7f2a1b3c4d5e",
+        "collaboration_id": "col_4f1c9a",
+        "connection_id": "con_9b2",
+        "execution_id": "ex_7f3a2c91",
+        "admission_id": "adm_8c1f",
+        "capability_id": "cap_search_active_listings",
+        "capability_version": "1.0.0",
+        "rel_ver_at_admission": 2,
+        "dsc_ver": 1,
+        "terms_hash": "",
+        "input_fingerprint": "6d3c7b0f2e5a4c19b8e7d6a5f4e3d2c1b0a9f8e7d6c5b4a39281706f5e4d3c2b",
+        "output_fingerprint": "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90",
+        "status": "succeeded",
+        "issued_at": "2026-10-26T10:00:42Z",
+        "key_id": "net-3fa1c2d9e8b7",
+        "signature": "MEUCIQ…"
+      },
+      "resolution": null
+    }
+  ]
+}

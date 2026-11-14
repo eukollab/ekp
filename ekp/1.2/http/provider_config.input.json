@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_config.input.json",
+  "title": "provider_config input",
+  "type": "object",
+  "description": "The agent's configuration for its provider adapter: what to offer and how, with the adapter's endpoint. The adapter loads the candidate at start and every 60 seconds, and a confirmed version by number when admit names one it does not hold.",
+  "properties": {
+    "version": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "A confirmed version to return, as a query parameter; omitted for the validation candidate."
+    }
+  },
+  "additionalProperties": false,
+  "required": [],
+  "examples": [
+    {},
+    {
+      "version": 2
+    }
+  ]
+}

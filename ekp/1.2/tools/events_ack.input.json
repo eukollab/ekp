@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/events_ack.input.json",
+  "title": "events_ack input",
+  "description": "Acknowledge events up to and including `cursor`.",
+  "type": "object",
+  "properties": {
+    "cursor": {
+      "type": "integer",
+      "description": "Acknowledge events up to and including this sequence."
+    },
+    "failed": {
+      "type": "array",
+      "maxItems": 50,
+      "description": "Events the runtime gave up on after its retries: acknowledged, and recorded as failed in the publisher's events on Network.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_id": {
+            "type": "string",
+            "maxLength": 40
+          },
+          "error": {
+            "type": "string",
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "event_id",
+          "error"
+        ],
+        "additionalProperties": false
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "cursor"
+  ],
+  "examples": [
+    {
+      "cursor": 412
+    },
+    {
+      "cursor": 415,
+      "failed": [
+        {
+          "event_id": "evt_9a1c03d27b4e",
+          "error": "KeyError: 'vat_number'"
+        }
+      ]
+    }
+  ]
+}

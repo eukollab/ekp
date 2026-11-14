@@ -1,0 +1,88 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/execution-result.json",
+  "title": "Execution result",
+  "description": "What a capability tool returns: the status, the result when it succeeded, and the receipt.",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "The caller's execution ID, echoed."
+    },
+    "status": {
+      "type": "string",
+      "description": "accepted, running, succeeded, failed_before_effect, cancelled or outcome_unknown.",
+      "enum": [
+        "accepted",
+        "running",
+        "succeeded",
+        "failed_before_effect",
+        "cancelled",
+        "outcome_unknown"
+      ]
+    },
+    "result": {
+      "anyOf": [
+        {
+          "additionalProperties": true,
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "The capability output when status is succeeded; validates against the output_schema.",
+      "x-ekl-untrusted": true
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "Human-readable reason when the execution did not succeed.",
+      "x-ekl-untrusted": true
+    },
+    "code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Stable refusal code when the provider admitted nothing, e.g. GRANT_REQUIRED or EXECUTION_CONFLICT."
+    },
+    "receipt": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/1.2/types/call-receipt.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Provider-authenticated call receipt (type call-receipt)."
+    }
+  },
+  "required": [
+    "execution_id",
+    "status"
+  ],
+  "type": "object",
+  "additionalProperties": false,
+  "examples": [
+    {
+      "execution_id": "ex_19c4",
+      "status": "succeeded",
+      "result": {
+        "invoice_number": "2026-118",
+        "total": 41.0
+      },
+      "error": null,
+      "code": null,
+      "receipt": null
+    }
+  ]
+}

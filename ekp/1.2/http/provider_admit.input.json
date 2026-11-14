@@ -1,0 +1,92 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_admit.input.json",
+  "title": "provider_admit input",
+  "type": "object",
+  "description": "Admit one call before running the tool: every check in one transaction, idempotent by attempt_id and, for refreshes, by refresh_request_id.",
+  "properties": {
+    "token": {
+      "type": "string",
+      "description": "The consumer's access token, as presented."
+    },
+    "tool": {
+      "type": "string",
+      "description": "The tool called."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "From the execution context.",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "From the execution context."
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "From the execution context."
+    },
+    "agreement_id": {
+      "type": "string",
+      "description": "Customer calls."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Paid calls."
+    },
+    "execution_grant": {
+      "type": "string",
+      "description": "Paid calls."
+    },
+    "trial_session": {
+      "type": "string",
+      "description": "Trials."
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "description": "SHA-256(salt || JCS(arguments)), hex.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "attempt_id": {
+      "type": "string",
+      "description": "The adapter's attempt; a retry with the same ID gets the same decision.",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "intent": {
+      "type": "string",
+      "description": "execute, or refresh for a fresh result of a completed execution.",
+      "enum": [
+        "execute",
+        "refresh"
+      ]
+    },
+    "refresh_request_id": {
+      "type": "string",
+      "description": "The consumer's stable refresh request ID, forwarded from _meta.ekl."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "token",
+    "tool",
+    "execution_id",
+    "capability_id",
+    "input_fingerprint",
+    "attempt_id"
+  ],
+  "examples": [
+    {
+      "token": "eyJ…",
+      "tool": "search_active_listings",
+      "execution_id": "ex_7f3a2c91",
+      "capability_id": "cap_search_active_listings",
+      "capability_version": "1.0.0",
+      "agreement_id": "col_4f1c9a",
+      "input_fingerprint": "6d3c7b0f2e5a4c19b8e7d6a5f4e3d2c1b0a9f8e7d6c5b4a39281706f5e4d3c2b",
+      "attempt_id": "att_01",
+      "intent": "execute"
+    }
+  ]
+}

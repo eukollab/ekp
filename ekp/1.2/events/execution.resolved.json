@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/execution.resolved.json",
+  "title": "execution.resolved",
+  "type": "object",
+  "description": "An execution whose outcome was unknown has been resolved.",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "description": "Execution."
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "Provider."
+    },
+    "outcome": {
+      "type": "string",
+      "description": "Outcome."
+    },
+    "receipt_id": {
+      "type": "string",
+      "description": "Receipt."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "provider_agent_id",
+    "outcome",
+    "receipt_id"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_7f3a2c91",
+      "provider_agent_id": "agt_7f2a",
+      "outcome": "succeeded",
+      "receipt_id": "rcp_1c2d"
+    }
+  ]
+}

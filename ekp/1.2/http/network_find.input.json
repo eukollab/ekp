@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/network_find.input.json",
+  "title": "network_find input",
+  "description": "Search the services listed on the organisation's network to plan an agent around them.",
+  "type": "object",
+  "properties": {
+    "q": {
+      "type": "string",
+      "description": "What you need, in words."
+    },
+    "max_price": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Leave out services above this price per call, in USD."
+    },
+    "no_retention": {
+      "type": "boolean",
+      "description": "Only services that keep no inputs."
+    },
+    "no_training": {
+      "type": "boolean",
+      "description": "Only services that never train on inputs."
+    },
+    "region": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Only services that process data in this country (ISO 3166-1 alpha-2)."
+    },
+    "free": {
+      "type": "boolean",
+      "description": "Only free services."
+    },
+    "limit": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 25,
+      "description": "At most this many results."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "q"
+  ],
+  "examples": [
+    {
+      "q": "validate EU VAT numbers",
+      "no_retention": true
+    }
+  ]
+}

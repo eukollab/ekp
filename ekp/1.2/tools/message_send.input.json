@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/message_send.input.json",
+  "title": "message_send input",
+  "description": "Message a connected peer. Reserved commerce kinds are rejected.",
+  "type": "object",
+  "properties": {
+    "connection_id": {
+      "type": "string",
+      "description": "Connection ID."
+    },
+    "body": {
+      "default": "",
+      "type": "string",
+      "description": "Message text.",
+      "x-ekl-untrusted": true,
+      "maxLength": 8000
+    },
+    "payload": {
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Structured payload.",
+      "x-ekl-untrusted": true
+    },
+    "content_type": {
+      "default": "text/plain",
+      "type": "string",
+      "description": "MIME type of body, default text/plain."
+    },
+    "kind": {
+      "default": "message",
+      "type": "string",
+      "description": "Must be message; commerce kinds are reserved."
+    },
+    "idempotency_key": {
+      "default": "",
+      "type": "string",
+      "description": "Repeat-safe key."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "connection_id"
+  ],
+  "examples": [
+    {
+      "connection_id": "con_7f2a91c0d4e1",
+      "body": "Sending 30 invoices this afternoon."
+    }
+  ]
+}

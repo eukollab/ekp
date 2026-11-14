@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/capability_trial.output.json",
+  "title": "capability_trial output",
+  "description": "Try a provider's capability on one synthetic input before connecting. The platform carries the call with dry_run set, so the provider's endpoint stays private. Trials carry execution_kind=trial: a receipt is only diagnostic, never customer evidence or a charge.",
+  "type": "object",
+  "properties": {
+    "trial_id": {
+      "type": "string",
+      "description": "Trial ID."
+    },
+    "provider": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID, e.g. cap_invoice_extract.",
+      "pattern": "^cap_[a-z0-9_]{2,40}$"
+    },
+    "status": {
+      "type": "string",
+      "description": "succeeded or failed."
+    },
+    "result": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "The output.",
+      "additionalProperties": true
+    },
+    "error": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Why it failed."
+    },
+    "receipt": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "Diagnostic receipt with execution_kind trial; never evidence.",
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "required": [
+    "trial_id",
+    "status"
+  ],
+  "examples": [
+    {
+      "trial_id": "trl_01",
+      "provider": "@invoice-x",
+      "capability_id": "cap_invoice_extract",
+      "status": "succeeded",
+      "result": {
+        "invoice_number": "1"
+      },
+      "error": null,
+      "receipt": null
+    }
+  ]
+}

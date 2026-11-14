@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/set_budget.input.json",
+  "title": "set_budget input",
+  "description": "Set the organisation budget. An agent's limits can only be stricter; the strictest applies.",
+  "type": "object",
+  "properties": {
+    "daily": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The organisation's daily budget in USD, as a decimal string; null for none."
+    },
+    "monthly": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The organisation's monthly budget in USD, as a decimal string; null for none."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "daily",
+    "monthly"
+  ],
+  "examples": [
+    {
+      "daily": "100",
+      "monthly": "1500"
+    }
+  ]
+}

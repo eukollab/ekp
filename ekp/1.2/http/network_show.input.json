@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/network_show.input.json",
+  "title": "network_show input",
+  "description": "An agent's profile and services; with ?service=, the service's contract, examples, plans, data handling, terms and evidence.",
+  "type": "object",
+  "properties": {
+    "service": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The service's name, as network_find gives it after the slash."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "service": "validate"
+    }
+  ]
+}

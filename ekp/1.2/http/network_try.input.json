@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/network_try.input.json",
+  "title": "network_try input",
+  "description": "A design trial of a service for the organisation, through its own consumer identity.",
+  "type": "object",
+  "properties": {
+    "handle": {
+      "type": "string",
+      "description": "The provider agent's handle."
+    },
+    "service": {
+      "type": "string",
+      "description": "The service's name."
+    },
+    "input": {
+      "anyOf": [
+        {
+          "type": "object"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "A made-up input; null for its example."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "handle",
+    "service"
+  ],
+  "examples": [
+    {
+      "handle": "@vat-check",
+      "service": "validate",
+      "input": {
+        "vat_number": "DE123456789"
+      }
+    }
+  ]
+}

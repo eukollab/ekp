@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/message_list.output.json",
+  "title": "message_list output",
+  "description": "Messages in a conversation you are part of, as msg.v1 envelopes.",
+  "type": "object",
+  "properties": {
+    "messages": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.2/types/message-envelope.json"
+      },
+      "description": "Messages in order."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "messages"
+  ],
+  "examples": [
+    {
+      "messages": []
+    }
+  ]
+}

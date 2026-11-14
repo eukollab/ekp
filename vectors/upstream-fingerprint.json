@@ -1,0 +1,461 @@
+{
+  "description": "upstream_fingerprint (PROTOCOL.md §5.1): lowercase hex SHA-256 of the ekl-json-1 bytes of an array: the tools of the upstream tools/list that the agent declares (agent.json's tool_name values, or a native agent's capability tools), sorted by name in UTF-16 code units, each projected to exactly name, description, inputSchema, outputSchema and annotations, a member the server leaves out written as null. Nothing else of a tool counts. No salt.",
+  "cases": [
+    {
+      "name": "two declared tools; an undeclared one and fields outside the five are left out",
+      "tools_list": [
+        {
+          "name": "search_active_listings",
+          "description": "Search active for-sale homes in a supported area.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              },
+              "min_beds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "listings": {
+                "type": "array"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "openWorldHint": true
+          },
+          "title": "Search listings",
+          "_meta": {
+            "vendor": "ignored"
+          }
+        },
+        {
+          "name": "admin_reindex",
+          "description": "Not offered.",
+          "inputSchema": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "get_listing_details",
+          "description": "Details of one listing.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "listing_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "listing_ref"
+            ]
+          }
+        }
+      ],
+      "declared": [
+        "search_active_listings",
+        "get_listing_details"
+      ],
+      "projection": [
+        {
+          "name": "get_listing_details",
+          "description": "Details of one listing.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "listing_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "listing_ref"
+            ]
+          },
+          "outputSchema": null,
+          "annotations": null
+        },
+        {
+          "name": "search_active_listings",
+          "description": "Search active for-sale homes in a supported area.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              },
+              "min_beds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "listings": {
+                "type": "array"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "openWorldHint": true
+          }
+        }
+      ],
+      "canonical": "[{\"annotations\":null,\"description\":\"Details of one listing.\",\"inputSchema\":{\"properties\":{\"listing_ref\":{\"type\":\"string\"}},\"required\":[\"listing_ref\"],\"type\":\"object\"},\"name\":\"get_listing_details\",\"outputSchema\":null},{\"annotations\":{\"openWorldHint\":true,\"readOnlyHint\":true},\"description\":\"Search active for-sale homes in a supported area.\",\"inputSchema\":{\"properties\":{\"area_ref\":{\"type\":\"string\"},\"min_beds\":{\"minimum\":0,\"type\":\"integer\"}},\"required\":[\"area_ref\"],\"type\":\"object\"},\"name\":\"search_active_listings\",\"outputSchema\":{\"properties\":{\"listings\":{\"type\":\"array\"}},\"type\":\"object\"}}]",
+      "upstream_fingerprint": "b5b5f23435658508c617284ba0bcfa08c0dcc348d2ee3ec0b32b26c6e02a9fe0"
+    },
+    {
+      "name": "the same tools listed in another order",
+      "tools_list": [
+        {
+          "name": "get_listing_details",
+          "description": "Details of one listing.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "listing_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "listing_ref"
+            ]
+          }
+        },
+        {
+          "name": "search_active_listings",
+          "description": "Search active for-sale homes in a supported area.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              },
+              "min_beds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "listings": {
+                "type": "array"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "openWorldHint": true
+          },
+          "title": "Search listings",
+          "_meta": {
+            "vendor": "ignored"
+          }
+        },
+        {
+          "name": "admin_reindex",
+          "description": "Not offered.",
+          "inputSchema": {
+            "type": "object"
+          }
+        }
+      ],
+      "declared": [
+        "search_active_listings",
+        "get_listing_details"
+      ],
+      "projection": [
+        {
+          "name": "get_listing_details",
+          "description": "Details of one listing.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "listing_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "listing_ref"
+            ]
+          },
+          "outputSchema": null,
+          "annotations": null
+        },
+        {
+          "name": "search_active_listings",
+          "description": "Search active for-sale homes in a supported area.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              },
+              "min_beds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "listings": {
+                "type": "array"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "openWorldHint": true
+          }
+        }
+      ],
+      "canonical": "[{\"annotations\":null,\"description\":\"Details of one listing.\",\"inputSchema\":{\"properties\":{\"listing_ref\":{\"type\":\"string\"}},\"required\":[\"listing_ref\"],\"type\":\"object\"},\"name\":\"get_listing_details\",\"outputSchema\":null},{\"annotations\":{\"openWorldHint\":true,\"readOnlyHint\":true},\"description\":\"Search active for-sale homes in a supported area.\",\"inputSchema\":{\"properties\":{\"area_ref\":{\"type\":\"string\"},\"min_beds\":{\"minimum\":0,\"type\":\"integer\"}},\"required\":[\"area_ref\"],\"type\":\"object\"},\"name\":\"search_active_listings\",\"outputSchema\":{\"properties\":{\"listings\":{\"type\":\"array\"}},\"type\":\"object\"}}]",
+      "upstream_fingerprint": "b5b5f23435658508c617284ba0bcfa08c0dcc348d2ee3ec0b32b26c6e02a9fe0"
+    },
+    {
+      "name": "a description changed upstream",
+      "tools_list": [
+        {
+          "name": "search_active_listings",
+          "description": "Search active for-sale homes, and rentals.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              },
+              "min_beds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "listings": {
+                "type": "array"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "openWorldHint": true
+          },
+          "title": "Search listings",
+          "_meta": {
+            "vendor": "ignored"
+          }
+        },
+        {
+          "name": "get_listing_details",
+          "description": "Details of one listing.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "listing_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "listing_ref"
+            ]
+          }
+        }
+      ],
+      "declared": [
+        "search_active_listings",
+        "get_listing_details"
+      ],
+      "projection": [
+        {
+          "name": "get_listing_details",
+          "description": "Details of one listing.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "listing_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "listing_ref"
+            ]
+          },
+          "outputSchema": null,
+          "annotations": null
+        },
+        {
+          "name": "search_active_listings",
+          "description": "Search active for-sale homes, and rentals.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              },
+              "min_beds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "listings": {
+                "type": "array"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": true,
+            "openWorldHint": true
+          }
+        }
+      ],
+      "canonical": "[{\"annotations\":null,\"description\":\"Details of one listing.\",\"inputSchema\":{\"properties\":{\"listing_ref\":{\"type\":\"string\"}},\"required\":[\"listing_ref\"],\"type\":\"object\"},\"name\":\"get_listing_details\",\"outputSchema\":null},{\"annotations\":{\"openWorldHint\":true,\"readOnlyHint\":true},\"description\":\"Search active for-sale homes, and rentals.\",\"inputSchema\":{\"properties\":{\"area_ref\":{\"type\":\"string\"},\"min_beds\":{\"minimum\":0,\"type\":\"integer\"}},\"required\":[\"area_ref\"],\"type\":\"object\"},\"name\":\"search_active_listings\",\"outputSchema\":{\"properties\":{\"listings\":{\"type\":\"array\"}},\"type\":\"object\"}}]",
+      "upstream_fingerprint": "85282432efa783554bbb58aca922945830b2e623c7f2e5602e426100ceb7dd35"
+    },
+    {
+      "name": "an annotation changed upstream",
+      "tools_list": [
+        {
+          "name": "search_active_listings",
+          "description": "Search active for-sale homes in a supported area.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              },
+              "min_beds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "listings": {
+                "type": "array"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": false
+          },
+          "title": "Search listings",
+          "_meta": {
+            "vendor": "ignored"
+          }
+        },
+        {
+          "name": "get_listing_details",
+          "description": "Details of one listing.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "listing_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "listing_ref"
+            ]
+          }
+        }
+      ],
+      "declared": [
+        "search_active_listings",
+        "get_listing_details"
+      ],
+      "projection": [
+        {
+          "name": "get_listing_details",
+          "description": "Details of one listing.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "listing_ref": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "listing_ref"
+            ]
+          },
+          "outputSchema": null,
+          "annotations": null
+        },
+        {
+          "name": "search_active_listings",
+          "description": "Search active for-sale homes in a supported area.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "area_ref": {
+                "type": "string"
+              },
+              "min_beds": {
+                "type": "integer",
+                "minimum": 0
+              }
+            },
+            "required": [
+              "area_ref"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "listings": {
+                "type": "array"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": false
+          }
+        }
+      ],
+      "canonical": "[{\"annotations\":null,\"description\":\"Details of one listing.\",\"inputSchema\":{\"properties\":{\"listing_ref\":{\"type\":\"string\"}},\"required\":[\"listing_ref\"],\"type\":\"object\"},\"name\":\"get_listing_details\",\"outputSchema\":null},{\"annotations\":{\"readOnlyHint\":false},\"description\":\"Search active for-sale homes in a supported area.\",\"inputSchema\":{\"properties\":{\"area_ref\":{\"type\":\"string\"},\"min_beds\":{\"minimum\":0,\"type\":\"integer\"}},\"required\":[\"area_ref\"],\"type\":\"object\"},\"name\":\"search_active_listings\",\"outputSchema\":{\"properties\":{\"listings\":{\"type\":\"array\"}},\"type\":\"object\"}}]",
+      "upstream_fingerprint": "ce7ec014bbfe13a30ddddac2fa790dd007ee1b27c86e1d7ff111b8df16763654"
+    }
+  ]
+}

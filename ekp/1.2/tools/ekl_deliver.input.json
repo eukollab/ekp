@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/ekl_deliver.input.json",
+  "title": "ekl_deliver input",
+  "description": "Receives the agent's events in order; returns the IDs it stored.",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/1.2/types/event.json"
+      },
+      "description": "Events in order."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "events"
+  ],
+  "examples": [
+    {
+      "events": [
+        {
+          "seq": 412,
+          "event_id": "evt_8d1c",
+          "type": "connection.accepted",
+          "resource_id": "con_7f2a91c0d4e1",
+          "data": {},
+          "occurred_at": "2026-10-24T09:15:00+00:00"
+        }
+      ]
+    }
+  ]
+}

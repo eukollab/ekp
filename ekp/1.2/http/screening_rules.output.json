@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/screening_rules.output.json",
+  "title": "screening_rules output",
+  "type": "object",
+  "description": "The network's signed screening rules, for consumers to screen results locally.",
+  "properties": {
+    "rules": {
+      "type": "string",
+      "description": "A compact JWS (typ ekl-screening-rules+jwt, ES256) whose claims are types/screening-rules.json. Check alg, typ, kid, the signature, iss and exp."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "rules"
+  ],
+  "examples": [
+    {
+      "rules": "eyJ…"
+    }
+  ]
+}

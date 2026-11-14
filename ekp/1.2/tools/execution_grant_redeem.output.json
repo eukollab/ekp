@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/execution_grant_redeem.output.json",
+  "title": "execution_grant_redeem output",
+  "description": "Provider: redeem a requester's execution grant before admitting the work. Live relationship, exact versions, eligibility, terms and the reservation are checked in the same transaction; an identical retry returns the same admission_id.",
+  "type": "object",
+  "properties": {
+    "admission_id": {
+      "type": "string",
+      "description": "Admission ID; attach it to the execution and its receipt."
+    },
+    "reservation_id": {
+      "type": "string",
+      "description": "Reservation."
+    },
+    "grant_id": {
+      "type": "string",
+      "description": "Grant."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "Execution."
+    },
+    "requester_agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID, e.g. cap_invoice_extract.",
+      "pattern": "^cap_[a-z0-9_]{2,40}$"
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Terms hash."
+    },
+    "amount_atoms": {
+      "type": "string",
+      "description": "Integer amount in atoms (1 USD = 1000000 atoms) as a decimal string, e.g. \"400000\".",
+      "pattern": "^\\d+$"
+    },
+    "currency": {
+      "type": "string",
+      "description": "ISO 4217 currency code.",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "execution_kind": {
+      "type": "string",
+      "description": "customer, trial or validation."
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version at admission."
+    },
+    "dsc_ver": {
+      "type": "integer",
+      "description": "Descriptor version."
+    },
+    "state": {
+      "type": "string",
+      "description": "redeemed."
+    },
+    "execution_seq": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "This execution's place in the agent's execution checkpoint; the agent keeps the highest it has seen."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "admission_id",
+    "reservation_id",
+    "execution_id",
+    "state"
+  ],
+  "examples": [
+    {
+      "admission_id": "adm_01",
+      "reservation_id": "rsv_01",
+      "grant_id": "grt_01",
+      "execution_id": "ex_19c4",
+      "requester_agent_id": "agt_b4d49789c38d",
+      "capability_id": "cap_invoice_extract",
+      "terms_hash": "9a1f\u2026",
+      "amount_atoms": "400000",
+      "currency": "USD",
+      "execution_kind": "customer",
+      "rel_ver": 2,
+      "dsc_ver": 1,
+      "state": "redeemed",
+      "execution_seq": 44
+    }
+  ]
+}

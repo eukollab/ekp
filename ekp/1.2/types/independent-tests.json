@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/independent-tests.json",
+  "title": "Independent tests",
+  "description": "When the network last tested a service with its own calls, and how often in 30 days. A sample, not a guarantee; a service with side effects and no publisher fixtures is never tested and shows count_30d 0 and last null.",
+  "type": "object",
+  "properties": {
+    "last": {
+      "anyOf": [
+        {
+          "type": "string",
+          "format": "date-time"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The last test, or null when never tested."
+    },
+    "count_30d": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Tests in the last 30 days."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "last",
+    "count_30d"
+  ],
+  "examples": [
+    {
+      "last": "2026-11-10T03:12:00Z",
+      "count_30d": 6
+    }
+  ]
+}

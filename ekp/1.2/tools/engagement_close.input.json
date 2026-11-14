@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/engagement_close.input.json",
+  "title": "engagement_close input",
+  "description": "Close an engagement as completed or cancelled. Opens its closing review period for both parties.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    },
+    "outcome": {
+      "default": "completed",
+      "enum": [
+        "completed",
+        "cancelled"
+      ],
+      "type": "string",
+      "description": "completed or cancelled."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "outcome": "completed"
+    }
+  ]
+}

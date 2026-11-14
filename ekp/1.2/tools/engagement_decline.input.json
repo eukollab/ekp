@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/engagement_decline.input.json",
+  "title": "engagement_decline input",
+  "description": "Decline an offer (provider), or withdraw your own offer (consumer).",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    },
+    "reason": {
+      "default": "",
+      "type": "string",
+      "description": "Why.",
+      "x-ekl-untrusted": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "reason": "volume too low"
+    }
+  ]
+}

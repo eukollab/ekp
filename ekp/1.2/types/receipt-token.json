@@ -1,0 +1,177 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/types/receipt-token.json",
+  "title": "Receipt token",
+  "description": "The claims of a network-signed receipt sent as a compact JWS: header alg ES256, typ ekl-receipt+jwt and kid from the network's key set. A consumer SHOULD verify alg, typ, signature, iss, aud, execution_id, both agent IDs, capability_id, input_fingerprint and iat (within the call's window, 60 s skew) before acknowledging it.",
+  "type": "object",
+  "properties": {
+    "receipt_version": {
+      "type": "string",
+      "description": "1.2.",
+      "const": "1.2"
+    },
+    "receipt_id": {
+      "type": "string",
+      "description": "Receipt ID."
+    },
+    "auth_profile": {
+      "type": "string",
+      "description": "ekl-evidence-sig-1.2.",
+      "const": "ekl-evidence-sig-1.2"
+    },
+    "execution_kind": {
+      "type": "string",
+      "description": "customer, trial or validation.",
+      "enum": [
+        "customer",
+        "trial",
+        "validation"
+      ]
+    },
+    "requester_agent_id": {
+      "type": "string",
+      "description": "The consumer."
+    },
+    "provider_agent_id": {
+      "type": "string",
+      "description": "The provider."
+    },
+    "collaboration_id": {
+      "type": "string",
+      "description": "The agreement (empty for trials and validation)."
+    },
+    "connection_id": {
+      "type": "string",
+      "description": "The connection or session."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "Execution."
+    },
+    "admission_id": {
+      "type": "string",
+      "description": "Admission."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability."
+    },
+    "capability_version": {
+      "type": "string",
+      "description": "The version executed."
+    },
+    "rel_ver_at_admission": {
+      "type": "integer",
+      "description": "Relationship version."
+    },
+    "dsc_ver": {
+      "type": "integer",
+      "description": "Descriptor version."
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Terms hash."
+    },
+    "input_fingerprint": {
+      "type": "string",
+      "description": "Salted input fingerprint.",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "output_fingerprint": {
+      "type": "string",
+      "description": "Salted output fingerprint, or empty."
+    },
+    "status": {
+      "type": "string",
+      "description": "succeeded, failed_before_effect, outcome_unknown or cancelled (the resolved outcome on a resolution receipt)."
+    },
+    "issued_at": {
+      "type": "string",
+      "description": "RFC 3339 time.",
+      "format": "date-time"
+    },
+    "reservation_id": {
+      "type": "string",
+      "description": "Paid calls: the reservation."
+    },
+    "grant_id": {
+      "type": "string",
+      "description": "Paid calls: the grant."
+    },
+    "resolution_of": {
+      "type": "string",
+      "description": "A resolution receipt: the receipt it resolves."
+    },
+    "resolved_outcome": {
+      "type": "string",
+      "description": "A resolution receipt: the resolved outcome."
+    },
+    "basis": {
+      "type": "string",
+      "description": "A resolution receipt: lookup, idempotency, provider or operator."
+    },
+    "iss": {
+      "type": "string",
+      "description": "The network's issuer, as world_get_contract gives it."
+    },
+    "aud": {
+      "type": "string",
+      "description": "The consumer's agent ID (requester_agent_id); a validation receipt's audience is the network's issuer."
+    },
+    "iat": {
+      "type": "integer",
+      "description": "When the network signed it, Unix seconds; the same moment as issued_at, which a consumer checks."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "receipt_version",
+    "receipt_id",
+    "auth_profile",
+    "execution_kind",
+    "requester_agent_id",
+    "provider_agent_id",
+    "collaboration_id",
+    "connection_id",
+    "execution_id",
+    "admission_id",
+    "capability_id",
+    "capability_version",
+    "rel_ver_at_admission",
+    "dsc_ver",
+    "terms_hash",
+    "input_fingerprint",
+    "output_fingerprint",
+    "status",
+    "issued_at",
+    "iss",
+    "aud",
+    "iat"
+  ],
+  "examples": [
+    {
+      "receipt_version": "1.2",
+      "receipt_id": "rcp_1c2d3e4f5a6b",
+      "auth_profile": "ekl-evidence-sig-1.2",
+      "execution_kind": "customer",
+      "requester_agent_id": "agt_9cfaed217929",
+      "provider_agent_id": "agt_7f2a1b3c4d5e",
+      "collaboration_id": "col_4f1c9a",
+      "connection_id": "con_9b2",
+      "execution_id": "ex_7f3a2c91",
+      "admission_id": "adm_8c1f",
+      "capability_id": "cap_search_active_listings",
+      "capability_version": "1.0.0",
+      "rel_ver_at_admission": 2,
+      "dsc_ver": 1,
+      "terms_hash": "",
+      "input_fingerprint": "46839dcf7511e1b9789e56ccbce9a4e7a562adc9aa9b1088337802fec1018a3c",
+      "output_fingerprint": "1a22bbbe0546873ae70004bfdd78ba62541b74cfe70744b98f5ce490dbad6858",
+      "status": "succeeded",
+      "issued_at": "2026-11-12T12:00:42Z",
+      "iss": "https://network.example",
+      "aud": "agt_9cfaed217929",
+      "iat": 1794484842
+    }
+  ]
+}

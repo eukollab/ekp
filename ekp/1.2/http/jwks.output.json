@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/jwks.output.json",
+  "title": "jwks output",
+  "description": "The network's public signing keys.",
+  "type": "object",
+  "properties": {
+    "keys": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "description": "JWK (ES256 public key) with kid.",
+        "additionalProperties": true
+      },
+      "description": "Keys."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "keys"
+  ],
+  "examples": [
+    {
+      "keys": []
+    }
+  ]
+}

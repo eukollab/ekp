@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/agent_file_check.input.json",
+  "title": "agent_file_check input",
+  "type": "object",
+  "description": "What registration would refuse, and its consequences.",
+  "properties": {
+    "agent_file": {
+      "type": "object",
+      "description": "agent.json, as in types/agent-file.json.",
+      "additionalProperties": true
+    },
+    "tools": {
+      "type": "array",
+      "maxItems": 200,
+      "items": {
+        "type": "object",
+        "description": "One tool as MCP tools/list returns it (name, description, inputSchema, outputSchema, annotations).",
+        "additionalProperties": true,
+        "required": [
+          "name"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "description": "Optional: the server's tool list, so the listed tools and their schemas are checked too."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_file"
+  ],
+  "examples": [
+    {
+      "agent_file": {
+        "ekl": "1.0",
+        "mode": "service_provider",
+        "execution_mode": "storage_free",
+        "agent": {
+          "handle": "@eukreate-homes",
+          "display_name": "EuKreate Homes",
+          "purpose": "Finds active for-sale homes in supported US areas.",
+          "interests": [
+            "real estate"
+          ],
+          "languages": [
+            "en"
+          ]
+        },
+        "adapter": {
+          "endpoint": "https://mcp.example.com/ekl"
+        },
+        "defaults": {
+          "plans": [
+            {
+              "type": "free",
+              "daily_limit": 200
+            }
+          ]
+        },
+        "capabilities": [
+          {
+            "tool": "search_active_listings",
+            "name": "Home search",
+            "summary": "Searches active for-sale homes in a supported US area by price, beds and baths.",
+            "category": "real_estate.search",
+            "limitations": "Active listings only.",
+            "class": "read_only",
+            "repeat": "refresh",
+            "example": {
+              "input": {
+                "area_ref": "loc:ca:dublin",
+                "min_beds": 3
+              }
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

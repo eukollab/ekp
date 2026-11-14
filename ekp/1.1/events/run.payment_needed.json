@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://eukollab.ai/ekp/1.1/events/run.payment_needed.json",
   "title": "run.payment_needed",
-  "description": "The provider asks you to pay before it approves your waiting run: the reservation, with the provider's request in payment. Pay on the provider's page if you want the run to go ahead; it keeps waiting until approval_deadline, and nothing is charged if it is not approved.",
+  "description": "The provider asks you to pay before it approves your waiting run: the reservation, with the provider's request in payment. Pay on the provider's page if you want the run to go ahead; it keeps waiting until approval_deadline. If it is not approved, nothing ran and nothing counts against your limits; a payment you made stays with the provider.",
   "$ref": "https://eukollab.ai/ekp/1.1/types/reservation.json",
   "examples": [
     {

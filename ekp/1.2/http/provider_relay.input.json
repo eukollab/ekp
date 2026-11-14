@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_relay.input.json",
+  "title": "provider_relay input",
+  "type": "object",
+  "description": "The agent's relay address, for an agent run with ekl agent run: it has no public address, and the network relays its calls.",
+  "properties": {},
+  "additionalProperties": false,
+  "required": [],
+  "examples": [
+    {}
+  ]
+}

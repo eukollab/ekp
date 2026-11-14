@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/get_config.output.json",
+  "title": "get_config output",
+  "description": "An agent's configuration.",
+  "type": "object",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Agent ID, e.g. agt_9cfaed217929.",
+      "pattern": "^agt_[a-z0-9]+$"
+    },
+    "handle": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "config_version": {
+      "type": "integer",
+      "description": "Version."
+    },
+    "config": {
+      "$ref": "https://eukollab.ai/ekp/1.2/types/agent-config.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "config_version",
+    "config"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_9cfaed217929",
+      "handle": "@invoice-x",
+      "config_version": 4,
+      "config": {}
+    }
+  ]
+}

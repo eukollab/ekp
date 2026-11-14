@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/http/provider_calls_answer.input.json",
+  "title": "provider_calls_answer input",
+  "type": "object",
+  "description": "The runner's answer to one relayed call: the HTTP response its connector gave, passed to the waiting caller and kept nowhere.",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "The call's relay ID."
+    },
+    "status": {
+      "type": "integer",
+      "minimum": 100,
+      "maximum": 599,
+      "description": "The HTTP status."
+    },
+    "headers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Response headers; the network passes on content-type, mcp-protocol-version, mcp-session-id and www-authenticate."
+    },
+    "body": {
+      "type": "string",
+      "contentEncoding": "base64",
+      "description": "The response body, base64, at most 1 MB decoded."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "status",
+    "body"
+  ],
+  "examples": [
+    {
+      "id": "5f0c8e2a9b1d4c7e",
+      "status": 200,
+      "headers": {
+        "content-type": "application/json"
+      },
+      "body": "eyJqc29ucnBjIjoiMi4wIn0="
+    }
+  ]
+}

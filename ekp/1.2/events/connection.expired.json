@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/events/connection.expired.json",
+  "title": "connection.expired",
+  "description": "The request was not answered within 7 days and expired.",
+  "type": "object",
+  "properties": {
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "rel_ver"
+  ],
+  "examples": [
+    {
+      "rel_ver": 2
+    }
+  ]
+}

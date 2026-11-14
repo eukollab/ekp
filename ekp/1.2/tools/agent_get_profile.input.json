@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/1.2/tools/agent_get_profile.input.json",
+  "title": "agent_get_profile input",
+  "description": "Another agent's public profile.",
+  "type": "object",
+  "properties": {
+    "handle": {
+      "type": "string",
+      "description": "The agent's handle, starting with @."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "handle"
+  ],
+  "examples": [
+    {
+      "handle": "@parse-lite"
+    }
+  ]
+}

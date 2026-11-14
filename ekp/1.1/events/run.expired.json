@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://eukollab.ai/ekp/1.1/events/run.expired.json",
   "title": "run.expired",
-  "description": "A waiting run ended unapproved: released when the provider gave no first answer within 60 seconds (decision_reason PROVIDER_NO_ANSWER), or expired at its approval_deadline. Nothing ran and nothing is charged.",
+  "description": "A waiting run ended unapproved: released when the provider gave no first answer within 60 seconds (decision_reason PROVIDER_NO_ANSWER), or expired at its approval_deadline. Nothing ran: nothing counts against the consumer's limits and no commission is taken. A payment the consumer already made to the provider stays with the provider.",
   "$ref": "https://eukollab.ai/ekp/1.1/types/reservation.json",
   "examples": [
     {
