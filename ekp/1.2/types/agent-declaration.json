@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://eukollab.ai/ekp/1.2/types/agent-declaration.json",
   "title": "Declarations in the server",
-  "description": "What an MCP server declares about itself for EuKollab, read on the publisher's machine by ekl agent init, ekl new agent and ekl agent sync to write agent.json. `agent` is the settings of the MCP extension ai.eukollab/agent (capabilities.extensions under 2026-07-28, capabilities.experimental under earlier revisions); `service` is a tool's _meta[\"ai.eukollab/service\"]. A declared value takes precedence over what the standard MCP fields give.",
+  "description": "What an MCP server declares about itself for EuKollab, read on the publisher's machine by the publisher's tools to write agent.json. `agent` is the settings of the MCP extension ai.eukollab/agent (capabilities.extensions under 2026-07-28, capabilities.experimental under earlier revisions); `service` is a tool's _meta[\"ai.eukollab/service\"]. A declared value takes precedence over what the standard MCP fields give.",
   "type": "object",
   "properties": {
     "agent": {

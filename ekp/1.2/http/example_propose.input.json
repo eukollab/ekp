@@ -3,7 +3,7 @@
   "$id": "https://eukollab.ai/ekp/1.2/http/example_propose.input.json",
   "title": "example_propose input",
   "type": "object",
-  "description": "Candidate example inputs for the services `ekl agent init` or `sync` found no example for. The publisher's tools try each on the server and keep only one the tool ran.",
+  "description": "Candidate example inputs for the services the publisher's tools found no example for. The publisher's tools try each on the server and keep only one the tool ran.",
   "properties": {
     "tools": {
       "type": "array",

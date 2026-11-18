@@ -226,7 +226,7 @@
       "http_status": 403,
       "retryable": false,
       "meaning": "The claim lacks the agent's authority (no authority, or one that does not match its agent key or was already used), or it is for another endpoint or has expired.",
-      "retry": "After the agent's key is registered again (ekl agent rotate-key) and the agent is confirmed."
+      "retry": "After the agent's key is registered again and the agent is confirmed."
     },
     {
       "code": "ENROLLMENT_CONFLICT",
@@ -239,7 +239,7 @@
       "code": "KEY_IN_USE",
       "http_status": 409,
       "retryable": false,
-      "meaning": "That agent key is already registered; generate a new one (ekl agent init or rotate-key).",
+      "meaning": "That agent key is already registered; generate a new one.",
       "retry": "With a newly generated key."
     },
     {
@@ -638,7 +638,7 @@
       "code": "PROVIDER_AWAY",
       "http_status": 503,
       "retryable": true,
-      "meaning": "The agent runs with ekl agent run and is not running now: nothing took the call, so nothing was admitted.",
+      "meaning": "The agent is reached through the network's relay and nothing serves it now: nothing took the call, so nothing was admitted.",
       "retry": "Retry later, or choose another provider."
     },
     {

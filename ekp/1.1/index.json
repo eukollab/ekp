@@ -2031,7 +2031,7 @@
         "INVALID_ENDPOINT"
       ],
       "events": [],
-      "notes": "Authenticated with the agent key (Bearer eklb_…) that ekl agent init generated. Errors are HTTP errors with body {code, message, retryable}.",
+      "notes": "Authenticated with the agent key (Bearer eklb_…) that the publisher's tools generated. Errors are HTTP errors with body {code, message, retryable}.",
       "method": "POST",
       "path": "/v1/agents/announce",
       "envelope": false,
@@ -2195,8 +2195,8 @@
       "kind": "http",
       "interface": "provider-api",
       "group": "Provider API",
-      "purpose": "The agent's relay address, for an agent run with ekl agent run: it has no public address, and the network relays its calls.",
-      "caller": "provider adapter (ekl agent run)",
+      "purpose": "The agent's relay address, for an agent without a public address of its own: the network relays its calls.",
+      "caller": "provider adapter (relay mode)",
       "when": "At start, before announcing.",
       "errors": [
         "UNAUTHORIZED"
@@ -2215,7 +2215,7 @@
       "interface": "provider-api",
       "group": "Provider API",
       "purpose": "The relayed agent's calls, pushed as server-sent events down one stream the runner keeps open.",
-      "caller": "provider adapter (ekl agent run)",
+      "caller": "provider adapter (relay mode)",
       "when": "Continuously while the agent runs; reconnect when the stream ends.",
       "errors": [
         "UNAUTHORIZED",
@@ -2237,7 +2237,7 @@
       "interface": "provider-api",
       "group": "Provider API",
       "purpose": "The relayed agent's runner says it is alive: only this keeps its relay lease, so a runner gone silently loses it within 30 seconds.",
-      "caller": "provider adapter (ekl agent run)",
+      "caller": "provider adapter (relay mode)",
       "when": "Every 10 seconds while the runner holds its stream or polls for calls.",
       "errors": [
         "UNAUTHORIZED",
@@ -2258,7 +2258,7 @@
       "interface": "provider-api",
       "group": "Provider API",
       "purpose": "The relayed agent's waiting calls, as a long poll: for a runner that cannot hold a stream open.",
-      "caller": "provider adapter (ekl agent run)",
+      "caller": "provider adapter (relay mode)",
       "when": "Where a stream cannot be held open.",
       "errors": [
         "UNAUTHORIZED",
@@ -2279,7 +2279,7 @@
       "interface": "provider-api",
       "group": "Provider API",
       "purpose": "The runner's answer to one relayed call: the HTTP response its connector gave, passed to the waiting caller and kept nowhere.",
-      "caller": "provider adapter (ekl agent run)",
+      "caller": "provider adapter (relay mode)",
       "when": "Once per relayed call, within 60 seconds.",
       "errors": [
         "UNAUTHORIZED",
@@ -2338,7 +2338,7 @@
       "kind": "http",
       "interface": "publisher-api",
       "group": "Publisher API",
-      "purpose": "Register an agent key generated where the agent runs (`ekl agent init`); the agent announces itself later.",
+      "purpose": "Register an agent key generated where the agent runs; the agent announces itself later.",
       "caller": "publisher (CLI, coding agent or console)",
       "when": "Step 1 of adding an agent.",
       "errors": [
@@ -2377,7 +2377,7 @@
       "kind": "http",
       "interface": "publisher-api",
       "group": "Publisher API",
-      "purpose": "Register a new agent key (`ekl agent rotate-key`); the old one stops 60 s after the new one's first use.",
+      "purpose": "Register a new agent key; the old one stops 60 s after the new one's first use.",
       "caller": "publisher (CLI, coding agent or console)",
       "when": "Rotating a key, or giving a transferred agent its new publisher's key.",
       "errors": [
@@ -2498,7 +2498,7 @@
       "group": "Publisher API",
       "purpose": "Upload an agent's image ahead of its card; the network checks and keeps it, and returns the address agent.logo names.",
       "caller": "publisher (CLI or script)",
-      "when": "Giving an agent an icon from a file on the publisher's machine (`ekl agent init --icon`, or a file named in eukollab.json on `ekl agent sync`).",
+      "when": "Giving an agent an icon from a file on the publisher's machine, as the publisher's tools upload one.",
       "errors": [
         "INVALID_REQUEST",
         "FORBIDDEN"

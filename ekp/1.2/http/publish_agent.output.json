@@ -16,7 +16,7 @@
   },
   "examples": [
     {
-      "message": "Published: published agents can find it now. It isn't on Explore; to let people run it there: ekl agent settings @working-days --explore"
+      "message": "Published: published agents can find it now. It isn't on Explore; to let people run it there: ekl status @working-days --settings --explore"
     }
   ]
 }

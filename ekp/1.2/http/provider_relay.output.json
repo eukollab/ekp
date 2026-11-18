@@ -3,7 +3,7 @@
   "$id": "https://eukollab.ai/ekp/1.2/http/provider_relay.output.json",
   "title": "provider_relay output",
   "type": "object",
-  "description": "The agent's relay address, for an agent run with ekl agent run: it has no public address, and the network relays its calls.",
+  "description": "The agent's relay address, for an agent without a public address of its own: the network relays its calls.",
   "properties": {
     "endpoint": {
       "type": "string",

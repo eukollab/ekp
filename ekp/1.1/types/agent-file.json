@@ -458,7 +458,7 @@
                 "found",
                 "publisher"
               ],
-              "description": "Where it came from: the input schema, the example finder of ekl agent init (tried on the publisher's server), or the publisher (default)."
+              "description": "Where it came from: the input schema, the example finder of the publisher's tools (tried on the publisher's server), or the publisher (default)."
             },
             "helpers": {
               "type": "array",

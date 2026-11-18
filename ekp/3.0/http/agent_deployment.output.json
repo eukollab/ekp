@@ -1,0 +1,288 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.0/http/agent_deployment.output.json",
+  "title": "agent_deployment output",
+  "type": "object",
+  "description": "The agent's deployment on the network, its revisions and its health, with no secret.",
+  "properties": {
+    "location": {
+      "anyOf": [
+        {
+          "type": "string",
+          "const": "managed"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "managed when the network serves the agent; null when it has no deployment, and only agent_id follows."
+    },
+    "agent_id": {
+      "type": "string",
+      "description": "The agent."
+    },
+    "deployment_id": {
+      "type": "string",
+      "description": "The deployment."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "removed"
+      ],
+      "description": "The deployment's state."
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "serving",
+        "sleeping",
+        "failed",
+        "removed"
+      ],
+      "description": "What a caller meets: serving (running now), sleeping (started by the next call, within 15 s), failed (no revision passed its checks) or removed."
+    },
+    "active_revision": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The active revision, if any."
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "The agent's relay address."
+    },
+    "worker": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "What serves it now, if it is running."
+    },
+    "loaded_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "When it last started (RFC 3339)."
+    },
+    "startup_ms": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "How long it took to start."
+    },
+    "last_error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The last error starting or serving it."
+    },
+    "last_error_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "When (RFC 3339)."
+    },
+    "callbacks_running": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "What runs its callbacks now, if they run."
+    },
+    "callbacks_started_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "When its callbacks started (RFC 3339)."
+    },
+    "callbacks_error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The last error running its callbacks."
+    },
+    "revisions": {
+      "type": "array",
+      "description": "The latest 20 revisions, newest first: revision, status, digest, created_at, actor, announced_version, headers (the names only), checks, callbacks and callbacks_digest.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "revision": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "failed",
+              "superseded",
+              "removed"
+            ]
+          },
+          "digest": {
+            "type": "string"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "actor": {
+            "type": "string"
+          },
+          "announced_version": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "headers": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "checks": {
+            "type": "array",
+            "description": "The checks of this revision: mcp_server (the server answers MCP) and agent_file (agent.json against the server's tools), each with check, ok, message and, for agent_file, problems.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "check": {
+                  "type": "string"
+                },
+                "ok": {
+                  "type": "boolean"
+                },
+                "message": {
+                  "type": "string"
+                },
+                "problems": {
+                  "type": "array",
+                  "items": {
+                    "type": "object"
+                  }
+                }
+              },
+              "required": [
+                "check",
+                "ok",
+                "message"
+              ]
+            }
+          },
+          "callbacks": {
+            "anyOf": [
+              {
+                "type": "string",
+                "enum": [
+                  "hosted",
+                  "route"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "description": "Where the agent's own decisions are made: hosted (its callbacks file, run by the network), route (a route in the publisher's own app), or null when its console rules decide."
+          },
+          "callbacks_digest": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "revision",
+          "status",
+          "digest",
+          "created_at"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "location",
+    "agent_id"
+  ],
+  "examples": [
+    {
+      "location": "managed",
+      "agent_id": "agt_7f2a",
+      "deployment_id": "dep_4c1e",
+      "status": "active",
+      "availability": "serving",
+      "active_revision": 3,
+      "endpoint": "https://eukollab.ai/v1/relay/agt_7f2a/mcp",
+      "worker": "w-2",
+      "loaded_at": "2026-11-16T17:02:11Z",
+      "startup_ms": 840,
+      "last_error": null,
+      "last_error_at": null,
+      "callbacks_running": null,
+      "callbacks_started_at": null,
+      "callbacks_error": null,
+      "revisions": [
+        {
+          "revision": 3,
+          "status": "active",
+          "digest": "sha256:9f2c",
+          "created_at": "2026-11-16T17:01:58Z",
+          "actor": "owner:usr_1a",
+          "announced_version": 4,
+          "headers": [
+            "Authorization"
+          ],
+          "checks": [],
+          "callbacks": null,
+          "callbacks_digest": null
+        }
+      ]
+    }
+  ]
+}

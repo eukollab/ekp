@@ -1,0 +1,189 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.0/http/releases.output.json",
+  "title": "releases output",
+  "type": "object",
+  "description": "Every published version of a package with its notes and standing; with current, that version's own. Lists only the versions the signed release catalogue names.",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The package."
+    },
+    "latest": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The newest version that may be installed; never a withdrawn or retired one."
+    },
+    "index": {
+      "type": "string",
+      "description": "The package index (PEP 503) to install from."
+    },
+    "policy": {
+      "type": "string",
+      "description": "The support policy for versions."
+    },
+    "versions": {
+      "type": "array",
+      "description": "Every listed version, newest first.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "version": {
+            "type": "string"
+          },
+          "released": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "notes": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "supported",
+              "deprecated",
+              "retired",
+              "withdrawn",
+              "unknown"
+            ]
+          },
+          "retires": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "reason": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "file": {
+            "type": "object",
+            "properties": {
+              "filename": {
+                "type": "string"
+              },
+              "url": {
+                "type": "string"
+              },
+              "sha256": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "filename",
+              "url",
+              "sha256"
+            ]
+          }
+        },
+        "required": [
+          "version",
+          "status",
+          "file"
+        ]
+      }
+    },
+    "current": {
+      "anyOf": [
+        {
+          "type": "object",
+          "properties": {
+            "version": {
+              "type": "string"
+            },
+            "status": {
+              "type": "string",
+              "enum": [
+                "supported",
+                "deprecated",
+                "retired",
+                "withdrawn",
+                "unknown"
+              ]
+            },
+            "retires": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "message": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "upgrade": {
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "required": [
+            "version",
+            "status"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "With current: that version's standing, a notice to show, and upgrade, the latest version when it is newer."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "project",
+    "latest",
+    "index",
+    "policy",
+    "versions",
+    "current"
+  ],
+  "examples": [
+    {
+      "project": "ekl-cli",
+      "latest": "0.6.3",
+      "index": "https://eukollab.ai/simple/",
+      "policy": "https://eukollab.ai/docs/guide/tools/ekl-cli#versions-and-upgrades",
+      "versions": [
+        {
+          "version": "0.6.3",
+          "released": "2026-11-15",
+          "notes": "…",
+          "status": "supported",
+          "retires": null,
+          "reason": null,
+          "file": {
+            "filename": "ekl_cli-0.6.3-py3-none-any.whl",
+            "url": "https://eukollab.ai/downloads/ekl_cli-0.6.3-py3-none-any.whl",
+            "sha256": "4b1f…"
+          }
+        }
+      ],
+      "current": {
+        "version": "0.6.2",
+        "status": "supported",
+        "retires": null,
+        "message": null,
+        "upgrade": "0.6.3"
+      }
+    }
+  ]
+}

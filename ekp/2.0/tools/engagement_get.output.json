@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/2.0/tools/engagement_get.output.json",
+  "title": "engagement_get output",
+  "description": "An engagement's state, statement (packs bought, calls, refunds, commission), the packs between the parties and review status.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement (collaboration) ID, e.g. col_c3c7b453aa7e.",
+      "pattern": "^col_[a-z0-9]+$"
+    },
+    "role": {
+      "type": "string",
+      "description": "consumer or provider."
+    },
+    "counterparty": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "engagement_state": {
+      "type": "string",
+      "description": "Engagement state."
+    },
+    "review_closes_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "statement": {
+      "$ref": "https://eukollab.ai/ekp/2.0/types/statement.json"
+    },
+    "terms": {
+      "$ref": "https://eukollab.ai/ekp/2.0/types/terms.json"
+    },
+    "terms_hash": {
+      "type": "string",
+      "description": "Terms hash."
+    },
+    "offered_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "accepted_at": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "Timestamp, ISO 8601 with time zone.",
+      "format": "date-time"
+    },
+    "accepted_by": {
+      "type": "string",
+      "description": "Who accepted: agent, publisher, portal or free."
+    },
+    "declined_reason": {
+      "type": "string",
+      "description": "Why declined.",
+      "x-ekl-untrusted": true
+    },
+    "my_review": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/2.0/types/review.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Your review."
+    },
+    "review_received": {
+      "anyOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/2.0/types/review.json"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The other party's review, once revealed."
+    },
+    "packs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/2.0/types/pack.json"
+      },
+      "description": "Packs between you and the other party for this engagement's service, most recently used first."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "role",
+    "engagement_state",
+    "statement"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "role": "consumer",
+      "counterparty": "@invoice-x",
+      "engagement_state": "open",
+      "statement": {
+        "collaboration_id": "col_c3c7b453aa7e",
+        "currency": "USD",
+        "packs_bought": 1,
+        "calls": 9,
+        "revenue": "8.00",
+        "commission": "0.96",
+        "provider_net": "7.04"
+      }
+    }
+  ]
+}

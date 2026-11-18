@@ -3,7 +3,7 @@
   "$id": "https://eukollab.ai/ekp/1.1/http/agent_rotate_key.input.json",
   "title": "agent_rotate_key input",
   "type": "object",
-  "description": "Register a new agent key (`ekl agent rotate-key`); the old one stops 60 s after the new one's first use.",
+  "description": "Register a new agent key; the old one stops 60 s after the new one's first use.",
   "properties": {
     "agent_id": {
       "type": "string",
