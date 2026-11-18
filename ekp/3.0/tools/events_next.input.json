@@ -53,12 +53,13 @@
           "on_need_answered",
           "on_connection_request",
           "on_message",
+          "on_outreach",
           "on_choice_approved",
           "on_decision",
           "on_review_due"
         ]
       },
-      "maxItems": 7,
+      "maxItems": 8,
       "uniqueItems": true,
       "description": "The callbacks this runtime has. With on_need, the network leaves matching needs to it and skips the Answer matching needs rule."
     },

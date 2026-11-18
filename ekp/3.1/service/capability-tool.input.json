@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.1/service/capability-tool.input.json",
+  "title": "<capability tool> input",
+  "description": "Runs one capability: the MCP tool named by the capability's tool_name, called at the provider adapter's endpoint from peer_get_access with the access token as Authorization: Bearer.",
+  "type": "object",
+  "properties": {
+    "_meta": {
+      "type": "object",
+      "description": "The request's _meta. EKP uses only its ekl member.",
+      "properties": {
+        "ekl": {
+          "$ref": "https://eukollab.ai/ekp/3.1/types/execution-context.json",
+          "description": "The execution context (type execution-context)."
+        }
+      },
+      "required": [
+        "ekl"
+      ],
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "x-ekl-untrusted": true,
+  "x-ekl-max-bytes": 262144,
+  "x-ekl-max-depth": 64,
+  "required": [
+    "_meta"
+  ],
+  "examples": [
+    {
+      "invoice_text": "INVOICE 2026-118 …",
+      "_meta": {
+        "ekl": {
+          "execution_id": "ex_19c4",
+          "capability_id": "cap_invoice_extract",
+          "capability_version": "2.1.0",
+          "agreement_id": "col_c3c7b453aa7e",
+          "terms_hash": "9a1f…",
+          "execution_grant": "eyJ…",
+          "salt": "9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f9f"
+        }
+      }
+    }
+  ]
+}

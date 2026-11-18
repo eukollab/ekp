@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.1/http/agent_deploy.input.json",
+  "title": "agent_deploy input",
+  "type": "object",
+  "description": "Have the network serve the agent of an MCP server on the web: agent.json, the server's address and headers and the agent key are checked, the server is probed and the deploy is recorded as a revision; when its checks pass the revision is announced at the agent's relay address and becomes the active one.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    },
+    "agent_file": {
+      "type": "object",
+      "description": "agent.json."
+    },
+    "declarations": {
+      "type": "object",
+      "description": "The server's own declarations, as ekl read them."
+    },
+    "upstream_url": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 2048,
+      "description": "The MCP server's https address on the web."
+    },
+    "upstream_headers": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "description": "Headers the network sends to the server, such as its API key; kept encrypted and never shown again."
+    },
+    "agent_key": {
+      "type": "string",
+      "minLength": 8,
+      "maxLength": 200,
+      "description": "The agent's current key; kept encrypted."
+    },
+    "callbacks": {
+      "type": "string",
+      "description": "The agent's own callbacks file, for the network to run once it has them switched on."
+    },
+    "requirements": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "The packages the callbacks file needs."
+    },
+    "callback_url": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "Or the route in the publisher's own app that answers the agent's events."
+    },
+    "agent_credential": {
+      "type": "string",
+      "maxLength": 200,
+      "description": "The agent-operation credential the callbacks act with; required with callbacks or callback_url."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "agent_file",
+    "upstream_url",
+    "agent_key"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "agent_file": {
+        "handle": "@ledger-recon"
+      },
+      "upstream_url": "https://mcp.example.com/mcp",
+      "upstream_headers": {
+        "Authorization": "Bearer sk-…"
+      },
+      "agent_key": "eklk_3f9d…"
+    }
+  ]
+}

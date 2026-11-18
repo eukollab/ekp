@@ -1,0 +1,913 @@
+{
+  "description": "Scoring vectors for capability_trial (EKP 3.1). Each case gives an expectation, the provider's structured output and its declared output schema (null when it declares none), and the answer the network gives, scored without a model, or the error code it refuses the expectation with before calling the provider (`refused`); `exact_checks` gives each check's score before rounding, to four places. Each check's score is shown rounded down to a step of 0.25; the trial's score is the weighted mean of the exact scores of the checks that could be scored, the network's own `schema` check (weight 1) among them, rounded down to a step of 0.05. A check that can't be scored is cannot_tell and left out of the mean; with every check of the consumer's cannot_tell there is no score (null) and the trial doesn't pass. With no checks given, the schema check alone is the score.",
+  "cases": [
+    {
+      "name": "exact checks compare text after normalising case, whitespace and Unicode form, at every depth, and numbers whether written 120 or 120.0; text never equals a number",
+      "expect": {
+        "checks": [
+          {
+            "id": "name",
+            "path": "$.name",
+            "equals": "ACME  GmbH"
+          },
+          {
+            "id": "nested",
+            "path": "$.party",
+            "equals": {
+              "id": 7,
+              "tags": [
+                "ACME"
+              ]
+            }
+          },
+          {
+            "id": "text_vs_number",
+            "path": "$.code",
+            "equals": 120
+          }
+        ]
+      },
+      "output": {
+        "name": "acme gmbh",
+        "party": {
+          "tags": [
+            "acme"
+          ],
+          "id": 7.0
+        },
+        "code": "120"
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 0.75,
+        "passed": false,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "name",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "nested",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "text_vs_number",
+            "score": 0.0,
+            "reason": "mismatch"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "name",
+          "score": 1.0
+        },
+        {
+          "id": "nested",
+          "score": 1.0
+        },
+        {
+          "id": "text_vs_number",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "name": "a near miss scores partly, falling linearly to 0 at twice the tolerance or one range width away; each check is shown rounded down to 0.25, the trial's score comes from the exact check scores",
+      "expect": {
+        "checks": [
+          {
+            "id": "total",
+            "path": "$.total",
+            "approx": 100,
+            "tolerance": "1%"
+          },
+          {
+            "id": "count",
+            "path": "$.count",
+            "range": [
+              10,
+              20
+            ]
+          }
+        ],
+        "threshold": 0.8
+      },
+      "output": {
+        "total": 101.5,
+        "count": 22.7
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 0.7,
+        "passed": false,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "total",
+            "score": 0.5,
+            "reason": "near"
+          },
+          {
+            "id": "count",
+            "score": 0.5,
+            "reason": "near"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "total",
+          "score": 0.5
+        },
+        {
+          "id": "count",
+          "score": 0.73
+        }
+      ]
+    },
+    {
+      "name": "the trial's score is rounded down to a step of 0.05, never to the nearest: 0.6497 is 0.6",
+      "expect": {
+        "checks": [
+          {
+            "id": "near",
+            "path": "$.v",
+            "range": [
+              0,
+              1000
+            ]
+          },
+          {
+            "id": "wrong",
+            "path": "$.w",
+            "equals": "x"
+          }
+        ],
+        "threshold": 0.5
+      },
+      "output": {
+        "v": 1050.9,
+        "w": "y"
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 0.6,
+        "passed": true,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "near",
+            "score": 0.75,
+            "reason": "near"
+          },
+          {
+            "id": "wrong",
+            "score": 0.0,
+            "reason": "mismatch"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "near",
+          "score": 0.9491
+        },
+        {
+          "id": "wrong",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "name": "weights weigh in the mean; the network's own schema check weighs 1",
+      "expect": {
+        "checks": [
+          {
+            "id": "a",
+            "path": "$.a",
+            "equals": 1,
+            "weight": 8
+          },
+          {
+            "id": "b",
+            "path": "$.b",
+            "equals": 1
+          }
+        ]
+      },
+      "output": {
+        "a": 1,
+        "b": 2
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 0.9,
+        "passed": true,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "a",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "b",
+            "score": 0.0,
+            "reason": "mismatch"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "a",
+          "score": 1.0
+        },
+        {
+          "id": "b",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "name": "a model check scored without a model is cannot_tell: left out of the mean, never a fail",
+      "expect": {
+        "checks": [
+          {
+            "id": "tone",
+            "path": "$.summary",
+            "criterion": "is polite"
+          },
+          {
+            "id": "lang",
+            "path": "$.lang",
+            "one_of": [
+              "de",
+              "at"
+            ]
+          }
+        ]
+      },
+      "output": {
+        "summary": "Danke",
+        "lang": "DE"
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 1.0,
+        "passed": true,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "tone",
+            "score": null,
+            "reason": "cannot_tell"
+          },
+          {
+            "id": "lang",
+            "score": 1.0,
+            "reason": "matched"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "tone",
+          "score": null
+        },
+        {
+          "id": "lang",
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "name": "with every check of the consumer's cannot_tell, there is no score and the trial doesn't pass: the provider's own schema alone never passes it",
+      "expect": {
+        "checks": [
+          {
+            "id": "tone",
+            "criterion": "is polite"
+          }
+        ]
+      },
+      "output": {
+        "summary": "Danke"
+      },
+      "output_schema": null,
+      "answer": {
+        "score": null,
+        "passed": false,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "tone",
+            "score": null,
+            "reason": "cannot_tell"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "tone",
+          "score": null
+        }
+      ]
+    },
+    {
+      "name": "a trial passes only when at least half the weight of the consumer's checks was scored: a high score from a light check alone doesn't pass",
+      "expect": {
+        "checks": [
+          {
+            "id": "tone",
+            "criterion": "is written politely",
+            "weight": 3
+          },
+          {
+            "id": "total",
+            "path": "$.total",
+            "equals": 120
+          }
+        ]
+      },
+      "output": {
+        "total": 120
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 1.0,
+        "passed": false,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "tone",
+            "score": null,
+            "reason": "cannot_tell"
+          },
+          {
+            "id": "total",
+            "score": 1.0,
+            "reason": "matched"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "tone",
+          "score": null
+        },
+        {
+          "id": "total",
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "name": "with no checks given, the provider's own output schema check is the expectation",
+      "expect": {
+        "checks": []
+      },
+      "output": {
+        "total": 5
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "answer": {
+        "score": 1.0,
+        "passed": true,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "name": "an output that breaks the provider's own output schema scores 0 on the schema check",
+      "expect": {
+        "checks": [
+          {
+            "id": "total",
+            "path": "$.total",
+            "equals": "12"
+          }
+        ],
+        "threshold": 0.5
+      },
+      "output": {
+        "total": "12"
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "total": {
+            "type": "number"
+          }
+        }
+      },
+      "answer": {
+        "score": 0.5,
+        "passed": true,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 0.0,
+            "reason": "mismatch"
+          },
+          {
+            "id": "total",
+            "score": 1.0,
+            "reason": "matched"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 0.0
+        },
+        {
+          "id": "total",
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "name": "a value that isn't there is missing, one of the wrong kind is wrong_type; set_equals ignores order but counts duplicates",
+      "expect": {
+        "checks": [
+          {
+            "id": "gone",
+            "path": "$.nothing",
+            "equals": 1
+          },
+          {
+            "id": "kind",
+            "path": "$.n",
+            "approx": 1
+          },
+          {
+            "id": "set",
+            "path": "$.s",
+            "set_equals": [
+              "a",
+              "b"
+            ]
+          },
+          {
+            "id": "dupes",
+            "path": "$.d",
+            "set_equals": [
+              "a",
+              "b"
+            ]
+          }
+        ]
+      },
+      "output": {
+        "n": "one",
+        "s": [
+          "B",
+          "a"
+        ],
+        "d": [
+          "a",
+          "a",
+          "b"
+        ]
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 0.4,
+        "passed": false,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "gone",
+            "score": 0.0,
+            "reason": "missing"
+          },
+          {
+            "id": "kind",
+            "score": 0.0,
+            "reason": "wrong_type"
+          },
+          {
+            "id": "set",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "dupes",
+            "score": 0.0,
+            "reason": "mismatch"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "gone",
+          "score": 0.0
+        },
+        {
+          "id": "kind",
+          "score": 0.0
+        },
+        {
+          "id": "set",
+          "score": 1.0
+        },
+        {
+          "id": "dupes",
+          "score": 0.0
+        }
+      ]
+    },
+    {
+      "name": "dates within a window, lengths within bounds given either way round, and text containing every word",
+      "expect": {
+        "checks": [
+          {
+            "id": "due",
+            "path": "$.due",
+            "within": {
+              "of": "2026-11-17",
+              "days": 2
+            }
+          },
+          {
+            "id": "late",
+            "path": "$.late",
+            "within": {
+              "of": "2026-11-17",
+              "days": 2
+            }
+          },
+          {
+            "id": "len",
+            "path": "$.items",
+            "length": {
+              "min": 5,
+              "max": 2
+            }
+          },
+          {
+            "id": "words",
+            "path": "$.note",
+            "contains": [
+              "overdue",
+              "total"
+            ]
+          }
+        ]
+      },
+      "output": {
+        "due": "2026-11-18T10:00:00Z",
+        "late": "2026-11-20T00:00:00Z",
+        "items": [
+          1,
+          2,
+          3
+        ],
+        "note": "Overdue: TOTAL 5"
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 0.9,
+        "passed": true,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "due",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "late",
+            "score": 0.5,
+            "reason": "near"
+          },
+          {
+            "id": "len",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "words",
+            "score": 1.0,
+            "reason": "matched"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "due",
+          "score": 1.0
+        },
+        {
+          "id": "late",
+          "score": 0.5
+        },
+        {
+          "id": "len",
+          "score": 1.0
+        },
+        {
+          "id": "words",
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "name": "a schema check on the value at a path, and every item of an array with [*]",
+      "expect": {
+        "checks": [
+          {
+            "id": "date",
+            "path": "$.date",
+            "schema": {
+              "type": "string",
+              "pattern": "^2026-"
+            }
+          },
+          {
+            "id": "names",
+            "path": "$.items[*].name",
+            "set_equals": [
+              "b",
+              "a"
+            ]
+          }
+        ],
+        "threshold": 1.0
+      },
+      "output": {
+        "date": "2025-12-31",
+        "items": [
+          {
+            "name": "a"
+          },
+          {
+            "name": "b"
+          }
+        ]
+      },
+      "output_schema": null,
+      "answer": {
+        "score": 0.65,
+        "passed": false,
+        "checks": [
+          {
+            "id": "schema",
+            "score": 1.0,
+            "reason": "matched"
+          },
+          {
+            "id": "date",
+            "score": 0.0,
+            "reason": "mismatch"
+          },
+          {
+            "id": "names",
+            "score": 1.0,
+            "reason": "matched"
+          }
+        ]
+      },
+      "exact_checks": [
+        {
+          "id": "schema",
+          "score": 1.0
+        },
+        {
+          "id": "date",
+          "score": 0.0
+        },
+        {
+          "id": "names",
+          "score": 1.0
+        }
+      ]
+    },
+    {
+      "name": "a path this network doesn't read is refused before the call",
+      "expect": {
+        "checks": [
+          {
+            "id": "a",
+            "path": "$..total",
+            "equals": 1
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "a tolerance that is negative or not a number is refused",
+      "expect": {
+        "checks": [
+          {
+            "id": "a",
+            "path": "$.v",
+            "approx": 100,
+            "tolerance": "-5%"
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "a number written as text is refused",
+      "expect": {
+        "checks": [
+          {
+            "id": "a",
+            "path": "$.v",
+            "approx": "5"
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "a check of two kinds is refused",
+      "expect": {
+        "checks": [
+          {
+            "id": "a",
+            "equals": 1,
+            "range": [
+              0,
+              2
+            ]
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "a check of no kind is refused",
+      "expect": {
+        "checks": [
+          {
+            "id": "a"
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "the id `schema` is the network's own check",
+      "expect": {
+        "checks": [
+          {
+            "id": "schema",
+            "equals": 1
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "a date that is not ISO 8601 is refused",
+      "expect": {
+        "checks": [
+          {
+            "id": "a",
+            "within": {
+              "of": "17 Nov",
+              "days": 1
+            }
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "a pattern that is not a regular expression is refused",
+      "expect": {
+        "checks": [
+          {
+            "id": "a",
+            "schema": {
+              "type": "string",
+              "pattern": "(unclosed"
+            }
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "a schema that refers outside itself is refused",
+      "expect": {
+        "checks": [
+          {
+            "id": "a",
+            "schema": {
+              "$ref": "https://example.com/s.json"
+            }
+          }
+        ]
+      },
+      "refused": "INVALID_REQUEST"
+    },
+    {
+      "name": "a threshold above 1 is refused",
+      "expect": {
+        "checks": [],
+        "threshold": 2
+      },
+      "refused": "INVALID_REQUEST"
+    }
+  ]
+}

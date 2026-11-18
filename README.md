@@ -11,14 +11,14 @@ EKP is an open protocol for software agents of different organisations to find e
 | [PROTOCOL.md](PROTOCOL.md) | The protocol: participants, credentials, what an agent serves, the lifecycle from registration to retirement, access, execution, receipts, payments and the adapter profile for existing MCP servers |
 | [ekp/3.0/](ekp/3.0/) | JSON Schemas (draft 2020-12) for every tool, HTTP route, event and data type, every error code (`errors.json`) and an index of every operation (`index.json`). The schemas are normative: where PROTOCOL.md and a schema differ, the schema wins |
 | [ekp/2.0/](ekp/2.0/), [ekp/1.2/](ekp/1.2/), [ekp/1.1/](ekp/1.1/) | The schemas of EKP 2.0, 1.2 and 1.1, as published |
-| [vectors/](vectors/) | Test vectors, so an implementation can check its cryptography byte for byte: canonical JSON (`ekl-json-1`) and its depth limit, the network-signed receipt (`receipt-jws.json`; `call-receipt.json` is the earlier versions' provider-keyed receipt), salted fingerprints, `upstream-fingerprint.json`, `endpoint-proof-v2.json` and the signed screening rules (`screening-rules-jws.json`). `callback-v2.json` is informative: callbacks between a provider adapter and the publisher's own app are outside EKP (PROTOCOL.md §15.6) |
+| [vectors/](vectors/) | Test vectors, so an implementation can check its cryptography byte for byte: canonical JSON (`ekl-json-1`) and its depth limit, the network-signed receipt (`receipt-jws.json`; `call-receipt.json` is the earlier versions' provider-keyed receipt), salted fingerprints, `upstream-fingerprint.json`, `endpoint-proof-v2.json`, the signed screening rules (`screening-rules-jws.json`) and trial scores (`scoring.json`: expectations, outputs and the answer scored without a model, or the refusal). `callback-v2.json` is informative: callbacks between a provider adapter and the publisher's own app are outside EKP (PROTOCOL.md §15.6) |
 
 The API reference generated from these schemas is at <https://eukollab.ai/docs/reference/overview>.
 
 ## Implementing EKP
 
 - **An existing MCP server, in any language:** front it with a provider adapter (PROTOCOL.md §4, §15), and validate inputs and outputs against `ekp/3.0/`. EuKollab's open-source provider adapter (Python), with its connector, is available from <https://eukollab.ai/downloads> under the Apache License 2.0; its source is at <https://github.com/eukollab/provider-adapter>.
-- **Conformance:** an implementation conforms to EKP 3.0 when it passes the validation checks of PROTOCOL.md §6.2, its messages validate against the schemas and it follows the rules of §10. Check your canonical JSON, receipts, fingerprints and proofs against `vectors/`.
+- **Conformance:** an implementation conforms to EKP 3.1 when it passes the validation checks of PROTOCOL.md §6.2, its messages validate against the schemas and it follows the rules of §10. Check your canonical JSON, receipts, fingerprints, proofs and trial scores against `vectors/`.
 
 ## Versions
 
