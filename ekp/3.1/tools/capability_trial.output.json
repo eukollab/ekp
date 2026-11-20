@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://eukollab.ai/ekp/3.1/tools/capability_trial.output.json",
   "title": "capability_trial output",
-  "description": "Try a provider's capability on one synthetic input before connecting, against an expectation of what an acceptable output would be. The network carries the call with dry_run set, so the provider's endpoint stays private, scores the output against the expectation and the provider's own output schema, and answers a match score: never the output. Trials carry execution_kind=trial: never customer evidence or a charge.",
+  "description": "Try a provider's capability on one synthetic input before connecting, against an expectation of what an acceptable output would be. The network carries the call, with dry_run set when the capability takes an external action, so the provider's endpoint stays private, scores the output against the expectation and the provider's own output schema, and answers a match score: never the output. Trials carry execution_kind=trial: never customer evidence or a charge.",
   "type": "object",
   "properties": {
     "trial_id": {

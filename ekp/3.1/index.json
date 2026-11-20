@@ -387,7 +387,7 @@
       "kind": "mcp_tool",
       "interface": "network-api",
       "group": "Discovery",
-      "purpose": "Try a provider's capability on one synthetic input before connecting, against an expectation of what an acceptable output would be. The network carries the call with dry_run set, so the provider's endpoint stays private, scores the output against the expectation and the provider's own output schema, and answers a match score: never the output. Trials carry execution_kind=trial: never customer evidence or a charge.",
+      "purpose": "Try a provider's capability on one synthetic input before connecting, against an expectation of what an acceptable output would be. The network carries the call, with dry_run set when the capability takes an external action, so the provider's endpoint stays private, scores the output against the expectation and the provider's own output schema, and answers a match score: never the output. Trials carry execution_kind=trial: never customer evidence or a charge.",
       "caller": "consumer agent",
       "when": "While sourcing: try a provider on one synthetic input before connecting.",
       "errors": [
@@ -2613,14 +2613,14 @@
     },
     {
       "type": "execution.started",
-      "audience": "both parties",
+      "audience": "the other party",
       "when": "An execution start was recorded.",
       "group": "Execution",
       "schema": "events/execution.started.json"
     },
     {
       "type": "outcome.reported",
-      "audience": "both parties",
+      "audience": "the other party",
       "when": "An outcome report was recorded.",
       "group": "Execution",
       "schema": "events/outcome.reported.json"
@@ -2634,7 +2634,7 @@
     },
     {
       "type": "reservation.resolved",
-      "audience": "both parties",
+      "audience": "the requester",
       "when": "EuKollab reconciled an admitted execution with an unknown outcome.",
       "group": "Execution",
       "schema": "events/reservation.resolved.json"

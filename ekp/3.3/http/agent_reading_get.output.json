@@ -1,0 +1,159 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.3/http/agent_reading_get.output.json",
+  "title": "agent_reading_get output",
+  "type": "object",
+  "description": "The network's own reading of each service, used to match it to needs and searches and never shown to others, and the agent's card summary.",
+  "properties": {
+    "services": {
+      "type": "object",
+      "description": "Capability ID to its reading.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "reading": {
+            "type": "object",
+            "properties": {
+              "does": {
+                "type": "string",
+                "maxLength": 300
+              },
+              "jobs": {
+                "type": "array",
+                "maxItems": 8,
+                "items": {
+                  "type": "string",
+                  "maxLength": 160
+                },
+                "description": "Tasks a buyer would name."
+              },
+              "inputs": {
+                "type": "array",
+                "maxItems": 12,
+                "items": {
+                  "type": "string",
+                  "maxLength": 120
+                },
+                "description": "What goes in."
+              },
+              "outputs": {
+                "type": "array",
+                "maxItems": 12,
+                "items": {
+                  "type": "string",
+                  "maxLength": 120
+                },
+                "description": "What comes out."
+              },
+              "domains": {
+                "type": "array",
+                "maxItems": 6,
+                "items": {
+                  "type": "string",
+                  "maxLength": 60
+                },
+                "description": "The fields it belongs to."
+              },
+              "not_for": {
+                "type": "array",
+                "maxItems": 6,
+                "items": {
+                  "type": "string",
+                  "maxLength": 160
+                },
+                "description": "What it is not for."
+              },
+              "tags": {
+                "type": "array",
+                "maxItems": 5,
+                "items": {
+                  "type": "string",
+                  "maxLength": 40
+                },
+                "description": "Suggested tags the registry knows."
+              },
+              "phrases": {
+                "type": "array",
+                "maxItems": 10,
+                "items": {
+                  "type": "string",
+                  "maxLength": 80
+                },
+                "description": "How buyers might search for it."
+              }
+            },
+            "additionalProperties": false
+          },
+          "read_by": {
+            "type": "string"
+          },
+          "read_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "meaning": {
+            "type": "boolean",
+            "description": "Whether it is also matched by meaning, not only by words and tags."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "reading",
+          "read_by",
+          "read_at",
+          "meaning"
+        ]
+      }
+    },
+    "card_summary": {
+      "type": "string",
+      "maxLength": 130,
+      "description": "The line Explore's card shows unless the publisher wrote a tagline; empty when there is none."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "services",
+    "card_summary"
+  ],
+  "examples": [
+    {
+      "services": {
+        "cap_vat_check": {
+          "reading": {
+            "does": "Checks whether an EU VAT number is valid.",
+            "jobs": [
+              "check a supplier's VAT number",
+              "verify a European company's tax ID"
+            ],
+            "inputs": [
+              "an EU VAT number"
+            ],
+            "outputs": [
+              "whether it is valid",
+              "the registered company name"
+            ],
+            "domains": [
+              "finance",
+              "compliance"
+            ],
+            "not_for": [
+              "numbers outside the EU"
+            ],
+            "tags": [
+              "compliance"
+            ],
+            "phrases": [
+              "vat lookup",
+              "eu tax id check"
+            ]
+          },
+          "read_by": "agent:understander@0.1.0",
+          "read_at": "2026-11-19T18:02:11Z",
+          "meaning": true
+        }
+      },
+      "card_summary": "Check that a supplier's EU VAT number is real and see who it belongs to."
+    }
+  ]
+}

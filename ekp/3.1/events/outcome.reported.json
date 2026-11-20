@@ -23,7 +23,7 @@
     },
     "state": {
       "type": "string",
-      "description": "Contribution state, e.g. counted or disputed."
+      "description": "The collaboration's state after the report: reported_completed (one party has reported), confirmed (both have, and agree) or disputed (their results differ, or a party disputed it)."
     }
   },
   "additionalProperties": false,
@@ -37,7 +37,7 @@
       "result": "useful",
       "receipt_backed": true,
       "role": "requester",
-      "state": "counted"
+      "state": "reported_completed"
     }
   ]
 }

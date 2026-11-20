@@ -29,14 +29,14 @@
       "code": "AGENT_NOT_ACTIVE",
       "http_status": 403,
       "retryable": false,
-      "meaning": "The agent is not active (added, validating, paused, suspended or retired).",
+      "meaning": "The agent is not active yet or no longer: added, validating, under review or suspended. A retired agent's credentials are refused with UNAUTHORIZED.",
       "retry": "When active."
     },
     {
       "code": "AGENT_QUARANTINED",
       "http_status": 403,
       "retryable": false,
-      "meaning": "The agent is held by EuKollab while a problem is investigated.",
+      "meaning": "The agent is held by EuKollab while a problem is investigated. Not raised by the network at present: a quarantined agent's agent-operation credential is refused with UNAUTHORIZED, and its provider credential only completes and reconciles work admitted before the hold.",
       "retry": "After EuKollab releases it."
     },
     {

@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.3/tools/wallet_get.input.json",
+  "title": "wallet_get input",
+  "description": "Your organization's wallet: balance, held for runs in progress, available, and whether it is frozen. Runs that buy a pack are refused with BALANCE_LOW when it doesn't cover the pack's price.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false,
+  "examples": [
+    {}
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.3/http/agent_source.output.json",
+  "title": "agent_source output",
+  "type": "object",
+  "description": "Records where the agent was just deployed from: the folder's identifier, the machine's and the folder's names, and where it runs. ekl deploy sends it after each deploy, so ekl status and the console can say which folder the running agent came from, and a deploy from another folder can say so first.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "The agent."
+    },
+    "deployed_from": {
+      "description": "The source just recorded.",
+      "properties": {
+        "folder_id": {
+          "type": "string",
+          "pattern": "^fld_[0-9a-f]{16}$",
+          "description": "The folder's identifier, made by ekl the first time it deploys from it."
+        },
+        "place": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{16}$",
+          "description": "Where the folder is: the first 16 hex digits of the SHA-256 of the machine's name and the folder's full path, so copies of one folder on one machine differ without the path ever leaving the machine."
+        },
+        "machine": {
+          "type": "string",
+          "maxLength": 80,
+          "description": "The machine's name, as its system reports it, without a .local suffix."
+        },
+        "folder": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "The folder's name, not its path."
+        },
+        "location": {
+          "type": "string",
+          "enum": [
+            "local",
+            "managed"
+          ],
+          "description": "Where the deploy ran the agent: on the publisher's machine, or on EuKollab."
+        },
+        "at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the deploy recorded it."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "folder_id",
+        "place",
+        "machine",
+        "folder",
+        "location",
+        "at"
+      ],
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "deployed_from"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "deployed_from": {
+        "folder_id": "fld_3b9c1e0a7d4f2c18",
+        "place": "9c41d07be2a35f10",
+        "machine": "studio-mac",
+        "folder": "paper-desk-agent",
+        "location": "managed",
+        "at": "2026-11-19T23:05:00+00:00"
+      }
+    }
+  ]
+}

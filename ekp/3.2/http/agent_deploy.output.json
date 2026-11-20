@@ -1,0 +1,192 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.2/http/agent_deploy.output.json",
+  "title": "agent_deploy output",
+  "type": "object",
+  "description": "Have the network serve the agent of an MCP server on the web: agent.json, the server's address and headers and the agent key are checked, the server is probed and the deploy is recorded as a revision; when its checks pass the revision is announced at the agent's relay address and becomes the active one.",
+  "properties": {
+    "location": {
+      "type": "string",
+      "const": "managed",
+      "description": "The network serves the agent."
+    },
+    "deployment_id": {
+      "type": "string",
+      "description": "The deployment."
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "removed"
+      ],
+      "description": "The deployment's state."
+    },
+    "revision": {
+      "type": "integer",
+      "description": "The revision this deploy recorded."
+    },
+    "revision_status": {
+      "type": "string",
+      "enum": [
+        "active",
+        "failed",
+        "superseded",
+        "removed"
+      ],
+      "description": "active when its checks passed and it is served; failed when they did not, and the previous active revision stays."
+    },
+    "digest": {
+      "type": "string",
+      "description": "SHA-256 of what was deployed; a deploy with the same digest as the active revision records nothing."
+    },
+    "unchanged": {
+      "type": "boolean",
+      "description": "True when nothing changed since the active revision."
+    },
+    "endpoint": {
+      "type": "string",
+      "description": "The agent's relay address, announced as its endpoint."
+    },
+    "active_revision": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The active revision, if any."
+    },
+    "announced_version": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "The agent.json version this revision announced, if it passed."
+    },
+    "waiting_for_review": {
+      "anyOf": [
+        {
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "A version waiting for the publisher's review, if any."
+    },
+    "agent_state": {
+      "type": "string",
+      "description": "The agent's lifecycle state."
+    },
+    "checks": {
+      "type": "array",
+      "description": "The checks of this revision: mcp_server (the server answers MCP) and agent_file (agent.json against the server's tools), each with check, ok, message and, for agent_file, problems.",
+      "items": {
+        "type": "object",
+        "properties": {
+          "check": {
+            "type": "string"
+          },
+          "ok": {
+            "type": "boolean"
+          },
+          "message": {
+            "type": "string"
+          },
+          "problems": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            }
+          }
+        },
+        "required": [
+          "check",
+          "ok",
+          "message"
+        ]
+      }
+    },
+    "availability": {
+      "type": "string",
+      "enum": [
+        "serving",
+        "sleeping",
+        "failed",
+        "removed"
+      ],
+      "description": "What a caller meets: serving (running now), sleeping (started by the next call, within 15 s), failed (no revision passed its checks) or removed."
+    },
+    "callbacks": {
+      "anyOf": [
+        {
+          "type": "string",
+          "enum": [
+            "hosted",
+            "route"
+          ]
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "description": "Where the agent's own decisions are made: hosted (its callbacks file, run by the network), route (a route in the publisher's own app), or null when its console rules decide."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "location",
+    "deployment_id",
+    "status",
+    "revision",
+    "revision_status",
+    "digest",
+    "unchanged",
+    "endpoint",
+    "active_revision",
+    "announced_version",
+    "waiting_for_review",
+    "agent_state",
+    "checks",
+    "availability",
+    "callbacks"
+  ],
+  "examples": [
+    {
+      "location": "managed",
+      "deployment_id": "dep_4c1e",
+      "status": "active",
+      "revision": 3,
+      "revision_status": "active",
+      "digest": "sha256:9f2c",
+      "unchanged": false,
+      "endpoint": "https://eukollab.ai/v1/relay/agt_7f2a/mcp",
+      "active_revision": 3,
+      "announced_version": 4,
+      "waiting_for_review": null,
+      "agent_state": "active",
+      "checks": [
+        {
+          "check": "mcp_server",
+          "ok": true,
+          "message": "answers MCP, listing 3 tools"
+        },
+        {
+          "check": "agent_file",
+          "ok": true,
+          "message": "agent.json passes the network's checks against the server's tools",
+          "problems": []
+        }
+      ],
+      "availability": "sleeping",
+      "callbacks": null
+    }
+  ]
+}

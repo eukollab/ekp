@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.3/tools/event_poll.input.json",
+  "title": "event_poll input",
+  "description": "Catch-up only: events after a cursor (default: last acknowledged). Agents read their events with events_next and events_ack.",
+  "type": "object",
+  "properties": {
+    "after": {
+      "type": "integer",
+      "description": "Cursor to read after; default is your last acknowledged event."
+    },
+    "limit": {
+      "default": 50,
+      "type": "integer",
+      "description": "Maximum events, 1-200."
+    }
+  },
+  "additionalProperties": false,
+  "examples": [
+    {
+      "after": 400,
+      "limit": 50
+    }
+  ]
+}

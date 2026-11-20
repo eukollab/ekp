@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.3/tools/packs_list.input.json",
+  "title": "packs_list input",
+  "description": "Packs you bought as a consumer or sold as a provider: the service, the plan, and the calls left and used.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false,
+  "examples": [
+    {}
+  ]
+}
