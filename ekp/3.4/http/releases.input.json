@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.4/http/releases.input.json",
+  "title": "releases input",
+  "type": "object",
+  "description": "Every published version of a package with its notes and standing; with current, that version's own. Lists only the versions the signed release catalogue names.",
+  "properties": {
+    "project": {
+      "type": "string",
+      "enum": [
+        "ekl-cli",
+        "ekl-provider-adapter",
+        "eukollab-agent",
+        "ekl-desktop"
+      ],
+      "description": "Path: the package."
+    },
+    "current": {
+      "type": "string",
+      "description": "Query, optional: the version in use, to read its own standing."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "project"
+  ],
+  "examples": [
+    {
+      "project": "ekl-cli",
+      "current": "0.6.2"
+    }
+  ]
+}

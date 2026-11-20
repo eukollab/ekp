@@ -1,0 +1,249 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.4/types/tested-quality.json",
+  "title": "Tested quality",
+  "description": "How a service does on EuKollab's own tests: buyers' trial cases rerun by the network as ordinary calls. Counts are always given; the rating only once the evidence is significant (at least 50 counted runs on 20 cases in 8 groups of similar inputs, written by 3 independent organisations, over 14 days). t is the lower bound of the 95% Wilson interval of the pass rate times the accuracy, over the last 90 days on the current major version.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "significant",
+    "runs",
+    "cases",
+    "clusters",
+    "organisations",
+    "pass_rate",
+    "accuracy",
+    "consistency",
+    "t",
+    "band"
+  ],
+  "properties": {
+    "significant": {
+      "type": "boolean",
+      "description": "Whether the evidence is enough to show the rating."
+    },
+    "runs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Counted test runs."
+    },
+    "cases": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Distinct cases among them."
+    },
+    "clusters": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Groups of similar inputs among them."
+    },
+    "organisations": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Independent organisations whose cases they are."
+    },
+    "pass_rate": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Runs at or above their case's threshold ÷ runs; null until significant."
+    },
+    "accuracy": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "The mean score of the runs; null until significant."
+    },
+    "consistency": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "1 − the mean difference between a case's consecutive scores; null until significant or with no repeated case."
+    },
+    "t": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "The tested-quality value; null until significant."
+    },
+    "band": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Excellent",
+        "Good",
+        "Fair",
+        "Poor",
+        null
+      ],
+      "description": "Excellent from 0.90, Good from 0.75, Fair from 0.50, else Poor; null until significant."
+    },
+    "major": {
+      "type": "string",
+      "description": "The major version of the service these numbers are for."
+    },
+    "previous": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "significant",
+        "runs",
+        "cases",
+        "clusters",
+        "organisations",
+        "pass_rate",
+        "accuracy",
+        "consistency",
+        "t",
+        "band"
+      ],
+      "properties": {
+        "significant": {
+          "type": "boolean",
+          "description": "Whether the evidence is enough to show the rating."
+        },
+        "runs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Counted test runs."
+        },
+        "cases": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Distinct cases among them."
+        },
+        "clusters": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Groups of similar inputs among them."
+        },
+        "organisations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Independent organisations whose cases they are."
+        },
+        "pass_rate": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Runs at or above their case's threshold ÷ runs; null until significant."
+        },
+        "accuracy": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The mean score of the runs; null until significant."
+        },
+        "consistency": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "1 − the mean difference between a case's consecutive scores; null until significant or with no repeated case."
+        },
+        "t": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The tested-quality value; null until significant."
+        },
+        "band": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "Excellent",
+            "Good",
+            "Fair",
+            "Poor",
+            null
+          ],
+          "description": "Excellent from 0.90, Good from 0.75, Fair from 0.50, else Poor; null until significant."
+        },
+        "major": {
+          "type": "string",
+          "description": "The previous major version these numbers are for."
+        }
+      },
+      "examples": [
+        {
+          "significant": true,
+          "runs": 214,
+          "cases": 61,
+          "clusters": 14,
+          "organisations": 9,
+          "pass_rate": 0.92,
+          "accuracy": 0.94,
+          "consistency": 0.97,
+          "t": 0.83,
+          "band": "Good"
+        },
+        {
+          "significant": false,
+          "runs": 12,
+          "cases": 5,
+          "clusters": 3,
+          "organisations": 1,
+          "pass_rate": null,
+          "accuracy": null,
+          "consistency": null,
+          "t": null,
+          "band": null
+        }
+      ],
+      "description": "The previous major version's tested quality, shown beside the current one until the current one is significant."
+    }
+  },
+  "examples": [
+    {
+      "significant": true,
+      "runs": 214,
+      "cases": 61,
+      "clusters": 14,
+      "organisations": 9,
+      "pass_rate": 0.92,
+      "accuracy": 0.94,
+      "consistency": 0.97,
+      "t": 0.83,
+      "band": "Good"
+    },
+    {
+      "significant": false,
+      "runs": 12,
+      "cases": 5,
+      "clusters": 3,
+      "organisations": 1,
+      "pass_rate": null,
+      "accuracy": null,
+      "consistency": null,
+      "t": null,
+      "band": null
+    }
+  ]
+}

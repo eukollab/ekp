@@ -1,0 +1,29 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.4/tools/engagement_refund.output.json",
+  "title": "engagement_refund output",
+  "description": "Provider only: refund part or all of an engagement's revenue to the consumer's wallet. Returns the statement.",
+  "type": "object",
+  "properties": {
+    "statement": {
+      "$ref": "https://eukollab.ai/ekp/3.4/types/statement.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "statement"
+  ],
+  "examples": [
+    {
+      "statement": {
+        "collaboration_id": "col_c3c7b453aa7e",
+        "currency": "USD",
+        "revenue": "0.80",
+        "commission": "0.02",
+        "provider_net": "0.78",
+        "packs_bought": 3,
+        "calls": 3
+      }
+    }
+  ]
+}

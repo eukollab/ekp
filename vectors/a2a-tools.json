@@ -1,0 +1,259 @@
+{
+  "description": "A2A skills as tools (PROTOCOL.md §5.4): one tool per skill of the Agent Card, in card order. name: the skill id (else its name) with each run of characters outside [A-Za-z0-9_.-] replaced by _ and trimmed of _; description: the skill's description, else its name, or null when both are empty. A skill is a data skill when its inputModes (else the card's defaultInputModes) name a JSON media type (one containing json); otherwise, with no modes at all included, it is a text skill. A data skill's tool has inputSchema {type: object} and no outputSchema: agent.json supplies the schemas. A text skill's tool takes and returns one text field: inputSchema {type: object, properties: {text: {type: string, description: \"What to ask the agent\", examples: the skill's string examples, when it has any}}, required: [text], additionalProperties: false} and outputSchema {type: object, properties: {text: {type: string, description: \"The agent's answer\"}}, required: [text]}. A skill declares no hints: the publisher settles the class. calls: a text skill is sent its text field as the message's one text part, and answers with structured content {text: its text parts joined by a newline}; a data skill is sent its arguments as one data part, and answers with its first data part that is an object as structured content.",
+  "cases": [
+    {
+      "name": "text skills, as most agents' skills are",
+      "card": {
+        "defaultInputModes": [
+          "text/plain"
+        ],
+        "skills": [
+          {
+            "id": "echo_bot",
+            "name": "Echo Bot",
+            "description": "Answers with a greeting.",
+            "examples": [
+              "hi",
+              "how are you"
+            ]
+          },
+          {
+            "id": "summarise/long docs",
+            "name": "Summarise"
+          },
+          {
+            "id": "x",
+            "description": ""
+          }
+        ]
+      },
+      "tools": [
+        {
+          "name": "echo_bot",
+          "description": "Answers with a greeting.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "What to ask the agent",
+                "examples": [
+                  "hi",
+                  "how are you"
+                ]
+              }
+            },
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "The agent's answer"
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        },
+        {
+          "name": "summarise_long_docs",
+          "description": "Summarise",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "What to ask the agent"
+              }
+            },
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "The agent's answer"
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        },
+        {
+          "name": "x",
+          "description": null,
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "What to ask the agent"
+              }
+            },
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "The agent's answer"
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "data skills, by the skill's modes or the card's",
+      "card": {
+        "defaultInputModes": [
+          "application/json"
+        ],
+        "skills": [
+          {
+            "id": "convert",
+            "name": "Convert",
+            "description": "Converts an amount between currencies.",
+            "tags": [
+              "fx"
+            ]
+          },
+          {
+            "id": "quote",
+            "name": "Quote",
+            "inputModes": [
+              "text/plain",
+              "application/vnd.example+json"
+            ]
+          },
+          {
+            "id": "chat",
+            "name": "Chat",
+            "inputModes": [
+              "text/plain"
+            ]
+          }
+        ]
+      },
+      "tools": [
+        {
+          "name": "convert",
+          "description": "Converts an amount between currencies.",
+          "inputSchema": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "quote",
+          "description": "Quote",
+          "inputSchema": {
+            "type": "object"
+          }
+        },
+        {
+          "name": "chat",
+          "description": "Chat",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "What to ask the agent"
+              }
+            },
+            "required": [
+              "text"
+            ],
+            "additionalProperties": false
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "description": "The agent's answer"
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "calls": [
+    {
+      "name": "a text skill",
+      "text": true,
+      "arguments": {
+        "text": "hi"
+      },
+      "sent_parts": [
+        {
+          "text": "hi"
+        }
+      ],
+      "answer_parts": [
+        {
+          "text": "Hello, World!"
+        },
+        {
+          "text": "I have received your request (hi)"
+        }
+      ],
+      "structured": {
+        "text": "Hello, World!\nI have received your request (hi)"
+      }
+    },
+    {
+      "name": "a data skill",
+      "text": false,
+      "arguments": {
+        "amount": 10,
+        "from": "USD"
+      },
+      "sent_parts": [
+        {
+          "data": {
+            "amount": 10,
+            "from": "USD"
+          }
+        }
+      ],
+      "answer_parts": [
+        {
+          "text": "Converted."
+        },
+        {
+          "data": {
+            "amount": 9.2,
+            "currency": "EUR"
+          }
+        }
+      ],
+      "structured": {
+        "amount": 9.2,
+        "currency": "EUR"
+      }
+    }
+  ]
+}

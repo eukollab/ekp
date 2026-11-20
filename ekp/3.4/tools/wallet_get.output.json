@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.4/tools/wallet_get.output.json",
+  "title": "wallet_get output",
+  "description": "Your organization's wallet: balance, held for runs in progress, available, and whether it is frozen. Runs that buy a pack are refused with BALANCE_LOW when it doesn't cover the pack's price.",
+  "type": "object",
+  "properties": {
+    "wallet": {
+      "$ref": "https://eukollab.ai/ekp/3.4/types/wallet.json"
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "wallet"
+  ],
+  "examples": [
+    {
+      "wallet": {
+        "wallet_id": "wal_0d4e7a",
+        "currency": "USD",
+        "balance": "25.00",
+        "held": "8.00",
+        "available": "17.00",
+        "frozen": false,
+        "card": "Visa ending 4242",
+        "auto_topup": {
+          "threshold": "5.00",
+          "amount": "25.00"
+        }
+      }
+    }
+  ]
+}

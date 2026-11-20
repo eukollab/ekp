@@ -1,0 +1,609 @@
+{
+  "description": "OpenAPI operations as tools (PROTOCOL.md §5.3). Every operation of an OpenAPI 3.0 or 3.1 document with a JSON request body (or none) and no required cookie becomes one tool, in document order (paths, then get, put, post, delete, patch, head). name: the operationId, else the method followed by the path, with each run of characters outside [A-Za-z0-9_.-] replaced by _ and trimmed of _. inputSchema: an object whose properties are the path, query and header parameters by name (a name used twice, or the name body, becomes <in>_<name>) and the JSON body under body; path parameters and required ones are required, and body when the request body is required. outputSchema: the lowest 2xx JSON response's schema when it is an object, else that schema under the required property result, else {status: integer} for a response without a JSON body. Local $refs are inlined (a reference back into itself becomes {}), nullable becomes a null type, and discriminator, xml, externalDocs and example are dropped. An integer schema with format int64 also takes its decimal string: its type gains string and the pattern ^-?[0-9]+$ (before nullable adds null). answers: an answer's integer beyond ±2^53, at any depth, is carried as its exact decimal string; an int64 body field given as such a string is sent as the number. annotations: x-eukollab-class when set, else readOnlyHint for get and head, else readOnlyHint false, with destructiveHint for delete and idempotentHint for put and delete.",
+  "cases": [
+    {
+      "name": "parameters, a $ref'd body, an array and an empty response, and two operations that can't be called",
+      "document": {
+        "openapi": "3.1.0",
+        "info": {
+          "title": "Shipping",
+          "version": "1"
+        },
+        "servers": [
+          {
+            "url": "https://api.ship.test/{version}",
+            "variables": {
+              "version": {
+                "default": "v1"
+              }
+            }
+          }
+        ],
+        "paths": {
+          "/rates/{country}": {
+            "parameters": [
+              {
+                "name": "country",
+                "in": "path",
+                "required": true,
+                "schema": {
+                  "type": "string"
+                }
+              }
+            ],
+            "get": {
+              "operationId": "get_rate",
+              "summary": "The rate to a country.",
+              "parameters": [
+                {
+                  "name": "weight",
+                  "in": "query",
+                  "required": true,
+                  "schema": {
+                    "type": "number"
+                  }
+                },
+                {
+                  "name": "X-Region",
+                  "in": "header",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Rate"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/labels": {
+            "post": {
+              "operationId": "create label",
+              "requestBody": {
+                "required": true,
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Label"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "201": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "array"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/labels/{id}": {
+            "delete": {
+              "operationId": "delete_label",
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "204": {
+                  "description": "gone"
+                }
+              }
+            }
+          },
+          "/upload": {
+            "post": {
+              "operationId": "upload",
+              "requestBody": {
+                "content": {
+                  "multipart/form-data": {
+                    "schema": {
+                      "type": "object"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "description": "ok"
+                }
+              }
+            }
+          },
+          "/session": {
+            "get": {
+              "operationId": "session",
+              "parameters": [
+                {
+                  "name": "sid",
+                  "in": "cookie",
+                  "required": true,
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "description": "ok"
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "Rate": {
+              "type": "object",
+              "properties": {
+                "price": {
+                  "type": "number"
+                },
+                "note": {
+                  "type": "string",
+                  "nullable": true
+                }
+              },
+              "required": [
+                "price"
+              ]
+            },
+            "Label": {
+              "type": "object",
+              "properties": {
+                "to": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "to"
+              ]
+            }
+          }
+        }
+      },
+      "tools": [
+        {
+          "name": "get_rate",
+          "description": "The rate to a country.",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "country": {
+                "type": "string"
+              },
+              "weight": {
+                "type": "number"
+              },
+              "X-Region": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "country",
+              "weight"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "price": {
+                "type": "number"
+              },
+              "note": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              }
+            },
+            "required": [
+              "price"
+            ]
+          },
+          "annotations": {
+            "readOnlyHint": true
+          }
+        },
+        {
+          "name": "create_label",
+          "description": "POST /labels",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "body": {
+                "type": "object",
+                "properties": {
+                  "to": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "to"
+                ]
+              }
+            },
+            "required": [
+              "body"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "result"
+            ]
+          },
+          "annotations": {
+            "readOnlyHint": false
+          }
+        },
+        {
+          "name": "delete_label",
+          "description": "DELETE /labels/{id}",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "id"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "status": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "status"
+            ]
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": true,
+            "idempotentHint": true
+          }
+        }
+      ],
+      "skipped": [
+        {
+          "method": "post",
+          "path": "/upload"
+        },
+        {
+          "method": "get",
+          "path": "/session"
+        }
+      ]
+    },
+    {
+      "name": "OpenAPI 3.0: nullable, a recursive $ref, clashing parameter names, no operationId, x-eukollab-class",
+      "document": {
+        "openapi": "3.0.3",
+        "info": {
+          "title": "Notes",
+          "version": "1"
+        },
+        "paths": {
+          "/notes/{id}": {
+            "put": {
+              "parameters": [
+                {
+                  "name": "id",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer"
+                  }
+                },
+                {
+                  "name": "id",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                },
+                {
+                  "name": "body",
+                  "in": "query",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ],
+              "requestBody": {
+                "content": {
+                  "application/json": {
+                    "schema": {
+                      "$ref": "#/components/schemas/Note"
+                    }
+                  }
+                }
+              },
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "$ref": "#/components/schemas/Note"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "/count": {
+            "get": {
+              "operationId": "count",
+              "x-eukollab-class": "transformation",
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "components": {
+          "schemas": {
+            "Note": {
+              "type": "object",
+              "properties": {
+                "text": {
+                  "type": "string",
+                  "nullable": true,
+                  "example": "hi"
+                },
+                "parent": {
+                  "$ref": "#/components/schemas/Note"
+                }
+              }
+            }
+          }
+        }
+      },
+      "tools": [
+        {
+          "name": "put_notes_id",
+          "description": "PUT /notes/{id}",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "path_id": {
+                "type": "integer"
+              },
+              "query_id": {
+                "type": "string"
+              },
+              "query_body": {
+                "type": "string"
+              },
+              "body": {
+                "type": "object",
+                "properties": {
+                  "text": {
+                    "type": [
+                      "string",
+                      "null"
+                    ]
+                  },
+                  "parent": {}
+                }
+              }
+            },
+            "required": [
+              "path_id"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "parent": {}
+            }
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "idempotentHint": true
+          }
+        },
+        {
+          "name": "count",
+          "description": "GET /count",
+          "inputSchema": {
+            "type": "object",
+            "properties": {}
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "result": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "result"
+            ]
+          },
+          "annotations": {
+            "readOnlyHint": false,
+            "destructiveHint": false,
+            "openWorldHint": false
+          }
+        }
+      ],
+      "skipped": []
+    },
+    {
+      "name": "int64: also its decimal string, so values beyond ±2^53 are carried exactly",
+      "document": {
+        "openapi": "3.0.3",
+        "info": {
+          "title": "Pets",
+          "version": "1"
+        },
+        "paths": {
+          "/pets/{petId}": {
+            "get": {
+              "operationId": "getPetById",
+              "parameters": [
+                {
+                  "name": "petId",
+                  "in": "path",
+                  "required": true,
+                  "schema": {
+                    "type": "integer",
+                    "format": "int64"
+                  }
+                }
+              ],
+              "responses": {
+                "200": {
+                  "content": {
+                    "application/json": {
+                      "schema": {
+                        "type": "object",
+                        "properties": {
+                          "id": {
+                            "type": "integer",
+                            "format": "int64"
+                          },
+                          "owner": {
+                            "type": "integer",
+                            "format": "int64",
+                            "nullable": true
+                          },
+                          "age": {
+                            "type": "integer",
+                            "format": "int32"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "tools": [
+        {
+          "name": "getPetById",
+          "description": "GET /pets/{petId}",
+          "inputSchema": {
+            "type": "object",
+            "properties": {
+              "petId": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "format": "int64",
+                "pattern": "^-?[0-9]+$"
+              }
+            },
+            "required": [
+              "petId"
+            ]
+          },
+          "outputSchema": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": [
+                  "integer",
+                  "string"
+                ],
+                "format": "int64",
+                "pattern": "^-?[0-9]+$"
+              },
+              "owner": {
+                "type": [
+                  "integer",
+                  "string",
+                  "null"
+                ],
+                "format": "int64",
+                "pattern": "^-?[0-9]+$"
+              },
+              "age": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      ],
+      "skipped": []
+    }
+  ],
+  "answers": [
+    {
+      "name": "an integer beyond ±2^53 becomes its exact decimal string, at any depth; others stay numbers",
+      "answer": {
+        "id": 9223372036854775807,
+        "tags": [
+          {
+            "id": -9007199254740993
+          }
+        ],
+        "age": 3,
+        "ok": true
+      },
+      "carried": {
+        "id": "9223372036854775807",
+        "tags": [
+          {
+            "id": "-9007199254740993"
+          }
+        ],
+        "age": 3,
+        "ok": true
+      }
+    }
+  ]
+}

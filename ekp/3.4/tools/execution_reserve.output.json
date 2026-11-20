@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.4/tools/execution_reserve.output.json",
+  "title": "execution_reserve output",
+  "description": "Reserve one execution before calling the provider and get the execution grant the provider redeems before it starts the work. On a paid plan the run takes a call of a pack you already bought, or, with none left, buys the next pack: its price is held against every budget that applies and on your organization's wallet, and paid only when the run succeeds; requested_max_amount_atoms must cover it. BALANCE_LOW when the wallet doesn't cover it. A retry with the same execution_id returns the same reservation.",
+  "$ref": "https://eukollab.ai/ekp/3.4/types/reservation.json",
+  "examples": [
+    {
+      "reservation_id": "rsv_01",
+      "execution_id": "ex_19c4",
+      "state": "held",
+      "amount_atoms": "400000",
+      "currency": "USD",
+      "grant_id": "grt_01",
+      "grant_expires_at": "2026-10-24T09:31:00+00:00",
+      "execution_grant": "eyJ…",
+      "terms_hash": "9a1f…",
+      "amount_scale": 6,
+      "execution_kind": "customer",
+      "enforcement_profile": "ekl-admit-1.1",
+      "funding": "purchase",
+      "pack_id": null,
+      "commission_atoms": "12000"
+    },
+    {
+      "reservation_id": "rsv_7c21",
+      "execution_id": "ex_19d0",
+      "state": "held",
+      "funding": "purchase",
+      "amount_atoms": "400000",
+      "commission_atoms": "12000",
+      "currency": "USD",
+      "amount_scale": 6,
+      "execution_kind": "customer",
+      "enforcement_profile": "ekl-admit-1.1"
+    }
+  ]
+}

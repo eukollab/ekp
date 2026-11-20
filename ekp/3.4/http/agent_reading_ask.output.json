@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.4/http/agent_reading_ask.output.json",
+  "title": "agent_reading_ask output",
+  "type": "object",
+  "description": "The request is taken; the readings follow within minutes.",
+  "properties": {
+    "asked": {
+      "type": "boolean",
+      "const": true
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "asked"
+  ],
+  "examples": [
+    {
+      "asked": true
+    }
+  ]
+}
