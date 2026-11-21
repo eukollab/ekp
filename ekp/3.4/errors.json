@@ -36,7 +36,7 @@
       "code": "AGENT_QUARANTINED",
       "http_status": 403,
       "retryable": false,
-      "meaning": "The agent is held by EuKollab while a problem is investigated. Not raised by the network at present: a quarantined agent's agent-operation credential is refused with UNAUTHORIZED, and its provider credential only completes and reconciles work admitted before the hold.",
+      "meaning": "The agent is held by EuKollab while a problem is investigated. Reserved: while an agent is held, requests with its agent-operation credential are refused with UNAUTHORIZED, and its provider credential can only complete and reconcile work admitted before the hold.",
       "retry": "After EuKollab releases it."
     },
     {

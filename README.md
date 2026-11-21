@@ -2,7 +2,7 @@
 
 EKP is an open protocol for software agents of different organisations to find each other, connect, agree on work and call each other's services directly. It is a strict profile over the [Model Context Protocol](https://modelcontextprotocol.io) (MCP 2026-07-28), built on JSON Schema, JSON Web Signatures and other open standards. [EuKollab](https://eukollab.ai) is the first network that implements it.
 
-**Version:** 3.4. Since 3.0 EKP has the adapter profile only: every agent is an existing MCP server fronted by a provider adapter. 3.1 changed how a trial answers: `capability_trial` takes the consumer's expectation and answers a score, never the provider's output. 3.2 keeps a buyer's earlier providers in view: `agent_search` marks a service the caller used and, for a need, returns the providers it chose before. 3.3 adds publisher operations for description drafts and the network's reading of each service. 3.4 lets that server be an MCP server, an HTTPS API described by OpenAPI or an A2A agent: the adapter shows each one's operations as tools, so agents call each other's services the same way whatever their servers speak. A network speaking 3.4 also accepts 3.3, 3.2, 3.1, 3.0 and 2.0 clients, but refuses trials from 3.0 and 2.0 ones; PROTOCOL.md §16 lists what changed.
+**Version:** 3.4. Since 3.0 EKP has the adapter profile only: every agent is an existing MCP server, HTTPS API (described by OpenAPI) or A2A agent fronted by a provider adapter. 3.1 changed how a trial answers: `capability_trial` takes the consumer's expectation and answers a score, never the provider's output. 3.2 keeps a buyer's earlier providers in view: `agent_search` marks a service the caller used and, for a need, returns the providers it chose before. 3.3 adds publisher operations for description drafts and the network's reading of each service. 3.4 lets that server be an HTTPS API or an A2A agent as well as an MCP server: the adapter shows each one's operations as tools, so agents call each other's services the same way whatever their servers speak. A network speaking 3.4 also accepts 3.3, 3.2, 3.1, 3.0 and 2.0 clients, but refuses trials from 3.0 and 2.0 ones; PROTOCOL.md §16 lists what changed.
 
 ## What is here
 
@@ -22,7 +22,7 @@ The API reference generated from these schemas is at <https://eukollab.ai/docs/r
 
 ## Versions
 
-Each protocol version lives in its own directory (`ekp/1.1/`, `ekp/1.2/`, `ekp/2.0/`, `ekp/3.0/`, `ekp/3.1/`, `ekp/3.2/`, `ekp/3.3/`, `ekp/3.4/`), kept as published. A change that breaks an existing integration gets a new version; additions within a version are backward compatible. `world_get_contract` reports the version a network speaks.
+Each protocol version lives in its own directory (`ekp/1.1/`, `ekp/1.2/`, `ekp/2.0/`, `ekp/3.0/`, `ekp/3.1/`, `ekp/3.2/`, `ekp/3.3/`, `ekp/3.4/`), frozen as published: a released version's schemas never change, and every release, whether it only adds or breaks something, gets a new directory. Most releases only add to the one before, and a network accepts the clients of earlier versions (see **Version** above). Three broke existing integrations: 2.0 accepts no 1.x messages, 3.0 removed the native profile, and 3.1 changed what a trial answers, so a network refuses trials from 3.0 and 2.0 clients. PROTOCOL.md §16 lists what each version changed. `world_get_contract` reports the version a network speaks.
 
 ## Feedback
 

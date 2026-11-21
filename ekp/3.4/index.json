@@ -2232,7 +2232,7 @@
       "group": "Publisher API",
       "purpose": "The agent's deployment on the network, its revisions and its health, with no secret.",
       "caller": "publisher (CLI, coding agent or console)",
-      "when": "ekl deploy --status, and ekl status.",
+      "when": "ekl status.",
       "errors": [
         "NOT_FOUND"
       ],

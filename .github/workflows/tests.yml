@@ -1,4 +1,5 @@
-# Every schema is a valid JSON Schema (draft 2020-12) whose $id is its address on eukollab.ai, and every vector parses.
+# Every schema is a valid JSON Schema (draft 2020-12) whose $id is its address on eukollab.ai, every schema's
+# examples validate against it, every vector parses, and the vectors' protocol objects validate against their schemas.
 name: Tests
 on:
   push:
@@ -15,20 +16,58 @@ jobs:
         with:
           python-version: "3.13"
       - run: pip install "jsonschema>=4.23"
-      - name: Schemas and vectors
+      - name: Schemas, examples and vectors
         shell: python
         run: |
           import json
           from pathlib import Path
           from jsonschema import Draft202012Validator
+          from referencing import Registry, Resource
 
-          schemas = sorted(Path("ekp").rglob("*.json"))
-          for path in schemas:
-              schema = json.loads(path.read_text(encoding="utf-8"))
+          schemas = {path: json.loads(path.read_text(encoding="utf-8")) for path in sorted(Path("ekp").rglob("*.json"))}
+          for path, schema in schemas.items():
               Draft202012Validator.check_schema(schema)
               assert schema["$id"] == f"https://eukollab.ai/{path.as_posix()}", path
-          vectors = sorted(Path("vectors").glob("*.json"))
-          for path in vectors:
-              json.loads(path.read_text(encoding="utf-8"))
-          assert schemas and vectors
-          print(f"{len(schemas)} schemas and {len(vectors)} vector files")
+          # Schemas refer to each other by $id, within their own version.
+          registry = Registry().with_resources((s["$id"], Resource.from_contents(s)) for s in schemas.values())
+
+          def validator(relative):
+              return Draft202012Validator(schemas[Path("ekp", relative)], registry=registry)
+
+          examples = 0
+          for path, schema in schemas.items():
+              for example in schema.get("examples", []):
+                  validator(path.relative_to("ekp")).validate(example)
+                  examples += 1
+
+          vectors = {path.name: json.loads(path.read_text(encoding="utf-8")) for path in sorted(Path("vectors").glob("*.json"))}
+          # The objects in the vectors that are protocol messages, each with the schema it must match. The 1.1 receipt
+          # is sent with its auth_tag, which the vector keeps beside it.
+          call_receipt = vectors["call-receipt.json"]
+          embedded = [
+              ("receipt-jws.json", vectors["receipt-jws.json"]["claims"], "3.4/types/receipt-token.json"),
+              ("screening-rules-jws.json", vectors["screening-rules-jws.json"]["claims"], "3.4/types/screening-rules.json"),
+              ("call-receipt.json", {**call_receipt["receipt"], "auth_tag": call_receipt["auth_tag"]}, "1.1/types/call-receipt.json"),
+          ]
+          # A scoring case that is scored, not refused, has a valid expectation; some refused ones are valid JSON
+          # that a network still refuses, so only the scored ones are checked.
+          embedded += [
+              (f"scoring.json: {case['name']}", case["expect"], "3.4/types/expectation.json")
+              for case in vectors["scoring.json"]["cases"]
+              if "refused" not in case
+          ]
+          for name, value, relative in embedded:
+              errors = list(validator(relative).iter_errors(value))
+              assert not errors, f"{name} does not match {relative}: {errors[0].message}"
+          # The tools an OpenAPI document, an A2A agent or an MCP server becomes carry valid JSON Schemas.
+          tool_schemas = 0
+          for name, key in (("openapi-tools.json", "tools"), ("a2a-tools.json", "tools"), ("upstream-fingerprint.json", "tools_list")):
+              for case in vectors[name]["cases"]:
+                  for tool in case.get(key, []):
+                      for side in ("inputSchema", "outputSchema"):
+                          if tool.get(side) is not None:
+                              Draft202012Validator.check_schema(tool[side])
+                              tool_schemas += 1
+          assert schemas and examples and vectors and tool_schemas
+          print(f"{len(schemas)} schemas, {examples} examples, {len(vectors)} vector files, "
+                f"{len(embedded)} protocol objects in the vectors and {tool_schemas} tool schemas")

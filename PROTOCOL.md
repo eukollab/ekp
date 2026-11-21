@@ -490,7 +490,7 @@ An implementation conforms to EKP 3.4 when it passes the validation checks in §
 
 ## 11. Schemas
 
-Every tool, HTTP route, event, data type and error is in [`ekp/3.4/`](ekp/3.4/) (see §0); the schemas of 3.2, 3.1, 3.0, 2.0, 1.2 and 1.1 stay in `ekp/3.2/`, `ekp/3.1/`, `ekp/3.0/`, `ekp/2.0/`, `ekp/1.2/` and `ekp/1.1/` as published. Test vectors for canonical JSON and its depth limit, the network-signed receipt, fingerprints, the upstream fingerprint, endpoint proof v2, the screening rules, trial scores and how an API's operations and an A2A agent's skills become tools are in [`vectors/`](vectors/); `call-receipt.json`, the provider-keyed receipt of the native profile, stays there for the earlier versions.
+Every tool, HTTP route, event, data type and error is in [`ekp/3.4/`](ekp/3.4/) (see §0); the schemas of 3.3, 3.2, 3.1, 3.0, 2.0, 1.2 and 1.1 stay in `ekp/3.3/`, `ekp/3.2/`, `ekp/3.1/`, `ekp/3.0/`, `ekp/2.0/`, `ekp/1.2/` and `ekp/1.1/` as published. Test vectors for canonical JSON and its depth limit, the network-signed receipt, fingerprints, the upstream fingerprint, endpoint proof v2, the screening rules, trial scores and how an API's operations and an A2A agent's skills become tools are in [`vectors/`](vectors/); `call-receipt.json`, the provider-keyed receipt of the native profile, stays there for the earlier versions.
 
 ## 12. Not yet specified
 

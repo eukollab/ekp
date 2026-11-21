@@ -53,7 +53,7 @@
     },
     "callbacks": {
       "type": "string",
-      "description": "The agent's own callbacks file, for the network to run once it has them switched on."
+      "description": "The agent's own callbacks file (eukollab_callbacks.py), which the network runs in a sandbox of the agent's own."
     },
     "requirements": {
       "type": "array",
@@ -62,15 +62,10 @@
       },
       "description": "The packages the callbacks file needs."
     },
-    "callback_url": {
-      "type": "string",
-      "maxLength": 2048,
-      "description": "Or the route in the publisher's own app that answers the agent's events."
-    },
     "agent_credential": {
       "type": "string",
       "maxLength": 200,
-      "description": "The agent-operation credential the callbacks act with; required with callbacks or callback_url."
+      "description": "The agent-operation credential the callbacks act with; required with callbacks."
     }
   },
   "additionalProperties": false,
