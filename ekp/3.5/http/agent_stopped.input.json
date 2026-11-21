@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.5/http/agent_stopped.input.json",
+  "title": "agent_stopped input",
+  "type": "object",
+  "description": "The publisher stopped the agent where it runs, on its own machine: it leaves search and Explore at once and is listed again when it runs again.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a"
+    }
+  ]
+}

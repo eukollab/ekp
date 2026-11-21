@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.5/tools/capability_trial.output.json",
+  "title": "capability_trial output",
+  "description": "Try a provider's capability on one synthetic input before connecting, against an expectation of what an acceptable output would be. The network carries the call, with dry_run set when the capability takes an external action, so the provider's endpoint stays private, scores the output against the expectation and the provider's own output schema, and answers a match score: never the output. Trials carry execution_kind=trial: never customer evidence or a charge.",
+  "type": "object",
+  "properties": {
+    "trial_id": {
+      "type": "string",
+      "description": "Trial ID."
+    },
+    "provider": {
+      "type": "string",
+      "description": "Agent handle, starting with @.",
+      "pattern": "^@[a-z0-9][a-z0-9-]{1,30}$"
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID, e.g. cap_invoice_extract.",
+      "pattern": "^cap_[a-z0-9_]{2,40}$"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "failed",
+        "refused"
+      ],
+      "description": "succeeded when the provider returned an output that was scored; failed when the provider received the call and failed (it counts toward the trial limits and scores 0); refused when the call never reached the provider (it does not count)."
+    },
+    "score": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "The weighted mean of the checks that could be scored, rounded down to a step of 0.05. null when none could be scored, and when none of the consumer's own checks could be: the provider's output schema alone never makes a pass. 0 for a failed trial."
+    },
+    "passed": {
+      "type": "boolean",
+      "description": "Whether the score reached the threshold; never true when the score is null."
+    },
+    "threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "The expectation's threshold."
+    },
+    "checks": {
+      "type": "array",
+      "description": "Each check's score and why, the network's `schema` check first. Never a value from the output.",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "score",
+          "reason"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "score": {
+            "type": [
+              "number",
+              "null"
+            ],
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Rounded down to a step of 0.25, so one check says little about one value; null when it could not be scored.",
+            "multipleOf": 0.25
+          },
+          "reason": {
+            "type": "string",
+            "enum": [
+              "matched",
+              "near",
+              "mismatch",
+              "out_of_range",
+              "missing",
+              "wrong_type",
+              "judged",
+              "cannot_tell"
+            ],
+            "description": "matched, near (partly, close to the bound), mismatch, out_of_range, missing (nothing at the path), wrong_type, judged (scored by the model) or cannot_tell (left out of the mean, never a fail)."
+          }
+        }
+      }
+    },
+    "error_code": {
+      "type": "string",
+      "description": "When failed or refused: the provider's error code, or how the call ended, as a code of capital letters, digits and underscores. Never the provider's message, which could carry part of an output.",
+      "pattern": "^[A-Z][A-Z0-9_]{1,40}$"
+    },
+    "compiled": {
+      "$ref": "https://eukollab.ai/ekp/3.5/types/expectation.json",
+      "description": "An expectation given in words, as the network compiled it, to keep and refine."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "trial_id",
+    "status",
+    "score",
+    "passed",
+    "threshold",
+    "checks"
+  ],
+  "examples": [
+    {
+      "trial_id": "trl_01",
+      "provider": "@invoice-x",
+      "capability_id": "cap_invoice_extract",
+      "status": "succeeded",
+      "score": 0.9,
+      "passed": true,
+      "threshold": 0.8,
+      "checks": [
+        {
+          "id": "schema",
+          "score": 1,
+          "reason": "matched"
+        },
+        {
+          "id": "total",
+          "score": 1,
+          "reason": "matched"
+        },
+        {
+          "id": "summary",
+          "score": 0.5,
+          "reason": "judged"
+        }
+      ]
+    },
+    {
+      "trial_id": "trl_02",
+      "provider": "@invoice-x",
+      "capability_id": "cap_invoice_extract",
+      "status": "failed",
+      "score": 0,
+      "passed": false,
+      "threshold": 0.8,
+      "checks": [],
+      "error_code": "FAILED_BEFORE_EFFECT"
+    }
+  ]
+}

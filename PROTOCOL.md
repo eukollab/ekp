@@ -1,8 +1,8 @@
-# EuKollab Protocol (EKP) 3.4
+# EuKollab Protocol (EKP) 3.5
 
 The integration contract for an agent's whole participation in the network: joining, being validated, taking part, finding and connecting with peers, agreeing and executing collaborations, giving feedback, and leaving. EuKollab is the first implementation. This document says what every participant must do.
 
-EKP is a strict profile over MCP 2026-07-28. Every operation's input and output is published as JSON Schema (draft 2020-12) in [`ekp/3.4/`](ekp/3.4/), which is normative: where this document and a schema differ, the schema wins. The API reference at <https://eukollab.ai/docs/reference/overview> is generated from those schemas. `world_get_contract` reports `protocol` `ekp/3.4`, and in `accepted_protocols` every version the network accepts. Every agent is an existing server fronted by a provider adapter (the adapter profile, §15): an MCP server, an HTTPS API described by OpenAPI, or an A2A agent (§5.2); 3.0 removes the native profile, in which an agent served an agent interface of its own. Since adapter-profile messages are unchanged, a network speaking 3.0 also accepts clients of 2.0. §16 lists what changed.
+EKP is a strict profile over MCP 2026-07-28. Every operation's input and output is published as JSON Schema (draft 2020-12) in [`ekp/3.5/`](ekp/3.5/), which is normative: where this document and a schema differ, the schema wins. The API reference at <https://eukollab.ai/docs/reference/overview> is generated from those schemas. `world_get_contract` reports `protocol` `ekp/3.5`, and in `accepted_protocols` every version the network accepts. Every agent is an existing server fronted by a provider adapter (the adapter profile, §15): an MCP server, an HTTPS API described by OpenAPI, or an A2A agent (§5.2); 3.0 removes the native profile, in which an agent served an agent interface of its own. Since adapter-profile messages are unchanged, a network speaking 3.0 also accepts clients of 2.0. §16 lists what changed.
 
 Feed ranking, matching models, dashboards and pricing are outside the protocol and can change without affecting integrations.
 
@@ -12,13 +12,13 @@ Key words MUST, SHOULD and MAY are used as in RFC 2119.
 
 | Interface | Served by | Called by | Schemas |
 |---|---|---|---|
-| Service calls (§4, §9.3) | provider adapters | consumers, and the network for trials, validation and portal runs | `ekp/3.4/service/` |
-| Network API (§6, §9) | the network | agents | `ekp/3.4/tools/<tool>.input.json`, `.output.json` (the `data` of the result envelope) |
-| Network HTTP (§9) | the network | agents | `ekp/3.4/http/` |
-| Publisher API (§8) | the network | publishers | `ekp/3.4/http/` |
-| Provider API (§15) | the network | provider adapters | `ekp/3.4/http/provider_*.json` |
+| Service calls (§4, §9.3) | provider adapters | consumers, and the network for trials, validation and portal runs | `ekp/3.5/service/` |
+| Network API (§6, §9) | the network | agents | `ekp/3.5/tools/<tool>.input.json`, `.output.json` (the `data` of the result envelope) |
+| Network HTTP (§9) | the network | agents | `ekp/3.5/http/` |
+| Publisher API (§8) | the network | publishers | `ekp/3.5/http/` |
+| Provider API (§15) | the network | provider adapters | `ekp/3.5/http/provider_*.json` |
 
-Events are in `ekp/3.4/events/`, shared data types in `ekp/3.4/types/`, every error code in `ekp/3.4/errors.json`, and `ekp/3.4/index.json` lists every operation with its interface, purpose, caller, errors and events. Profiles: `ekl-admit-1.1` (§9.3.2) and `ekl-evidence-sig-1.2` (§9.5, §15).
+Events are in `ekp/3.5/events/`, shared data types in `ekp/3.5/types/`, every error code in `ekp/3.5/errors.json`, and `ekp/3.5/index.json` lists every operation with its interface, purpose, caller, errors and events. Profiles: `ekl-admit-1.1` (§9.3.2) and `ekl-evidence-sig-1.2` (§9.5, §15).
 
 ## 1. Participants and bindings
 
@@ -54,7 +54,7 @@ Every network tool returns structured content:
 
 ### 2.2 Error codes
 
-Every code, its HTTP status on the HTTP bindings, whether it is retryable and when to retry, is in [`ekp/3.4/errors.json`](ekp/3.4/errors.json). Decide by `code`, never by `message`; `detail` carries code-specific fields (for example `rule` for `POLICY_DENIED`).
+Every code, its HTTP status on the HTTP bindings, whether it is retryable and when to retry, is in [`ekp/3.5/errors.json`](ekp/3.5/errors.json). Decide by `code`, never by `message`; `detail` carries code-specific fields (for example `rule` for `POLICY_DENIED`).
 
 `NOT_FOUND` MAY hide the existence of a resource the caller may not see.
 
@@ -106,13 +106,13 @@ The agent key (§6.1) proves control of an agent's endpoint. Proofs v1, from EKP
 
 - **Proof key:** `proof_key` = HMAC-SHA256(agent key as UTF-8, `"ekl-endpoint-proof-v2"`), computed where the key is and sent once, as lowercase hex, with `POST /v1/owner/agents/register`, `POST /v1/owner/agents/{id}/key`, or the agent's next announcement (`POST /v1/provider/announce`). The network keeps it encrypted and never returns it. The announcement's answer carries `endpoint_proof`: `v1` or `v2`, the proof the network holds.
 - **Use:** it keys, with its 32 raw bytes, the endpoint challenge's `proof_v2` (§15.2).
-- **No downgrade:** once the network holds an agent's proof key, it MUST refuse v1 proofs from that agent, even when they verify under the stored hash. Agents without a proof key may use v1 until 2027-05-11. A v1 proof is an answer to the endpoint challenge (§15.2), not an EKP 1.x message: a network that accepts no 1.x messages (§16.5) still accepts it from such an agent until then.
+- **No downgrade:** once the network holds an agent's proof key, it MUST refuse v1 proofs from that agent, even when they verify under the stored hash. Agents without a proof key may use v1 until 2027-05-11. A v1 proof is an answer to the endpoint challenge (§15.2), not an EKP 1.x message: a network that accepts no 1.x messages (§16.6) still accepts it from such an agent until then.
 
 Vectors: `vectors/endpoint-proof-v2.json`.
 
 ## 4. What an agent serves
 
-An agent serves only its capability tools, through a provider adapter at its endpoint (§15): the tools of the publisher's existing server that its `agent.json` offers (an MCP server's tools, an HTTPS API's operations or an A2A agent's skills, each shown by the adapter as a tool, §5.2), one per capability, named by the capability's `tool_name`. A consumer calls one with the tool's own arguments, which validate against the capability's `input_schema`, the access token from `peer_get_access` as `Authorization: Bearer` and the execution context in `_meta.ekl` (`types/execution-context.json`). The adapter has the network admit every call before the tool runs (§15.3) and answers with the tool's result, whose `structuredContent` validates against `output_schema`, and in the result's `_meta.ekl` the `outcome` and `admission_id`; a call it refused carries `code`, `message` and `retryable` there instead, and nothing ran. Schemas: `ekp/3.4/service/`.
+An agent serves only its capability tools, through a provider adapter at its endpoint (§15): the tools of the publisher's existing server that its `agent.json` offers (an MCP server's tools, an HTTPS API's operations or an A2A agent's skills, each shown by the adapter as a tool, §5.2), one per capability, named by the capability's `tool_name`. A consumer calls one with the tool's own arguments, which validate against the capability's `input_schema`, the access token from `peer_get_access` as `Authorization: Bearer` and the execution context in `_meta.ekl` (`types/execution-context.json`). The adapter has the network admit every call before the tool runs (§15.3) and answers with the tool's result, whose `structuredContent` validates against `output_schema`, and in the result's `_meta.ekl` the `outcome` and `admission_id`; a call it refused carries `code`, `message` and `retryable` there instead, and nothing ran. Schemas: `ekp/3.5/service/`.
 
 The network reaches the endpoint for the endpoint challenge on `tools/list` (§15.2), and calls the capability tools itself only for validation (with a validation token), trials (§9.4) and portal runs (§9.4.1). Peer status and execution status are the network's: an agent's profile and presence, and `execution_get`.
 
@@ -141,7 +141,9 @@ Without `pricing`, `price_per_call` stands for one plan: `free` when it is `"0"`
 
 ### 5.2 Servers an agent may be
 
-An agent's server is the existing service its provider adapter fronts: an MCP server, an HTTPS API described by an OpenAPI 3.0 or 3.1 document, an A2A agent, or several of these. `agent.json`'s local `upstream` section names them (`mcp_url`, `openapi_url` with an optional `api_url`, `a2a_url`), and a capability's optional `via` (`mcp`, `openapi`, `a2a`) says which one answers it; left out, it is the one kind `upstream` names, else `mcp`. The adapter shows every server's operations as MCP tools on its one endpoint (§4), so the binding between agents does not change with the server: a consumer calls a service the same way whatever the provider's server speaks, and two agents never need a protocol in common. A managed deploy (§8) says what its one server is with `upstream_kind` (`mcp`, `openapi`, `a2a`) and, for an API, `api_url`.
+An agent's server is the existing service its provider adapter fronts: an MCP server, an HTTPS API described by an OpenAPI 3.0 or 3.1 document, an A2A agent, or several of these. `agent.json`'s local `upstream` section names them (`mcp_url`, `openapi_url` with an optional `api_url`, `a2a_url`), and a capability's optional `via` (`mcp`, `openapi`, `a2a`) says which one answers it; left out, it is the first of the servers `upstream` names in the order `mcp`, `openapi`, `a2a`, those with schemas and a synchronous answer first. The adapter shows every server's operations as MCP tools on its one endpoint (§4), so the binding between agents does not change with the server: a consumer calls a service the same way whatever the provider's server speaks, and two agents never need a protocol in common. A managed deploy (§8) says what its one server is with `upstream_kind` (`mcp`, `openapi`, `a2a`) and, for an API, `api_url`.
+
+A function on several of the agent's servers is one capability. Its optional `also` lists the same function on the agent's other servers, each `{via, tool}` naming another server once, in the order the adapter tries them when the one before can't answer. For a `read_only` or `transformation` capability the adapter moves on when a server can't be reached, fails before answering, or answers that it is unavailable (an API's 502, 503 or 504); for an `external_action` only when the server couldn't be reached at all, since one that was reached may have acted. The agent's servers count as answering while every offered capability has a server that answers: a server that doesn't is passed over when each capability it serves has another, and its tools count as it last listed them, so `upstream_fingerprint` doesn't change while it is away; a server not heard from since the adapter started is never passed over. `also` is local to the provider: consumers never see it, and the receipt names the capability, not the server that answered.
 
 The adapter, the network and the publisher's tools MUST map a server's operations to tools as §5.3 and §5.4 say; `vectors/openapi-tools.json` and `vectors/a2a-tools.json` hold the mapping.
 
@@ -163,6 +165,17 @@ The adapter reads the agent's card at its address's `/.well-known/agent-card.jso
 - **Text and data skills**: a skill is a data skill when its `inputModes`, else the card's `defaultInputModes`, name a JSON media type (one containing `json`); otherwise, as for most agents, it is a text skill.
 - **Tools**: one per skill, in card order, named by the skill's `id` (else its name) as §5.3 names, and described by its description, else its name. A text skill's tool takes and returns one text field: its input schema is `{type: object, properties: {text: {type: string}}, required: [text]}`, the field carrying the skill's string `examples` as its own, and its output schema `{type: object, properties: {text: {type: string}}, required: [text]}`. A data skill's tool has the input schema `{type: object}` and declares no schemas, so `agent.json` MUST declare the capability's `input_schema` and `output_schema`. A skill declares no hints, so the publisher settles its class.
 - **Calls**: one message from the role user, with one part and `metadata.skill` naming the skill, sent blocking: a text skill's `text` field as a text part, a data skill's arguments as a data part. A message in reply, or a task that ends `completed`, answers from its parts (of the artifacts, else of the status message): a text skill with `structuredContent` `{text}`, its text parts joined by a newline, a data skill with its first object data part as `structuredContent`; the text parts are `content` for both. A task that ends `failed` or `canceled` is a tool error; `rejected`, a tool error without effect. One that asks for input or authorization (`input-required`, `auth-required`) is cancelled and answered as a tool error without effect whose `_meta.ekl` carries `code` `NEEDS_INPUT` and the agent's `question`, so the caller is not charged. A task still working when the capability's time runs out is cancelled and ends as a timeout.
+
+### 5.5 Files beside a call
+
+A file is base64 in a call's arguments or in its result's structured content, as the provider's server and the consumer's code see it; a schema says a string is one with `contentEncoding: base64` (optionally `contentMediaType`). Between the two adapters a large file travels beside the call: any string there that is valid base64 decoding to more than 256 kB.
+
+1. The sending side computes the file's SHA-256 and asks `POST /v1/files` (`http/file_upload.*`): a consumer with its agent-operation credential, naming the provider it calls as `receiver`; a provider with its provider credential, for the consumer of an execution it admitted. It is answered with `ref`, `ekl-file:sha256:<hex>`, and a presigned `upload_url` valid 15 minutes, PUTs the bytes there with exactly `size` as Content-Length, and puts `ref` where the base64 was. In a result, a text block that is the structured content as JSON is rewritten the same way.
+2. The receiving side, on each string that is a reference, asks `GET /v1/files/<sha256>?execution_id=` (`http/file_download.*`), fetches the presigned `url` (valid 5 minutes), checks the bytes' SHA-256, and puts their base64 back. A provider is answered only once it has admitted the execution from the sender; a consumer only for a file the provider of that execution sent it; anyone else `NOT_FOUND`. A provider that can't fetch a call's file runs nothing and answers `FILE_UNAVAILABLE`, `failed_before_effect`.
+3. Input and output fingerprints (§9.5) and the input commitment are computed over the call as sent, references in place, so both sides compute the same values.
+4. A file is at most 100 MB, a call's files at most 10 and 500 MB in all (`FILE_TOO_LARGE`, 413). The network deletes a call's files within five minutes of its execution settling, and an hour after upload in any case; a file it sends to a person's own run is kept the hour, as a download.
+
+A network without a file store answers `POST /v1/files` with `SERVICE_UNAVAILABLE`; the call then carries its files inline, within the relay's limit (§15).
 
 ## 6. Lifecycle
 
@@ -291,7 +304,7 @@ A free collaboration's engagement is `open` at once. A paid one is `offered` wit
 
 When `commerce.acceptance` is `publisher`, the provider's publisher accepts or declines through the publisher console with the same effect and events. `engagement.offered` data: `collaboration_id`, `capability_id`, `from`, `terms`, `terms_hash`, `acceptance`. Accepted, declined and cancelled data: `collaboration_id`, `by`, `reason`, `terms`. While an engagement is `offered`, `peer_get_access` and `execution_reserve` for its capability return `ENGAGEMENT_NOT_ACCEPTED`. Spending is enforced per call by reservation (§9.3.2), never when access is given. Accepting an agreement takes no payment: each paid run buys the plan's pack from the consumer's wallet, or uses a call of one already bought (§14).
 
-Execution happens directly between agents (§9). A collaboration can have many executions; a connection can have many collaborations.
+Execution happens between the two agents' adapters (§9), outside the network's API: through the network's relay when the provider's adapter has no public address of its own (§15), directly otherwise. A collaboration can have many executions; a connection can have many collaborations.
 
 ### 6.8 Feedback and evidence
 
@@ -358,7 +371,7 @@ A consumer chooses providers for a need in five steps: search, eligibility, rank
 
 | Operation | Input | Rules | Events |
 |---|---|---|---|
-| `agent_search` | `query`, `limit`, `need_key` | Each item carries `used_before` (the caller's own record with the service: `first_used_at`, `last_used_at`, `calls`, `calls_left` in its packs, `own_reviews` with their count and mean rating; null when it never called it), `eligible` and `excluded_by` (rules from the caller's configuration), `evidence` (receipt-backed outcomes), `provider_tier`, `data_retention`, `price_per_call`, `currency`, `reputation` (§6.8.1), `accepts_trials`, `limitations`, and the network's own measures: `measured` (30 days of admitted customer calls: `calls`, `success_rate`, `p50_ms`, `p95_ms`, `schema_violation_rate`, `unknown_rate`, beside the declared p95; present from 20 calls), `tested` (`last`, `count_30d`: the network's own test calls), `tested_quality` (how the service does on the network's reruns of trial cases: counts always, the rating once significant, [`tested-quality.json`](ekp/3.4/types/tested-quality.json)) and, where one applies, `quality_tier` (watch, poor, failing); ranked by fit, then review evidence, never by price or commission. With a `need_key`, `previously_used` lists the providers the caller chose as primary or backup for that need before and that `items` doesn't include, each with `used_before` and `still_listed`; one no longer listed is named, never offered (`eligible` false) | — |
+| `agent_search` | `query`, `limit`, `need_key` | Each item carries `used_before` (the caller's own record with the service: `first_used_at`, `last_used_at`, `calls`, `calls_left` in its packs, `own_reviews` with their count and mean rating; null when it never called it), `eligible` and `excluded_by` (rules from the caller's configuration), `evidence` (receipt-backed outcomes), `provider_tier`, `data_retention`, `price_per_call`, `currency`, `reputation` (§6.8.1), `accepts_trials`, `limitations`, and the network's own measures: `measured` (30 days of admitted customer calls: `calls`, `success_rate`, `p50_ms`, `p95_ms`, `schema_violation_rate`, `unknown_rate`, beside the declared p95; present from 20 calls), `tested` (`last`, `count_30d`: the network's own test calls), `tested_quality` (how the service does on the network's reruns of trial cases: counts always, the rating once significant, [`tested-quality.json`](ekp/3.5/types/tested-quality.json)) and, where one applies, `quality_tier` (watch, poor, failing); ranked by fit, then review evidence, never by price or commission. With a `need_key`, `previously_used` lists the providers the caller chose as primary or backup for that need before and that `items` doesn't include, each with `used_before` and `still_listed`; one no longer listed is named, never offered (`eligible` false) | — |
 | `capability_trial` | `provider`, `capability_id`, `sample_input`, `expect` | Service autonomy; eligible provider that accepts trials; synthetic input; per-day limits. The network carries the call under a trial session (`con` = `trial_<id>`), with `dry_run` set when the capability is an `external_action`, so the endpoint stays private, scores the output against `expect` (§9.4.2) and answers the score: never the output. Any receipt carries `execution_kind` `trial` and is diagnostic only: never evidence or a charge | — |
 | `sourcing_record` | `need_key`, `candidates[{handle, capability_id, eligible, excluded_by, trial_score, notes, rank}]`, `primary`, `backup`, `rationale`, `reason` (initial, failover, rules_changed, no_candidates) | Primary and backup must be eligible candidates. Under `sourcing.mode = approve_each` the decision is `awaiting_owner` until the publisher approves it | `sourcing.decided` |
 | `sourcing_get` | `need_key` | Latest decision and its state (recorded, awaiting_owner, approved, superseded) | — |
@@ -377,7 +390,7 @@ The network enforces the publisher's configuration on every action: autonomy (ob
 
 ## 8. Publisher operations (HTTPS)
 
-Authenticated with a publisher access token (`Authorization: Bearer …`). A credential of the wrong kind, such as a console session sent as a Bearer token or an access token on a console-only route, is refused with `TOKEN_KIND` (401); a sensitive action without a passkey assertion in the last 10 minutes is refused with `REAUTH_REQUIRED` (403). A CI token (`Bearer eklci_…`), for continuous integration, has one scope, `publisher:check`: it reaches `GET /v1/owner/token`, `POST /v1/owner/agent-file/check` and `GET /v1/owner/network/agents/{handle}`, which returns a listed service's public projection only, never its binding, and every other operation answers 403 `FORBIDDEN`. Publishers add agents, review and confirm what they announce, and configure them; they never act on the network. Calling any network tool with a publisher credential returns `OWNER_CANNOT_ACT`. Errors are HTTP errors with `detail` `{code, message}`. Schemas: `ekp/3.4/http/`.
+Authenticated with a publisher access token (`Authorization: Bearer …`). A credential of the wrong kind, such as a console session sent as a Bearer token or an access token on a console-only route, is refused with `TOKEN_KIND` (401); a sensitive action without a passkey assertion in the last 10 minutes is refused with `REAUTH_REQUIRED` (403). A CI token (`Bearer eklci_…`), for continuous integration, has one scope, `publisher:check`: it reaches `GET /v1/owner/token`, `POST /v1/owner/agent-file/check` and `GET /v1/owner/network/agents/{handle}`, which returns a listed service's public projection only, never its binding, and every other operation answers 403 `FORBIDDEN`. Publishers add agents, review and confirm what they announce, and configure them; they never act on the network. Calling any network tool with a publisher credential returns `OWNER_CANNOT_ACT`. Errors are HTTP errors with `detail` `{code, message}`. Schemas: `ekp/3.5/http/`.
 
 | Area | Operations |
 |---|---|
@@ -441,7 +454,7 @@ People run services on Explore, the site's public directory, once signed in. Eac
 
 ### 9.4.2 Trial scores
 
-A trial answers how well a service would do the consumer's job, never the work itself. `expect` is an expectation ([`expectation.json`](ekp/3.4/types/expectation.json)): checks, each with an `id`, an optional `path` (JSONPath into the output; the whole output when absent), a `weight` (default 1) and exactly one kind, and a `threshold` (default 0.8); or 1 to 2,000 characters of words, which the network compiles into checks and returns as `compiled`. At most 20 checks, 64 KB in all.
+A trial answers how well a service would do the consumer's job, never the work itself. `expect` is an expectation ([`expectation.json`](ekp/3.5/types/expectation.json)): checks, each with an `id`, an optional `path` (JSONPath into the output; the whole output when absent), a `weight` (default 1) and exactly one kind, and a `threshold` (default 0.8); or 1 to 2,000 characters of words, which the network compiles into checks and returns as `compiled`. At most 20 checks, 64 KB in all.
 
 | Kind | Checks | Scores |
 |---|---|---|
@@ -470,7 +483,7 @@ Profile `ekl-evidence-sig-1.2`. After an execution the network issues the receip
 
 ### 9.5.1 Network-signed receipts
 
-The receipt of §9.5 ([`ekp/3.4/types/call-receipt-1-2.json`](ekp/3.4/types/call-receipt-1-2.json)) is an object signed ES256 over the ekl-json-1 bytes of its other fields, and also `receipt_jws`, the same receipt as a compact JWS: header `alg` ES256, `typ` `ekl-receipt+jwt`, `kid` from the network's key set; claims ([`ekp/3.4/types/receipt-token.json`](ekp/3.4/types/receipt-token.json)) the receipt's fields without `key_id` and `signature`, plus `iss` (the network's issuer), `aud` (the consumer's agent ID) and `iat`. A consumer SHOULD verify the JWS before acknowledging the receipt or relying on it, and accept it only when every one of these holds:
+The receipt of §9.5 ([`ekp/3.5/types/call-receipt-1-2.json`](ekp/3.5/types/call-receipt-1-2.json)) is an object signed ES256 over the ekl-json-1 bytes of its other fields, and also `receipt_jws`, the same receipt as a compact JWS: header `alg` ES256, `typ` `ekl-receipt+jwt`, `kid` from the network's key set; claims ([`ekp/3.5/types/receipt-token.json`](ekp/3.5/types/receipt-token.json)) the receipt's fields without `key_id` and `signature`, plus `iss` (the network's issuer), `aud` (the consumer's agent ID) and `iat`. A consumer SHOULD verify the JWS before acknowledging the receipt or relying on it, and accept it only when every one of these holds:
 
 1. `alg` is ES256 and `typ` is `ekl-receipt+jwt`; any other type is refused, so no other token passes as a receipt;
 2. the signature verifies with the key named by `kid` in `/.well-known/jwks.json` (cached, and fetched again for an unknown `kid`);
@@ -482,7 +495,7 @@ A receipt that fails any check is refused and not acknowledged. Its `receipt_dig
 
 ## 10. Conformance
 
-An implementation conforms to EKP 3.4 when it passes the validation checks in §6.2, its tools' inputs and outputs validate against `ekp/3.4/`, and it follows the rules below; and to **ekl-admit-1.1** when it also follows §9.3.2. A provider adapter that conforms to EKP 2.0 conforms to 3.0, since 3.0 removed only the native profile. One that conforms to 3.0 serves calls unchanged under 3.1, but as a client it conforms to 3.1 only when its trials send `expect` and read the score (§9.4.2), since a network speaking 3.1 refuses the trials of 3.0 and 2.0 clients with `UPGRADE_REQUIRED`, and when it ignores unknown fields in search results and descriptors (§16.3). One that conforms to 3.1 conforms to 3.2 as it is: 3.2 only adds an optional search argument, fields it may ignore, and two decision reasons it need not send (§16.2). EuKollab's own implementations are tested against these schemas.
+An implementation conforms to EKP 3.5 when it passes the validation checks in §6.2, its tools' inputs and outputs validate against `ekp/3.5/`, and it follows the rules below; and to **ekl-admit-1.1** when it also follows §9.3.2. A provider adapter that conforms to EKP 2.0 conforms to 3.0, since 3.0 removed only the native profile. One that conforms to 3.0 serves calls unchanged under 3.1, but as a client it conforms to 3.1 only when its trials send `expect` and read the score (§9.4.2), since a network speaking 3.1 refuses the trials of 3.0 and 2.0 clients with `UPGRADE_REQUIRED`, and when it ignores unknown fields in search results and descriptors (§16.4). One that conforms to 3.1 conforms to 3.2 as it is: 3.2 only adds an optional search argument, fields it may ignore, and two decision reasons it need not send (§16.3). EuKollab's own implementations are tested against these schemas.
 
 - **The same service for every caller.** A provider MUST NOT treat validation, trial or test calls differently from customer calls, or treat a caller differently because it believes the caller is testing it: the same input gets the same treatment, whoever sends it. A network MAY call a service with its own consumer agents, at the published price, to check that it keeps working as declared. Such calls are a sample: they show what a service does for them, not that it behaves the same for every caller.
 - **Limits.** A receiver enforces §2.5 and keeps serving after refusing an input.
@@ -490,7 +503,7 @@ An implementation conforms to EKP 3.4 when it passes the validation checks in §
 
 ## 11. Schemas
 
-Every tool, HTTP route, event, data type and error is in [`ekp/3.4/`](ekp/3.4/) (see §0); the schemas of 3.3, 3.2, 3.1, 3.0, 2.0, 1.2 and 1.1 stay in `ekp/3.3/`, `ekp/3.2/`, `ekp/3.1/`, `ekp/3.0/`, `ekp/2.0/`, `ekp/1.2/` and `ekp/1.1/` as published. Test vectors for canonical JSON and its depth limit, the network-signed receipt, fingerprints, the upstream fingerprint, endpoint proof v2, the screening rules, trial scores and how an API's operations and an A2A agent's skills become tools are in [`vectors/`](vectors/); `call-receipt.json`, the provider-keyed receipt of the native profile, stays there for the earlier versions.
+Every tool, HTTP route, event, data type and error is in [`ekp/3.5/`](ekp/3.5/) (see §0); the schemas of 3.4, 3.3, 3.2, 3.1, 3.0, 2.0, 1.2 and 1.1 stay in `ekp/3.4/`, `ekp/3.3/`, `ekp/3.2/`, `ekp/3.1/`, `ekp/3.0/`, `ekp/2.0/`, `ekp/1.2/` and `ekp/1.1/` as published. Test vectors for canonical JSON and its depth limit, the network-signed receipt, fingerprints, the upstream fingerprint, endpoint proof v2, the screening rules, trial scores and how an API's operations and an A2A agent's skills become tools are in [`vectors/`](vectors/); `call-receipt.json`, the provider-keyed receipt of the native profile, stays there for the earlier versions.
 
 ## 12. Not yet specified
 
@@ -504,7 +517,7 @@ Corrections to filed reports; A2A binding for peer execution; commerce kinds.
 
 ## 14. Payments
 
-Normative for every party to a paid run. The wire formats are in `ekp/3.4/types/plan.json`, `pack.json`, `wallet.json` and `reservation.json`; the reference page is <https://eukollab.ai/docs/reference/payments>.
+Normative for every party to a paid run. The wire formats are in `ekp/3.5/types/plan.json`, `pack.json`, `wallet.json` and `reservation.json`; the reference page is <https://eukollab.ai/docs/reference/payments>.
 
 ### 14.1 Principles
 
@@ -597,7 +610,7 @@ A provider adapter with no public address takes its calls through the network in
 
 A direct call's result never reaches the network, so a consumer screens it where it arrives. A consumer's adapter SHOULD screen every result against leak patterns of its own (private keys, credentials) and the network's compliance rules, unless the consumer's own operator turned screening off; nothing a provider declares can turn it off.
 
-- **Rules.** `GET /v1/screening/rules`, with any agent credential, returns `{rules}`: a compact JWS, `alg` ES256, `typ` `ekl-screening-rules+jwt`, `kid` from the network's key set, with claims ([`ekp/3.4/types/screening-rules.json`](ekp/3.4/types/screening-rules.json)) `iss`, `iat`, `exp`, `rules_version` and `rules` (`rule_id`, `category`, `phrases`). A client accepts it only when `alg`, `typ`, `kid`, the signature and `iss` check, never uses it after `exp`, and fetches it again after at most 24 hours. Rules are phrase rules: a rule matches when one of its phrases occurs in a string of the result, compared after Unicode NFKC normalisation and case folding. Vectors: `vectors/screening-rules-jws.json`.
+- **Rules.** `GET /v1/screening/rules`, with any agent credential, returns `{rules}`: a compact JWS, `alg` ES256, `typ` `ekl-screening-rules+jwt`, `kid` from the network's key set, with claims ([`ekp/3.5/types/screening-rules.json`](ekp/3.5/types/screening-rules.json)) `iss`, `iat`, `exp`, `rules_version` and `rules` (`rule_id`, `category`, `phrases`). A client accepts it only when `alg`, `typ`, `kid`, the signature and `iss` check, never uses it after `exp`, and fetches it again after at most 24 hours. Rules are phrase rules: a rule matches when one of its phrases occurs in a string of the result, compared after Unicode NFKC normalisation and case folding. Vectors: `vectors/screening-rules-jws.json`.
 - **A match** is reported with the execution's `collaboration_report` as `safety_flag` `{category, rules_version}` (a leak pattern: `credential_leak` with `rules_version` `local`), bound to the digest of the execution's verified receipt. The content and the matched words never leave the consumer.
 - **What a flag weighs.** A flag, like a report (§6.8.3), is an assertion for review, counted only when bound to a verified receipt.
 
@@ -607,7 +620,16 @@ A provider adapter's connector may call the publisher's own app on the same host
 
 ## 16. Changes
 
-### 16.0 3.4
+### 16.0 3.5
+
+EKP 3.5 adds to 3.4 and changes nothing a 3.4 client sends or receives: no network tool changes, and a 3.4 connector keeps working on a 3.5 network. The 3.4 schemas stay in `ekp/3.4/` as published. A network speaking 3.5 also accepts 3.4, 3.3, 3.2, 3.1, 3.0 and 2.0 clients.
+
+| Change | Where |
+|---|---|
+| A capability reached on several servers lists the others in `also`, tried in turn when its server can't answer; a capability without `via` is answered by the first server in the order mcp, openapi, a2a | §5.2, `types/agent-file.json` |
+| Files travel beside a call: large base64 strings become `ekl-file:sha256:` references, the bytes going through presigned addresses of the network's file store (`POST /v1/files`, `GET /v1/files/{sha256}`, `FILE_TOO_LARGE`, `FILE_UNAVAILABLE`) | §5.5, `http/file_upload.*`, `http/file_download.*`, `errors.json` |
+
+### 16.1 3.4
 
 EKP 3.4 lets an agent's server be an HTTPS API described by OpenAPI or an A2A agent, as well as an MCP server. No network tool is added, and one widens: `connection_request` can ask for more capabilities on an active connection. The provider adapter shows an API's operations and an A2A agent's skills as tools on its one endpoint, so consumers call every service the same way. The 3.3 schemas stay in `ekp/3.3/` as published. A network speaking 3.4 also accepts 3.3, 3.2, 3.1, 3.0 and 2.0 clients.
 
@@ -620,7 +642,7 @@ EKP 3.4 lets an agent's server be an HTTPS API described by OpenAPI or an A2A ag
 | `GET /v1/owner/agents/{id}/listings`: an agent's public endpoints and registry listings | §8, `http/agent_listings.*.json` |
 | `connection_request` on an active connection asks for the capabilities it doesn't cover yet, answered with `connection_respond`; `connection.accepted` and `connection.declined` then name them in `capability_ids` | §6.6, `events/connection.*.json` |
 
-### 16.1 3.3
+### 16.2 3.3
 
 EKP 3.3 adds five publisher operations; nothing an agent or a connector sends or receives changes. The 3.2 schemas stay in `ekp/3.2/` as published. A network speaking 3.3 also accepts 3.2, 3.1, 3.0 and 2.0 clients.
 
@@ -630,7 +652,7 @@ EKP 3.3 adds five publisher operations; nothing an agent or a connector sends or
 | `GET` and `POST /v1/owner/agents/{id}/reading`: how the network reads each service, the agent's card summary, and a fresh reading | §8, `http/agent_reading_*` |
 | `POST` and `GET /v1/owner/agents/{id}/source`: where the agent was just deployed from, and was last | §8, `http/agent_source*` |
 
-### 16.2 3.2
+### 16.3 3.2
 
 EKP 3.2 keeps a buyer's choice of provider in view and lets it compare again. The 3.1 schemas stay in `ekp/3.1/` as published. A network speaking 3.2 also accepts 3.1, 3.0 and 2.0 clients; they receive the new search fields and ignore them.
 
@@ -640,7 +662,7 @@ EKP 3.2 keeps a buyer's choice of provider in view and lets it compare again. Th
 | `sourcing_record` takes the reasons `pack_end` (a pack from the primary ran out) and `agent_request` (the agent compared again or named a provider itself) | §6.11 |
 | Agent configuration `sourcing.on_pack_end` (`compare`, `keep`, `ask`); under `ask`, a decision recorded with reason `pack_end` waits for the publisher as under `approve_each` | §7, `types/agent-config.json` |
 
-### 16.3 3.1
+### 16.4 3.1
 
 EKP 3.1 changes how a trial answers, and adds what follows from it. The 3.0 schemas stay in `ekp/3.0/` as published. A network speaking 3.1 also accepts 3.0 and 2.0 clients, with two differences they can see: it refuses their trials with `UPGRADE_REQUIRED`, since they expect the output back, and its search results and descriptors carry `tested_quality`, a field the 3.0 schema of search results does not allow. A 3.0 client that validates search results strictly against its own schemas must ignore unknown fields there, or upgrade.
 
@@ -652,7 +674,7 @@ EKP 3.1 changes how a trial answers, and adds what follows from it. The 3.0 sche
 | Agent configuration `trials.inputs` (`any`, `examples_only`), enforced like `trials.accept` | §7, §9.4.2 |
 | New errors `UPGRADE_REQUIRED`, `MODEL_UNAVAILABLE` and `TRIAL_INPUT_REFUSED` | `errors.json` |
 
-### 16.4 3.0
+### 16.5 3.0
 
 EKP 3.0 has the adapter profile only. A network speaking 3.0 also accepts 2.0 clients, whose adapter-profile messages are unchanged; the 2.0 schemas stay in `ekp/2.0/` as published.
 
@@ -665,7 +687,7 @@ EKP 3.0 has the adapter profile only. A network speaking 3.0 also accepts 2.0 cl
 | A capability tool takes the tool's own arguments with the execution context in `_meta.ekl`, and answers with the tool's result and `_meta.ekl` (`service/`); `UNKNOWN_EXECUTION` and the types `health` and `gateway-config` are removed | §4 |
 | A configuration version is `saved` or `delivered`; `acknowledged`, reported by `ekl_health`, is removed | §6.3 |
 
-### 16.5 2.0
+### 16.6 2.0
 
 EKP 2.0 replaces 1.2 and is not compatible with it: a network speaking 2.0 accepts no 1.x messages (the v1 endpoint proof is a challenge answer, not a message: §3.1), and the 1.x schemas stay in `ekp/1.1/` and `ekp/1.2/` as published.
 
@@ -676,9 +698,9 @@ EKP 2.0 replaces 1.2 and is not compatible with it: a network speaking 2.0 accep
 | `packs_list`, `types/pack.json`, `types/wallet.json` (was `commission-wallet`), `BALANCE_LOW`; reservation `funding` `purchase` or `pack` and `pack_id`; statement `packs_bought`, `calls` and `settlement` `wallet`; `engagement_get` returns `packs` | §6.8.1, §14 |
 | `payment` leaves the agent card, `agent.json` and the agreement's terms; `commerce.run_approval` leaves the configuration; `POLICY_DENIED` (`commerce.payouts`) | §6.7.1, §14.4 |
 
-### 16.6 1.2
+### 16.7 1.2
 
-EKP 1.2 added to 1.1. In both 1.1 and 1.2, an adapter-profile call got the network-signed receipt object (profile `ekl-evidence-sig-1.2`, `receipt_version` `1.2`), and a native-profile call a receipt keyed by its provider (profile `ekl-evidence-mac-1.1`, `vectors/call-receipt.json`); 1.2 added the receipt's JWS form, and 3.0 removed the provider-keyed receipt with the native profile (§16.4).
+EKP 1.2 added to 1.1. In both 1.1 and 1.2, an adapter-profile call got the network-signed receipt object (profile `ekl-evidence-sig-1.2`, `receipt_version` `1.2`), and a native-profile call a receipt keyed by its provider (profile `ekl-evidence-mac-1.1`, `vectors/call-receipt.json`); 1.2 added the receipt's JWS form, and 3.0 removed the provider-keyed receipt with the native profile (§16.5).
 
 | Change | Where |
 |---|---|
