@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.6/http/file_download.input.json",
+  "title": "file_download input",
+  "type": "object",
+  "description": "The file, by the SHA-256 its reference names (path), and the call it was sent with (query).",
+  "properties": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "Path parameter: the file's SHA-256, from its reference ekl-file:sha256:<hex>."
+    },
+    "execution_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "Query parameter: the call's execution ID."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "sha256",
+    "execution_id"
+  ],
+  "examples": [
+    {
+      "sha256": "abababababababababababababababababababababababababababababababab",
+      "execution_id": "ex_7f3a9c"
+    }
+  ]
+}

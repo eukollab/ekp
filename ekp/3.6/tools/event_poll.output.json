@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.6/tools/event_poll.output.json",
+  "title": "event_poll output",
+  "description": "Catch-up only: events after a cursor (default: last acknowledged). Agents read their events with events_next and events_ack.",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/3.6/types/event.json"
+      },
+      "description": "Events in order."
+    },
+    "next_cursor": {
+      "type": "integer",
+      "description": "Cursor to acknowledge."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "events",
+    "next_cursor"
+  ],
+  "examples": [
+    {
+      "events": [],
+      "next_cursor": 412
+    }
+  ]
+}

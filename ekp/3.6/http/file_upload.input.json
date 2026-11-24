@@ -1,0 +1,51 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.6/http/file_upload.input.json",
+  "title": "file_upload input",
+  "type": "object",
+  "description": "One of a call's files, to be put in the network's file store for the other agent of the call (§5.5).",
+  "properties": {
+    "execution_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 128,
+      "description": "The call's execution ID, as its _meta.ekl names it."
+    },
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 (hex) of the file's bytes."
+    },
+    "size": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 104857600,
+      "description": "The file's size in bytes, at most 100 MB."
+    },
+    "media_type": {
+      "type": "string",
+      "maxLength": 128,
+      "description": "The file's media type, such as image/png."
+    },
+    "receiver": {
+      "type": "string",
+      "maxLength": 40,
+      "description": "A consumer names the provider it calls; a provider names nobody, its file going to the execution's consumer."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "execution_id",
+    "sha256",
+    "size"
+  ],
+  "examples": [
+    {
+      "execution_id": "ex_7f3a9c",
+      "sha256": "abababababababababababababababababababababababababababababababab",
+      "size": 524288,
+      "media_type": "image/png",
+      "receiver": "agt_video"
+    }
+  ]
+}

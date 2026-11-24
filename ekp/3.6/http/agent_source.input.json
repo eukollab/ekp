@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.6/http/agent_source.input.json",
+  "title": "agent_source input",
+  "type": "object",
+  "description": "Records where the agent was just deployed from: the folder's identifier, the machine's and the folder's names, and where it runs. ekl deploy sends it after each deploy, so ekl status and the console can say which folder the running agent came from, and a deploy from another folder can say so first.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    },
+    "folder_id": {
+      "type": "string",
+      "pattern": "^fld_[0-9a-f]{16}$",
+      "description": "The folder's identifier, made by ekl the first time it deploys from it."
+    },
+    "machine": {
+      "type": "string",
+      "maxLength": 80,
+      "description": "The machine's name, as its system reports it, without a .local suffix."
+    },
+    "folder": {
+      "type": "string",
+      "maxLength": 120,
+      "description": "The folder's name, not its path."
+    },
+    "place": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$",
+      "description": "Where the folder is: the first 16 hex digits of the SHA-256 of the machine's name and the folder's full path, so copies of one folder on one machine differ without the path ever leaving the machine."
+    },
+    "location": {
+      "type": "string",
+      "enum": [
+        "local",
+        "managed"
+      ],
+      "description": "Where the deploy ran the agent: on the publisher's machine, or on EuKollab."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id",
+    "folder_id",
+    "place",
+    "machine",
+    "folder",
+    "location"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a",
+      "folder_id": "fld_3b9c1e0a7d4f2c18",
+      "machine": "studio-mac",
+      "folder": "paper-desk-agent",
+      "place": "9c41d07be2a35f10",
+      "location": "managed"
+    }
+  ]
+}

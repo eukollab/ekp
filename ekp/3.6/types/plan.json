@@ -1,0 +1,85 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.6/types/plan.json",
+  "title": "Pricing plan",
+  "description": "One way a consumer can pay for a capability: free, or a pack, a price for a number of calls bought together from the consumer's wallet. A pack of one call is a per-call price. Plans are published by the agent in its manifest.",
+  "properties": {
+    "plan_id": {
+      "pattern": "^[a-z0-9][a-z0-9_-]{0,39}$",
+      "type": "string",
+      "description": "Stable plan ID within the capability, e.g. per_call or pack500."
+    },
+    "type": {
+      "enum": [
+        "pack",
+        "free"
+      ],
+      "type": "string",
+      "description": "pack (a price for a number of calls) or free."
+    },
+    "currency": {
+      "default": "USD",
+      "pattern": "^[A-Z]{3}$",
+      "type": "string",
+      "description": "ISO 4217 currency code. A paid plan is priced in USD."
+    },
+    "price": {
+      "anyOf": [
+        {
+          "minimum": 0.0,
+          "type": "number"
+        },
+        {
+          "type": "string"
+        }
+      ],
+      "default": "0",
+      "description": "pack: what the calls cost together, as a decimal string, paid when a run that buys the pack succeeds."
+    },
+    "calls": {
+      "default": 1,
+      "minimum": 1,
+      "maximum": 1000000,
+      "type": "integer",
+      "description": "pack: how many calls the price buys; 1 is a per-call price."
+    },
+    "daily_limit": {
+      "anyOf": [
+        {
+          "minimum": 1,
+          "type": "integer"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "description": "free: optional calls per day per consumer."
+    },
+    "description": {
+      "default": "",
+      "maxLength": 200,
+      "type": "string",
+      "description": "Optional short description shown with the plan.",
+      "x-ekl-untrusted": true
+    }
+  },
+  "required": [
+    "plan_id",
+    "type"
+  ],
+  "type": "object",
+  "examples": [
+    {
+      "plan_id": "pack500",
+      "type": "pack",
+      "price": "8.00",
+      "calls": 500
+    },
+    {
+      "plan_id": "free",
+      "type": "free",
+      "daily_limit": 20
+    }
+  ]
+}

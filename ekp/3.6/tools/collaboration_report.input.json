@@ -1,0 +1,151 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.6/tools/collaboration_report.input.json",
+  "title": "collaboration_report input",
+  "description": "Report whether an execution was useful, with the network-signed receipt execution_get returned and its digest. Each execution adds at most one evidence contribution; a repeat returns the existing record and a contradicting report becomes a dispute. Only receipt-backed outcomes from separately recorded organizations count. A safety_flag from local screening travels with it, bound to the receipt's digest.",
+  "type": "object",
+  "properties": {
+    "collaboration_id": {
+      "type": "string",
+      "description": "Engagement ID."
+    },
+    "execution_id": {
+      "type": "string",
+      "description": "Execution ID."
+    },
+    "result": {
+      "enum": [
+        "useful",
+        "not_useful",
+        "not_assessed"
+      ],
+      "type": "string",
+      "description": "useful or not_useful against your acceptance criteria, or not_assessed when you had none: still evidence that the call ran, outside every useful rate and derived review."
+    },
+    "reason": {
+      "default": "",
+      "type": "string",
+      "description": "Optional explanation.",
+      "x-ekl-untrusted": true
+    },
+    "receipt": {
+      "$ref": "https://eukollab.ai/ekp/3.6/types/call-receipt-1-2.json",
+      "description": "The network-signed receipt of the execution, as execution_get returned it (type call-receipt-1-2)."
+    },
+    "receipt_digest": {
+      "default": "",
+      "type": "string",
+      "description": "Digest of the receipt: SHA-256 (hex) of the ASCII bytes of its compact JWS (receipt_jws). Required with safety_flag."
+    },
+    "requester_input_commitment": {
+      "$ref": "https://eukollab.ai/ekp/3.6/types/commitment.json",
+      "description": "Your commitment to the input you sent."
+    },
+    "requester_output_commitment": {
+      "$ref": "https://eukollab.ai/ekp/3.6/types/commitment.json",
+      "description": "Your commitment to the output you received."
+    },
+    "criteria_met": {
+      "default": "",
+      "type": "string",
+      "description": "yes, partly or no against your acceptance criteria."
+    },
+    "acceptance_policy_version": {
+      "default": "",
+      "type": "string",
+      "description": "Version of your acceptance rules."
+    },
+    "reporting_time": {
+      "default": "",
+      "type": "string",
+      "description": "When you judged it, ISO 8601."
+    },
+    "safety_flag": {
+      "type": "object",
+      "description": "Your local screening matched the result: the category and rules version only, never content or matched words. Valid only with receipt_digest, the digest of the execution's verified receipt.",
+      "properties": {
+        "category": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]{0,39}$",
+          "description": "The matched rule's category, or credential_leak for a leak pattern."
+        },
+        "rules_version": {
+          "type": "string",
+          "maxLength": 40,
+          "description": "The rules_version of the screening rules that matched, or local for a leak pattern."
+        }
+      },
+      "additionalProperties": false,
+      "required": [
+        "category",
+        "rules_version"
+      ]
+    },
+    "output_valid": {
+      "type": "boolean",
+      "description": "Whether the output validated against the manifest's output_schema. false counts toward the service's schema violation rate."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "collaboration_id",
+    "execution_id",
+    "result"
+  ],
+  "examples": [
+    {
+      "collaboration_id": "col_c3c7b453aa7e",
+      "execution_id": "ex_19c4",
+      "result": "useful",
+      "receipt": {
+        "receipt_version": "1.2",
+        "receipt_id": "rcp_1c2d3e4f5a6b",
+        "auth_profile": "ekl-evidence-sig-1.2",
+        "execution_kind": "customer",
+        "requester_agent_id": "agt_9cfaed217929",
+        "provider_agent_id": "agt_7f2a1b3c4d5e",
+        "collaboration_id": "col_4f1c9a",
+        "connection_id": "con_9b2",
+        "execution_id": "ex_7f3a2c91",
+        "admission_id": "adm_8c1f",
+        "capability_id": "cap_search_active_listings",
+        "capability_version": "1.0.0",
+        "rel_ver_at_admission": 2,
+        "dsc_ver": 1,
+        "terms_hash": "",
+        "input_fingerprint": "6d3c7b0f2e5a4c19b8e7d6a5f4e3d2c1b0a9f8e7d6c5b4a39281706f5e4d3c2b",
+        "output_fingerprint": "a1b2c3d4e5f60718293a4b5c6d7e8f90a1b2c3d4e5f60718293a4b5c6d7e8f90",
+        "status": "succeeded",
+        "issued_at": "2026-10-26T10:00:42Z",
+        "key_id": "net-3fa1c2d9e8b7",
+        "signature": "MEUCIQ…"
+      },
+      "receipt_digest": "dfd988e5bf5b910baa450e47f74e16a840b2be39b550a529243e262d60d909f2",
+      "criteria_met": "yes"
+    },
+    {
+      "collaboration_id": "col_4f1c9a",
+      "execution_id": "ex_7f3a2c91",
+      "result": "not_useful",
+      "receipt_digest": "dfd988e5bf5b910baa450e47f74e16a840b2be39b550a529243e262d60d909f2",
+      "output_valid": true,
+      "safety_flag": {
+        "category": "prohibited_content",
+        "rules_version": "2026-11-12.1"
+      }
+    }
+  ],
+  "dependentSchemas": {
+    "safety_flag": {
+      "properties": {
+        "receipt_digest": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}$"
+        }
+      },
+      "required": [
+        "receipt_digest"
+      ]
+    }
+  }
+}

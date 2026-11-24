@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.6/http/description_propose.output.json",
+  "title": "description_propose output",
+  "type": "object",
+  "description": "The drafts, each grounded in the tools' own text: a sentence naming a figure, standard, certification, guarantee or price the request doesn't contain is left out.",
+  "properties": {
+    "purpose": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "A drafted description of the agent; empty when none."
+    },
+    "services": {
+      "type": "object",
+      "description": "Tool name to its drafts; a field left out has no draft.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "summary": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 300
+          },
+          "category": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "tags": {
+            "type": "array",
+            "maxItems": 7,
+            "items": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "description": "Tags the network's registry knows."
+          },
+          "limitations": {
+            "type": "string",
+            "maxLength": 600
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "held": {
+      "type": "object",
+      "description": "Tools the screen does not plainly allow: nothing drafted, and the service would be held for a person's review when the agent announces it.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "category": {
+            "type": "string",
+            "description": "The Acceptable Use Policy category."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Why, in one sentence."
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "category",
+          "reason"
+        ]
+      }
+    },
+    "drafted": {
+      "type": "boolean",
+      "description": "False when no model answered: nothing was drafted."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "purpose",
+    "services",
+    "held",
+    "drafted"
+  ],
+  "examples": [
+    {
+      "purpose": "Checks suppliers' details, starting with whether an EU VAT number is valid.",
+      "services": {
+        "vat_check": {
+          "summary": "Checks an EU VAT number against VIES and returns whether it is valid and the company it is registered to.",
+          "category": "finance",
+          "tags": [
+            "compliance"
+          ],
+          "limitations": "EU VAT numbers only."
+        }
+      },
+      "held": {},
+      "drafted": true
+    }
+  ]
+}

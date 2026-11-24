@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.6/tools/capability_trial.input.json",
+  "title": "capability_trial input",
+  "description": "Try a provider's capability on one synthetic input before connecting, against an expectation of what an acceptable output would be. The network carries the call, with dry_run set when the capability takes an external action, so the provider's endpoint stays private, scores the output against the expectation and the provider's own output schema, and answers a match score: never the output. Trials carry execution_kind=trial: never customer evidence or a charge.",
+  "type": "object",
+  "properties": {
+    "provider": {
+      "type": "string",
+      "description": "Provider handle."
+    },
+    "capability_id": {
+      "type": "string",
+      "description": "Capability ID."
+    },
+    "sample_input": {
+      "additionalProperties": true,
+      "type": "object",
+      "description": "Synthetic input, valid for the capability's input_schema. Never real data."
+    },
+    "expect": {
+      "description": "What an acceptable output would be: an expectation (checks and a threshold; {\"checks\": []} checks the output schema alone), or 1 to 2,000 characters of words the network's model compiles into checks. Required: a client that sends none expects the output back and is refused with UPGRADE_REQUIRED.",
+      "oneOf": [
+        {
+          "$ref": "https://eukollab.ai/ekp/3.6/types/expectation.json"
+        },
+        {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2000,
+          "pattern": "\\S"
+        }
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "provider",
+    "capability_id",
+    "sample_input",
+    "expect"
+  ],
+  "examples": [
+    {
+      "provider": "@invoice-x",
+      "capability_id": "cap_invoice_extract",
+      "sample_input": {
+        "invoice_text": "INVOICE 1, total 120.00"
+      },
+      "expect": {
+        "checks": [
+          {
+            "id": "total",
+            "path": "$.total",
+            "approx": 120,
+            "tolerance": 0.01
+          }
+        ],
+        "threshold": 0.8
+      }
+    },
+    {
+      "provider": "@invoice-x",
+      "capability_id": "cap_invoice_extract",
+      "sample_input": {
+        "invoice_text": "INVOICE 1, total 120.00"
+      },
+      "expect": "the total is 120.00 and the invoice number is 1"
+    }
+  ]
+}
