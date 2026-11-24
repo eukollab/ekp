@@ -1,0 +1,361 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/types/expectation.json",
+  "title": "Expectation",
+  "description": "What an acceptable output of a service would be: checks with weights, and the score at or above which a trial passes. Exact, shape, tolerance and containment checks and media facts are scored without a model; similar_to, criterion, looks_like and transcript_similar need the network's model and are cannot_tell without one, never a fail.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "checks": {
+      "type": "array",
+      "maxItems": 20,
+      "items": {
+        "$ref": "#/$defs/check"
+      },
+      "description": "At most 20 checks, 64 KB in all."
+    },
+    "threshold": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "default": 0.8,
+      "description": "The score at or above which the trial passes."
+    }
+  },
+  "$defs": {
+    "check": {
+      "type": "object",
+      "description": "One check: an id, where in the output it looks (path), its weight and exactly one kind: equals, one_of, set_equals, schema, approx (with tolerance), range, within, length, contains, similar_to (with min), criterion or media.",
+      "additionalProperties": false,
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 40,
+          "pattern": "^[A-Za-z0-9_.-]+$",
+          "description": "The check's name, unique in the expectation; `schema` is reserved for the network's own check."
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 200,
+          "description": "A JSONPath into the output ($.total, $.items[0].name, $.items[*]); the whole output when absent."
+        },
+        "weight": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 100,
+          "default": 1,
+          "description": "Its weight in the mean."
+        },
+        "equals": {
+          "description": "Equal to this value (text compared after normalising case, whitespace and Unicode form)."
+        },
+        "one_of": {
+          "type": "array",
+          "maxItems": 100,
+          "description": "Equal to one of these."
+        },
+        "set_equals": {
+          "type": "array",
+          "maxItems": 500,
+          "description": "An array with these members, order ignored."
+        },
+        "schema": {
+          "type": "object",
+          "description": "A JSON Schema the value must satisfy: types, pattern, minimum, maximum, enum."
+        },
+        "approx": {
+          "type": "number",
+          "description": "Near this number, within tolerance."
+        },
+        "tolerance": {
+          "description": "For approx: absolute (at least 0), or a percentage of approx such as \"1%\". Without it, 0.",
+          "oneOf": [
+            {
+              "type": "number",
+              "minimum": 0
+            },
+            {
+              "type": "string",
+              "pattern": "^\\s*[0-9]+(\\.[0-9]+)?\\s*%?\\s*$"
+            }
+          ]
+        },
+        "range": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Within [min, max]."
+        },
+        "within": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "of",
+            "days"
+          ],
+          "properties": {
+            "of": {
+              "type": "string",
+              "maxLength": 40,
+              "description": "An ISO 8601 date or date and time."
+            },
+            "days": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 36500
+            }
+          },
+          "description": "A date or time within this many days of `of`."
+        },
+        "length": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "max": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false,
+          "description": "Length of a text or an array within [min, max]."
+        },
+        "contains": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 50,
+          "description": "Text that contains every one of these."
+        },
+        "similar_to": {
+          "type": "string",
+          "maxLength": 4000,
+          "description": "Text whose meaning is close to this, scored 0 to 1 by a model."
+        },
+        "min": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1,
+          "description": "For similar_to: the similarity at which it scores 1."
+        },
+        "criterion": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "A sentence in plain words about the value, scored 0 to 1 by a model against that sentence alone."
+        },
+        "media": {
+          "$ref": "#/$defs/media"
+        }
+      },
+      "oneOf": [
+        {
+          "required": [
+            "equals"
+          ]
+        },
+        {
+          "required": [
+            "one_of"
+          ]
+        },
+        {
+          "required": [
+            "set_equals"
+          ]
+        },
+        {
+          "required": [
+            "schema"
+          ]
+        },
+        {
+          "required": [
+            "approx"
+          ]
+        },
+        {
+          "required": [
+            "range"
+          ]
+        },
+        {
+          "required": [
+            "within"
+          ]
+        },
+        {
+          "required": [
+            "length"
+          ]
+        },
+        {
+          "required": [
+            "contains"
+          ]
+        },
+        {
+          "required": [
+            "similar_to"
+          ]
+        },
+        {
+          "required": [
+            "criterion"
+          ]
+        },
+        {
+          "required": [
+            "media"
+          ]
+        }
+      ],
+      "dependentRequired": {
+        "tolerance": [
+          "approx"
+        ],
+        "min": [
+          "similar_to"
+        ]
+      }
+    },
+    "media": {
+      "type": "object",
+      "description": "Facts about a file in the output, read from its own bytes and headers, and model checks on it.",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "maxLength": 120,
+          "description": "The media type the bytes must show, e.g. image/png, or a family such as image/*."
+        },
+        "bytes": {
+          "type": "object",
+          "properties": {
+            "min": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "max": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            }
+          },
+          "additionalProperties": false,
+          "description": "The file's size in bytes."
+        },
+        "pages": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Page count range, for a PDF."
+        },
+        "width": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Width range in pixels."
+        },
+        "height": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Height range in pixels."
+        },
+        "duration": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Duration range in seconds."
+        },
+        "frame_rate": {
+          "type": "array",
+          "items": {
+            "type": "number"
+          },
+          "minItems": 2,
+          "maxItems": 2,
+          "description": "Frame rate range, frames per second."
+        },
+        "looks_like": {
+          "type": "string",
+          "maxLength": 60000,
+          "description": "A reference image, base64: how alike the output image looks to it, judged by a model."
+        },
+        "transcript_similar": {
+          "type": "string",
+          "maxLength": 4000,
+          "description": "Text the audio's transcript should mean, judged by a model."
+        },
+        "criterion": {
+          "type": "string",
+          "maxLength": 500,
+          "description": "A sentence about the image, judged by a model."
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "checks": [
+        {
+          "id": "total",
+          "path": "$.total",
+          "approx": 1234.5,
+          "tolerance": 0.01,
+          "weight": 3
+        },
+        {
+          "id": "date",
+          "path": "$.date",
+          "schema": {
+            "type": "string",
+            "pattern": "^2026-"
+          }
+        },
+        {
+          "id": "summary",
+          "path": "$.summary",
+          "criterion": "states the invoice is overdue, in German"
+        }
+      ],
+      "threshold": 0.8
+    }
+  ]
+}

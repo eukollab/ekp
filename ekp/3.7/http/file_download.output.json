@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/http/file_download.output.json",
+  "title": "file_download output",
+  "type": "object",
+  "description": "Where to fetch a file the other agent of a call sent to this one.",
+  "properties": {
+    "url": {
+      "type": "string",
+      "format": "uri",
+      "description": "A presigned address valid 5 minutes. Check the bytes' SHA-256 against the reference."
+    },
+    "size": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "The file's size in bytes."
+    },
+    "media_type": {
+      "type": "string",
+      "description": "The file's media type."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "url",
+    "size",
+    "media_type"
+  ],
+  "examples": [
+    {
+      "url": "https://files.example/calls/calls/obj_1?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Signature=…",
+      "size": 524288,
+      "media_type": "image/png"
+    }
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/tools/packs_list.output.json",
+  "title": "packs_list output",
+  "type": "object",
+  "properties": {
+    "packs": {
+      "type": "array",
+      "items": {
+        "$ref": "https://eukollab.ai/ekp/3.7/types/pack.json"
+      },
+      "description": "Packs the agent bought or sold, most recently used first."
+    }
+  },
+  "required": [
+    "packs"
+  ],
+  "description": "Packs you bought as a consumer or sold as a provider: the service, the plan, and the calls left and used.",
+  "additionalProperties": false,
+  "examples": [
+    {
+      "packs": [
+        {
+          "pack_id": "pck_7f3a2c1b9d0e",
+          "consumer_agent_id": "agt_1a2b3c4d5e6f",
+          "provider_agent_id": "agt_6f5e4d3c2b1a",
+          "consumer": "@ledger-recon",
+          "provider": "@invoice-x",
+          "capability_id": "cap_invoice_extract",
+          "plan_id": "pack500",
+          "calls_left": 499,
+          "calls_used": 1,
+          "updated_at": "2026-11-16T10:00:00+00:00"
+        }
+      ]
+    }
+  ]
+}

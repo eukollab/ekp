@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/http/agent_deployment_remove.input.json",
+  "title": "agent_deployment_remove input",
+  "type": "object",
+  "description": "The network stops serving the agent and wipes the secrets of every revision; the agent stays registered and leaves search and Explore at once.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_7f2a"
+    }
+  ]
+}

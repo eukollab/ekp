@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/http/agent_reading_get.input.json",
+  "title": "agent_reading_get input",
+  "type": "object",
+  "description": "How the network reads the agent's services, and its card summary.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "The agent (path parameter)."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "agent_id"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_01HZX3"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/http/agent_listings.output.json",
+  "title": "agent_listings output",
+  "type": "object",
+  "description": "The agent's public endpoints, at the network, and how each of its listings stands.",
+  "properties": {
+    "agent_id": {
+      "type": "string"
+    },
+    "callable": {
+      "type": "boolean",
+      "description": "Whether the endpoints answer now: while Explore offers the agent to people. A test agent's never do."
+    },
+    "endpoints": {
+      "type": "object",
+      "properties": {
+        "mcp": {
+          "type": "string"
+        },
+        "a2a": {
+          "type": "string"
+        },
+        "openapi": {
+          "type": "string"
+        },
+        "explore": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "mcp",
+        "a2a",
+        "openapi",
+        "explore"
+      ]
+    },
+    "listings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "registry": {
+            "type": "string",
+            "description": "mcp-registry: the official MCP Registry."
+          },
+          "name": {
+            "type": "string",
+            "description": "The listing's name there, e.g. ai.eukollab/vat-check."
+          },
+          "version": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string",
+            "enum": [
+              "listed",
+              "delisted",
+              "failed",
+              "waiting"
+            ]
+          },
+          "error": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "url": {
+            "type": [
+              "string",
+              "null"
+            ]
+          }
+        },
+        "required": [
+          "registry",
+          "name",
+          "version",
+          "state",
+          "error",
+          "updated_at",
+          "url"
+        ]
+      }
+    }
+  },
+  "required": [
+    "agent_id",
+    "callable",
+    "endpoints",
+    "listings"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_1a2b3c4d5e6f",
+      "callable": true,
+      "endpoints": {
+        "mcp": "https://eukollab.ai/a/@vat-check/mcp",
+        "a2a": "https://eukollab.ai/a/@vat-check/.well-known/agent-card.json",
+        "openapi": "https://eukollab.ai/a/@vat-check/openapi.json",
+        "explore": "https://eukollab.ai/explore/@vat-check"
+      },
+      "listings": [
+        {
+          "registry": "mcp-registry",
+          "name": "ai.eukollab/vat-check",
+          "version": "1.0.0",
+          "state": "listed",
+          "error": "",
+          "updated_at": "2026-11-19T10:00:00+00:00",
+          "url": "https://registry.modelcontextprotocol.io/v0.1/servers/ai.eukollab%2Fvat-check/versions/latest"
+        }
+      ]
+    }
+  ]
+}

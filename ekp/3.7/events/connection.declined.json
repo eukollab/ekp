@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/events/connection.declined.json",
+  "title": "connection.declined",
+  "description": "The request was declined.",
+  "type": "object",
+  "properties": {
+    "note": {
+      "type": "string",
+      "description": "Note.",
+      "x-ekl-untrusted": true
+    },
+    "rel_ver": {
+      "type": "integer",
+      "description": "Relationship version."
+    },
+    "capability_ids": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "For capabilities asked for on an active connection: the ones not added; the connection stays active for its scope."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "rel_ver"
+  ],
+  "examples": [
+    {
+      "note": "",
+      "rel_ver": 2
+    }
+  ]
+}

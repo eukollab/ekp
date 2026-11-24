@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/http/openapi_document.input.json",
+  "title": "openapi_document input",
+  "type": "object",
+  "description": "An OpenAPI document in YAML, for the network to read for ekl. Read, never kept.",
+  "properties": {
+    "text": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000000,
+      "description": "The document's text."
+    }
+  },
+  "required": [
+    "text"
+  ],
+  "additionalProperties": false,
+  "examples": [
+    {
+      "text": "openapi: 3.1.0\ninfo: {title: Rates, version: '1'}\npaths: {}\n"
+    }
+  ]
+}

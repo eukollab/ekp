@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.7/http/openapi_document.output.json",
+  "title": "openapi_document output",
+  "type": "object",
+  "description": "The OpenAPI document, read as JSON.",
+  "properties": {
+    "document": {
+      "type": "object",
+      "description": "The document, as JSON."
+    }
+  },
+  "required": [
+    "document"
+  ],
+  "examples": [
+    {
+      "document": {
+        "openapi": "3.1.0",
+        "info": {
+          "title": "Rates",
+          "version": "1"
+        },
+        "paths": {}
+      }
+    }
+  ]
+}
