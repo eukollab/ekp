@@ -1,0 +1,134 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/http/network_try.output.json",
+  "title": "network_try output",
+  "description": "A design trial of a service for the organisation, through its own consumer identity.",
+  "type": "object",
+  "properties": {
+    "service": {
+      "type": "string"
+    },
+    "capability_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "trial_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "input": {
+      "type": "object"
+    },
+    "output": {
+      "description": "Never sent since EKP 3.1: a trial never returns the service's answer."
+    },
+    "error": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ]
+    },
+    "seconds": {
+      "type": "number"
+    },
+    "charged": {
+      "type": "boolean",
+      "description": "Always false: a trial is never charged."
+    },
+    "would_be_charged": {
+      "type": "boolean",
+      "description": "Whether a real call would be."
+    },
+    "plans": {
+      "type": "array",
+      "items": {
+        "type": "object"
+      }
+    },
+    "input_schema_sha256": {
+      "type": "string"
+    },
+    "output_schema_sha256": {
+      "type": "string"
+    },
+    "score": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "How well the output matched the expectation, in steps of 0.05; null when it couldn't be scored."
+    },
+    "match": {
+      "type": [
+        "integer",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 100,
+      "description": "The score as a percentage match with the expected output; null when the trial has no score."
+    },
+    "passed": {
+      "type": [
+        "boolean",
+        "null"
+      ],
+      "description": "Whether the score reached the threshold."
+    },
+    "threshold": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1
+    },
+    "checks": {
+      "type": "array",
+      "maxItems": 0,
+      "description": "Empty from EKP 3.6: a trial answers only whether it passed, its score and its match."
+    },
+    "compiled": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "description": "An expectation given in words, as the checks the network compiled from it."
+    },
+    "error_code": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "description": "How a trial that didn't succeed ended."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "service",
+    "status",
+    "charged"
+  ],
+  "examples": [
+    {
+      "service": "@vat-check/validate",
+      "status": "succeeded",
+      "charged": false,
+      "trial_id": "trl_example",
+      "score": 0.9,
+      "match": 90,
+      "passed": true,
+      "threshold": 0.8,
+      "checks": []
+    }
+  ]
+}

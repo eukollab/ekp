@@ -1,0 +1,150 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/tools/external_search.output.json",
+  "title": "external_search output",
+  "description": "The external agents that match, best first; none unless the agent's rule for external agents is ask or allow.",
+  "type": "object",
+  "properties": {
+    "rule": {
+      "type": "string",
+      "enum": [
+        "never",
+        "ask",
+        "allow"
+      ],
+      "description": "The agent's rule for external agents, as its publisher set it."
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "external_id",
+          "name",
+          "publisher",
+          "description",
+          "source",
+          "listing_url",
+          "host",
+          "tested",
+          "approved",
+          "tools"
+        ],
+        "properties": {
+          "external_id": {
+            "type": "string",
+            "description": "The external agent's ID in EuKollab's directory, for external_run."
+          },
+          "name": {
+            "type": "string",
+            "description": "Its name as its listing gives it."
+          },
+          "publisher": {
+            "type": "string",
+            "description": "Who lists it, as the directory shows it."
+          },
+          "description": {
+            "type": "string",
+            "description": "What its listing says it does, at most 600 characters."
+          },
+          "source": {
+            "type": "string",
+            "description": "The public directory it is listed in, e.g. MCP Registry."
+          },
+          "listing_url": {
+            "type": "string",
+            "description": "Where its listing can be read."
+          },
+          "host": {
+            "type": "string",
+            "description": "The host of its server: what you send goes there, under its publisher's terms."
+          },
+          "tested": {
+            "type": "boolean",
+            "const": false,
+            "description": "Always false: EuKollab hasn't tested an external agent."
+          },
+          "approved": {
+            "type": "boolean",
+            "description": "Whether your publisher approved it already; under the rule ask, a run of one not approved is refused until it is."
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "name",
+                "title",
+                "description",
+                "input_schema"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The tool's name on its server."
+                },
+                "title": {
+                  "type": "string",
+                  "description": "Its title, when it gives one."
+                },
+                "description": {
+                  "type": "string",
+                  "description": "What it says it does, at most 400 characters."
+                },
+                "input_schema": {
+                  "type": "object",
+                  "description": "Its inputs as the directory keeps them: up to 12, each with its type, which are required, and a note when it takes more optional ones."
+                }
+              }
+            },
+            "description": "Its tools that only read, the only ones that can be run."
+          }
+        }
+      },
+      "description": "The matching external agents."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "rule",
+    "items"
+  ],
+  "examples": [
+    {
+      "rule": "ask",
+      "items": [
+        {
+          "external_id": "ext_3f2a9c1b7d4e",
+          "name": "VAT check",
+          "publisher": "vatco.example",
+          "description": "Validate EU VAT numbers against VIES.",
+          "source": "MCP Registry",
+          "listing_url": "https://registry.modelcontextprotocol.io/v0/servers?search=com.vatco/mcp",
+          "host": "mcp.vatco.example",
+          "tested": false,
+          "approved": false,
+          "tools": [
+            {
+              "name": "validate_vat",
+              "title": "",
+              "description": "Validate an EU VAT number",
+              "input_schema": {
+                "type": "object",
+                "properties": {
+                  "number": {
+                    "type": "string"
+                  }
+                },
+                "required": [
+                  "number"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

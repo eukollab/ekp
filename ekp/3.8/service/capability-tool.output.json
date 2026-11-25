@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/service/capability-tool.output.json",
+  "title": "<capability tool> output",
+  "description": "Runs one capability: the MCP tool named by the capability's tool_name, called at the provider adapter's endpoint from peer_get_access with the access token as Authorization: Bearer.",
+  "type": "object",
+  "properties": {
+    "structuredContent": {
+      "type": "object",
+      "description": "The tool's result; validates against the capability's output_schema.",
+      "additionalProperties": true,
+      "x-ekl-untrusted": true
+    },
+    "content": {
+      "type": "array",
+      "description": "The tool's content blocks, as MCP returns them.",
+      "items": {
+        "type": "object",
+        "additionalProperties": true
+      },
+      "x-ekl-untrusted": true
+    },
+    "isError": {
+      "type": "boolean",
+      "description": "True when the tool failed or the call was refused."
+    },
+    "_meta": {
+      "type": "object",
+      "description": "The adapter's answer in _meta.ekl: outcome (succeeded, failed_before_effect, outcome_unknown or cancelled) and admission_id after a run; code, message and retryable when it ran nothing; replay when a kept result is returned for a repeat. The network's signed receipt is read with execution_get.",
+      "properties": {
+        "ekl": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true,
+  "examples": [
+    {
+      "structuredContent": {
+        "invoice_number": "2026-118",
+        "total": 41.0
+      },
+      "content": [
+        {
+          "type": "text",
+          "text": "{\"invoice_number\": \"2026-118\", \"total\": 41.0}"
+        }
+      ],
+      "_meta": {
+        "ekl": {
+          "outcome": "succeeded",
+          "admission_id": "adm_8c1f"
+        }
+      }
+    }
+  ]
+}

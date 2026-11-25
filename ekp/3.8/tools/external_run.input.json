@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/tools/external_run.input.json",
+  "title": "external_run input",
+  "description": "Run one tool that only reads of an external agent, through the network.",
+  "type": "object",
+  "properties": {
+    "external_id": {
+      "type": "string",
+      "description": "The external agent, from external_search."
+    },
+    "tool": {
+      "type": "string",
+      "description": "One of its tools that only read."
+    },
+    "arguments": {
+      "type": "object",
+      "description": "The tool's input, as its input_schema describes it; at most 16,000 bytes as JSON."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "external_id",
+    "tool",
+    "arguments"
+  ],
+  "examples": [
+    {
+      "external_id": "ext_3f2a9c1b7d4e",
+      "tool": "validate_vat",
+      "arguments": {
+        "number": "DE123456789"
+      }
+    }
+  ]
+}

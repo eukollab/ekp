@@ -1,0 +1,477 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/types/tested-quality.json",
+  "title": "Tested quality",
+  "description": "How a service does on EuKollab's own tests: buyers' trial cases rerun by the network as ordinary calls. Counts are always given; the rating only once the evidence is significant (at least 50 counted runs on 20 cases in 8 groups of similar inputs, written by 3 independent organisations, over 14 days). t is the lower bound of the 95% Wilson interval of the pass rate times the accuracy, over the last 90 days on the current major version. From 3.6 it also carries `network`, EuKollab's own tests of the service (written from its declarations and run daily across the options of its input schema), with the badge a buyer sees.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "significant",
+    "runs",
+    "cases",
+    "clusters",
+    "organisations",
+    "pass_rate",
+    "accuracy",
+    "consistency",
+    "t",
+    "band"
+  ],
+  "properties": {
+    "significant": {
+      "type": "boolean",
+      "description": "Whether the evidence is enough to show the rating."
+    },
+    "runs": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Counted test runs."
+    },
+    "cases": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Distinct cases among them."
+    },
+    "clusters": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Groups of similar inputs among them."
+    },
+    "organisations": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Independent organisations whose cases they are."
+    },
+    "pass_rate": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "Runs at or above their case's threshold ÷ runs; null until significant."
+    },
+    "accuracy": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "The mean score of the runs; null until significant."
+    },
+    "consistency": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "1 − the mean difference between a case's consecutive scores; null until significant or with no repeated case."
+    },
+    "t": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0,
+      "maximum": 1,
+      "description": "The tested-quality value; null until significant."
+    },
+    "band": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "Excellent",
+        "Good",
+        "Fair",
+        "Poor",
+        null
+      ],
+      "description": "Excellent from 0.90, Good from 0.75, Fair from 0.50, else Poor; null until significant."
+    },
+    "major": {
+      "type": "string",
+      "description": "The major version of the service these numbers are for."
+    },
+    "previous": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "significant",
+        "runs",
+        "cases",
+        "clusters",
+        "organisations",
+        "pass_rate",
+        "accuracy",
+        "consistency",
+        "t",
+        "band"
+      ],
+      "properties": {
+        "significant": {
+          "type": "boolean",
+          "description": "Whether the evidence is enough to show the rating."
+        },
+        "runs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Counted test runs."
+        },
+        "cases": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Distinct cases among them."
+        },
+        "clusters": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Groups of similar inputs among them."
+        },
+        "organisations": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Independent organisations whose cases they are."
+        },
+        "pass_rate": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "Runs at or above their case's threshold ÷ runs; null until significant."
+        },
+        "accuracy": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The mean score of the runs; null until significant."
+        },
+        "consistency": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "1 − the mean difference between a case's consecutive scores; null until significant or with no repeated case."
+        },
+        "t": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The tested-quality value; null until significant."
+        },
+        "band": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "Excellent",
+            "Good",
+            "Fair",
+            "Poor",
+            null
+          ],
+          "description": "Excellent from 0.90, Good from 0.75, Fair from 0.50, else Poor; null until significant."
+        },
+        "major": {
+          "type": "string",
+          "description": "The previous major version these numbers are for."
+        }
+      },
+      "examples": [
+        {
+          "significant": true,
+          "runs": 214,
+          "cases": 61,
+          "clusters": 14,
+          "organisations": 9,
+          "pass_rate": 0.92,
+          "accuracy": 0.94,
+          "consistency": 0.97,
+          "t": 0.83,
+          "band": "Good"
+        },
+        {
+          "significant": false,
+          "runs": 12,
+          "cases": 5,
+          "clusters": 3,
+          "organisations": 1,
+          "pass_rate": null,
+          "accuracy": null,
+          "consistency": null,
+          "t": null,
+          "band": null
+        }
+      ],
+      "description": "The previous major version's tested quality, shown beside the current one until the current one is significant."
+    },
+    "network": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "EuKollab's own tests of the service: tested only when it takes free trials (always with a free plan; a paid-only service when its publisher allowed them). Counts always; the rates once at least 20 runs span 7 days.",
+      "required": [
+        "free_trials",
+        "badge",
+        "significant",
+        "runs"
+      ],
+      "properties": {
+        "free_trials": {
+          "type": "boolean",
+          "description": "Whether the service takes free trials, so EuKollab tests it. False: not tested by EuKollab."
+        },
+        "badge": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "required": [
+            "last",
+            "consistent",
+            "quality",
+            "runs",
+            "passing",
+            "stability",
+            "history"
+          ],
+          "description": "Shown at once from the last test of the last 30 days, the service's own cases and buyers' alike; null when the service isn't tested.",
+          "properties": {
+            "last": {
+              "type": [
+                "object",
+                "null"
+              ],
+              "additionalProperties": false,
+              "required": [
+                "colour",
+                "passed",
+                "at"
+              ],
+              "description": "The last test: green passed, yellow scored at least half its threshold, red otherwise; null before the first.",
+              "properties": {
+                "colour": {
+                  "type": "string",
+                  "enum": [
+                    "green",
+                    "yellow",
+                    "red"
+                  ]
+                },
+                "passed": {
+                  "type": "boolean"
+                },
+                "at": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "consistent": {
+              "type": "boolean",
+              "description": "Whether stability is consistent: its tests of the last 30 days span at least 7 days with at least 90% passing."
+            },
+            "quality": {
+              "type": [
+                "integer",
+                "null"
+              ],
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Kept for EKP 3.6 clients, and not shown to people: 0.4 times the last day's pass rate (the month's when nothing ran that day) plus 0.6 times the lower bound of the 95% Wilson interval of the last 30 days' pass rate, times 100. It stays low until there are many tests, so it says little about a new service: show passing and stability instead."
+            },
+            "runs": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Tests in the last 30 days."
+            },
+            "passing": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "passed",
+                "runs",
+                "days"
+              ],
+              "description": "How the service does now: how many of its tests of the last 7 days passed, or of the last 30 days when none ran that week.",
+              "properties": {
+                "passed": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "runs": {
+                  "type": "integer",
+                  "minimum": 0
+                },
+                "days": {
+                  "type": "integer",
+                  "enum": [
+                    7,
+                    30
+                  ],
+                  "description": "The window counted: 7, or 30 when no test ran in the last 7 days."
+                }
+              }
+            },
+            "stability": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "consistent",
+                "unstable",
+                "building",
+                null
+              ],
+              "description": "How stable the service is over the last 30 days: building until its tests span 7 days, then consistent with at least 90% passing, else unstable; null before its first test."
+            },
+            "history": {
+              "type": "array",
+              "minItems": 30,
+              "maxItems": 30,
+              "items": {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "green",
+                  "yellow",
+                  "red",
+                  null
+                ]
+              },
+              "description": "The last 30 days (UTC), oldest first: green when every test that day passed, red when none did, yellow when some did, null when none ran."
+            }
+          }
+        },
+        "significant": {
+          "type": "boolean",
+          "description": "Whether there are enough runs (20 over 7 days) to show the rates."
+        },
+        "runs": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Counted runs of EuKollab's own cases in the last 90 days, on the current major version."
+        },
+        "days": {
+          "type": "number",
+          "minimum": 0
+        },
+        "options": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Options read from the input schema, at most 10."
+        },
+        "pass_rate": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "accuracy": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The mean score of the runs whose case knows its outcome."
+        },
+        "known_outcome_runs": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "consistency": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "coverage": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1,
+          "description": "The share of option-value pairs tested."
+        },
+        "t": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "minimum": 0,
+          "maximum": 1
+        },
+        "band": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "Excellent",
+            "Good",
+            "Fair",
+            "Poor",
+            null
+          ]
+        },
+        "by_method": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "description": "Counted runs by how each case knows its outcome: schema, constructed, relation or criteria."
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "significant": true,
+      "runs": 214,
+      "cases": 61,
+      "clusters": 14,
+      "organisations": 9,
+      "pass_rate": 0.92,
+      "accuracy": 0.94,
+      "consistency": 0.97,
+      "t": 0.83,
+      "band": "Good"
+    },
+    {
+      "significant": false,
+      "runs": 12,
+      "cases": 5,
+      "clusters": 3,
+      "organisations": 1,
+      "pass_rate": null,
+      "accuracy": null,
+      "consistency": null,
+      "t": null,
+      "band": null
+    }
+  ]
+}

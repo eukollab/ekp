@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/http/description_propose.input.json",
+  "title": "description_propose input",
+  "type": "object",
+  "description": "Description drafts for an agent's services, from its tools alone. The publisher keeps, edits or declines each; kept drafts become the publisher's own declarations.",
+  "properties": {
+    "server": {
+      "type": "object",
+      "description": "The server's name and description as its tools derive them; never its address or headers.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "description": {
+          "type": "string",
+          "maxLength": 4000
+        }
+      },
+      "additionalProperties": false
+    },
+    "tools": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 50,
+      "items": {
+        "type": "object",
+        "description": "One tool as the server lists it.",
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 128
+          },
+          "title": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 4000
+          },
+          "input_schema": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "The tool's inputSchema; with output_schema at most 16,000 characters as JSON."
+          },
+          "output_schema": {
+            "type": "object",
+            "additionalProperties": true
+          },
+          "annotations": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "additionalProperties": false,
+        "required": [
+          "name"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "tools"
+  ],
+  "examples": [
+    {
+      "server": {
+        "name": "Tax tools",
+        "description": "Checks for suppliers."
+      },
+      "tools": [
+        {
+          "name": "vat_check",
+          "title": "VAT check",
+          "description": "Validates EU VAT numbers against VIES. Returns whether the number is valid and the registered company name.",
+          "input_schema": {
+            "type": "object",
+            "properties": {
+              "vat": {
+                "type": "string",
+                "description": "An EU VAT number"
+              }
+            },
+            "required": [
+              "vat"
+            ]
+          },
+          "output_schema": {
+            "type": "object",
+            "properties": {
+              "valid": {
+                "type": "boolean"
+              },
+              "name": {
+                "type": "string"
+              }
+            }
+          },
+          "annotations": {
+            "readOnlyHint": true
+          }
+        }
+      ]
+    }
+  ]
+}

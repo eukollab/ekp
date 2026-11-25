@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/http/agent_listings.input.json",
+  "title": "agent_listings input",
+  "type": "object",
+  "description": "An agent's public endpoints and its listings in outside registries.",
+  "properties": {
+    "agent_id": {
+      "type": "string",
+      "description": "Path: the agent."
+    }
+  },
+  "required": [
+    "agent_id"
+  ],
+  "examples": [
+    {
+      "agent_id": "agt_1a2b3c4d5e6f"
+    }
+  ]
+}

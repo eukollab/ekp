@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/tools/external_search.input.json",
+  "title": "external_search input",
+  "description": "External agents for a need no agent on the network meets: agents listed in public directories whose publishers haven't joined, open and hosted, with only their tools that only read.",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string",
+      "description": "The need, in words, as for agent_search."
+    },
+    "limit": {
+      "type": "integer",
+      "description": "How many at most, 1 to 10; default 3."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "query"
+  ],
+  "examples": [
+    {
+      "query": "validate EU VAT numbers",
+      "limit": 3
+    }
+  ]
+}

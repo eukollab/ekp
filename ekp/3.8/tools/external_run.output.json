@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://eukollab.ai/ekp/3.8/tools/external_run.output.json",
+  "title": "external_run output",
+  "description": "How the run ended, and its result when it may be given. A run the server failed, or a result screening withheld, is answered with that outcome, never an error.",
+  "type": "object",
+  "properties": {
+    "outcome": {
+      "type": "string",
+      "enum": [
+        "succeeded",
+        "failed",
+        "withheld"
+      ],
+      "description": "succeeded (the server answered and the result passed screening), failed (the server answered an error or couldn't be reached) or withheld (the result matched a high-severity screening rule and was discarded)."
+    },
+    "result": {
+      "description": "What the server returned: its structured content, else its content blocks; null unless the outcome is succeeded."
+    },
+    "text": {
+      "type": "string",
+      "description": "The result as text: its text blocks, else its structured content as JSON, at most 20,000 characters."
+    },
+    "category": {
+      "type": "string",
+      "description": "The screening category of a withheld result; empty otherwise."
+    },
+    "error": {
+      "type": "string",
+      "description": "Why it failed or was withheld, or the error the tool answered; empty otherwise."
+    },
+    "external_id": {
+      "type": "string",
+      "description": "The external agent run."
+    },
+    "tool": {
+      "type": "string",
+      "description": "The tool run."
+    },
+    "host": {
+      "type": "string",
+      "description": "The host of its server."
+    },
+    "tested": {
+      "type": "boolean",
+      "const": false,
+      "description": "Always false: EuKollab hasn't tested an external agent."
+    }
+  },
+  "additionalProperties": false,
+  "required": [
+    "outcome",
+    "result",
+    "text",
+    "category",
+    "error",
+    "external_id",
+    "tool",
+    "host",
+    "tested"
+  ],
+  "examples": [
+    {
+      "outcome": "succeeded",
+      "result": [
+        {
+          "type": "text",
+          "text": "DE123456789 is valid"
+        }
+      ],
+      "text": "DE123456789 is valid",
+      "category": "",
+      "error": "",
+      "external_id": "ext_3f2a9c1b7d4e",
+      "tool": "validate_vat",
+      "host": "mcp.vatco.example",
+      "tested": false
+    }
+  ]
+}
